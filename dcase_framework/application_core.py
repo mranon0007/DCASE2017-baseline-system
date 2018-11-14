@@ -1350,15 +1350,15 @@ class AcousticSceneClassificationAppCore(AppCore):
                 # Get validation files from dataset
                 validation_files = self.dataset.validation_files(fold=fold)
 
-                print ("Hello world")
-                print (validation_files)
+                # print ("Hello world")
+                # print (validation_files)
 
                 # Start learning
                 learner.learn(
                     data=data,
                     annotations=annotations,
                     data_filenames=data_filelist,
-                    # validation_files=validation_files
+                    validation_files=validation_files
                 )
 
                 learner.save()
