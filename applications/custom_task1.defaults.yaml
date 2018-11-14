@@ -71,7 +71,7 @@ sets:
       hop_length_seconds: 0.02
     
     learner:
-      method: svm
+      method: mlp
     learner_method_parameters:
       svm:
         C: 1
