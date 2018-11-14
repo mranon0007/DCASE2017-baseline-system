@@ -1358,7 +1358,7 @@ class AcousticSceneClassificationAppCore(AppCore):
                     data=data,
                     annotations=annotations,
                     data_filenames=data_filelist,
-                    validation_files=validation_files
+                    # validation_files=validation_files
                 )
 
                 learner.save()
