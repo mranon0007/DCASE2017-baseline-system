@@ -12,29 +12,64 @@ sets:
         name: TUTAcousticScenes_2017_DevelopmentSet
         fold_list: [1, 2, 3]
         evaluation_mode: folds
+   
+    feature_extractor:
+      fs: 44100                               # Sampling frequency
+      win_length_seconds: 0.04                # Window length
+      hop_length_seconds: 0.02                # Hop length
+
     feature_extractor_method_parameters:
-      mfcc:                                   # Mel-frequency cepstral coefficients
-        n_mfcc: 12                            # Number of MFCC coefficients
-      centroid:                               # Centroid
+      mel:                                    # Mel band energy
         mono: true                            # [true, false]
         window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
         spectrogram_type: magnitude           # [magnitude, power]
+        n_mels: 40                            # Number of mel bands used
+        normalize_mel_bands: false            # [true, false]
         n_fft: 2048                           # FFT length
-      zero_crossing_rate:
-        mono: true                            # [true, false]
-        center: True
-      rmse:
+        fmin: 0                               # Minimum frequency when constructing mel bands
+        fmax: 22050                           # Maximum frequency when constructing mel band
+        htk: false                            # Switch for HTK-styled mel-frequency equation
+        log: true                             # Logarithmic
+
+      mfcc:                                   # Mel-frequency cepstral coefficients
         mono: true                            # [true, false]
         window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+        spectrogram_type: magnitude           # [magnitude, power]
+        n_mfcc: 20                            # Number of MFCC coefficients
+        n_mels: 40                            # Number of mel bands used
         n_fft: 2048                           # FFT length
+        fmin: 0                               # Minimum frequency when constructing mel bands
+        fmax: 22050                           # Maximum frequency when constructing mel band
+        htk: false                            # Switch for HTK-styled mel-frequency equation
+
+      mfcc_delta:                             # MFCC delta coefficients
+        width: 9                              #
+
+      mfcc_acceleration:                      # MFCC acceleration coefficients
+        width: 9    
 
     feature_stacker:
-      stacking_recipe: mfcc
-    feature_aggregator:
+      # ==========================================================
+      # Valid feature vector recipe formats:
+      #  - [extractor (string)]                                                       => full vector
+      #  - [extractor (string)]=[start index (int)]-[end index (int)]                 => default channel 0 and vector [start:end]
+      #  - [extractor (string)]=[channel (int)]:[start index (int)]-[end index (int)] => specified channel and vector [start:end]
+      #  - [extractor (string)]=1,2,3,4,5                                             => vector [1,2,3,4,4]
+      #  - [extractor (string)]=0                                                     => specified channel and full vector
+      # Multiple vector can be concatenate together with ";" delimiter
+      # ==========================================================
+      stacking_recipe: mel
+
+    feature_normalizer:
       enable: true
-      aggregation_recipe: mean; std
-      win_length_seconds: 1
-      hop_length_seconds: 1
+      type: global        
+
+    feature_aggregator:
+      enable: false
+      aggregation_recipe: flatten                         # [mean, std,cov, kurtosis, skew, flatten]
+      win_length_seconds: 0.1
+      hop_length_seconds: 0.02
+    
     learner:
       method: svm
     learner_method_parameters:
