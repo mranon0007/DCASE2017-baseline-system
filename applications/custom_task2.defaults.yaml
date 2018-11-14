@@ -2,15 +2,15 @@ active_set: custom
 
 sets:
   - set_id: custom
-    description: Custom system using DCASE2013 task 1 evaluation dataset
+    description: Custom Task
     general:
       overwrite: true
     dataset:
       method: development
     dataset_method_parameters:
       development:
-        name: DCASE2013_Scene_EvaluationSet
-        fold_list: [1, 2, 3, 4, 5]
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        fold_list: [1, 2]
         evaluation_mode: folds
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
