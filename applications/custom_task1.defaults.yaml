@@ -9,8 +9,8 @@ sets:
       method: development
     dataset_method_parameters:
       development:
-        name: DCASE2013_Scene_EvaluationSet
-        fold_list: [1, 2, 3, 4, 5]
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        fold_list: [1, 2, 3]
         evaluation_mode: folds
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
