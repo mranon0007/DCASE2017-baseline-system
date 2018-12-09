@@ -1358,12 +1358,12 @@ class AcousticSceneClassificationAppCore(AppCore):
                 # print (validation_files)
 
                 # Start learning
-                learner.learn(
-                    data=data,
-                    annotations=annotations,
-                    data_filenames=data_filelist,
-                    validation_files=validation_files
-                )
+                # learner.learn(
+                #     data=data,
+                #     annotations=annotations,
+                #     data_filenames=data_filelist,
+                #     validation_files=validation_files
+                # )
 
                 print("Saving2**********************************************************************************")
                 learner.save()
