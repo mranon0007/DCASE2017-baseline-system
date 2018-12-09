@@ -19,7 +19,7 @@ from dcase_framework.utils import *
 __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
 
-
+from dcase_framework.datasets import AcousticSceneDataset
 class DCASE2013_Scene_EvaluationSet(AcousticSceneDataset):
     """DCASE 2013 Acoustic scene classification, evaluation dataset
 
