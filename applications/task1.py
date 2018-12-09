@@ -221,6 +221,7 @@ def main(argv):
         # System training
         # ==================================================
         if params['flow']['train_system']:
+            print("Call Saving**********************************************************************************")
             app.system_training()
 
         # System evaluation

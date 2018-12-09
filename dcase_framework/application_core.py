@@ -1361,6 +1361,7 @@ class AcousticSceneClassificationAppCore(AppCore):
                     validation_files=validation_files
                 )
 
+                print("Saving**********************************************************************************")
                 learner.save()
 
             if self.params.get_path('learner.show_model_information'):
