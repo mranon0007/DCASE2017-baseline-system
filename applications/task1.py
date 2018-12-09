@@ -20,6 +20,76 @@ __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
 
 
+class DCASE2013_Scene_EvaluationSet(AcousticSceneDataset):
+    """DCASE 2013 Acoustic scene classification, evaluation dataset
+
+    """
+    def __init__(self, *args, **kwargs):
+        kwargs['storage_name'] = kwargs.get('storage_name', 'DCASE2013-scene-evaluation')
+        super(DCASE2013_Scene_EvaluationSet, self).__init__(*args, **kwargs)
+
+        self.dataset_group = 'acoustic scene'
+        self.dataset_meta = {
+            'authors': 'Dimitrios Giannoulis, Emmanouil Benetos, Dan Stowell, and Mark Plumbley',
+            'name_remote': 'IEEE AASP 2013 CASA Challenge - Private Dataset for Scene Classification Task',
+            'url': 'http://www.elec.qmul.ac.uk/digitalmusic/sceneseventschallenge/',
+            'audio_source': 'Field recording',
+            'audio_type': 'Natural',
+            'recording_device_model': None,
+            'microphone_model': 'Soundman OKM II Klassik/studio A3 electret microphone',
+        }
+
+        self.crossvalidation_folds = 5
+
+        self.package_list = [
+            {
+                'remote_package': 'https://archive.org/download/dcase2013_scene_classification_testset/scenes_stereo_testset.zip',
+                'local_package': os.path.join(self.local_path, 'scenes_stereo_testset.zip'),
+                'local_audio_path': os.path.join(self.local_path),
+            }
+        ]
+
+    def _after_extract(self, to_return=None):
+        if not self.meta_container.exists():
+            meta_data = MetaDataContainer()
+            for file in self.audio_files:
+                meta_data.append(MetaDataItem({
+                    'file': os.path.split(file)[1],
+                    'scene_label': os.path.splitext(os.path.split(file)[1])[0][:-2]
+                }))
+            self.meta_container.update(meta_data)
+            self.meta_container.save()
+
+        all_folds_found = True
+        for fold in range(1, self.crossvalidation_folds):
+            if not os.path.isfile(self._get_evaluation_setup_filename(setup_part='train', fold=fold)):
+                all_folds_found = False
+            if not os.path.isfile(self._get_evaluation_setup_filename(setup_part='test', fold=fold)):
+                all_folds_found = False
+
+        if not all_folds_found:
+            if not os.path.isdir(self.evaluation_setup_path):
+                os.makedirs(self.evaluation_setup_path)
+
+            classes = self.meta.slice_field('scene_label')
+            files = numpy.array(self.meta.slice_field('file'))
+
+            from sklearn.model_selection import StratifiedShuffleSplit
+            sss = StratifiedShuffleSplit(n_splits=self.crossvalidation_folds, test_size=0.3, random_state=0)
+
+            fold = 1
+            for train_index, test_index in sss.split(y=classes, X=classes):
+                MetaDataContainer(self.meta.filter(file_list=list(files[train_index])),
+                                  filename=self._get_evaluation_setup_filename(setup_part='train', fold=fold)).save()
+
+                MetaDataContainer(self.meta.filter(file_list=list(files[test_index])).remove_field('scene_label'),
+                                  filename=self._get_evaluation_setup_filename(setup_part='test', fold=fold)).save()
+
+                MetaDataContainer(self.meta.filter(file_list=list(files[test_index])),
+                                  filename=self._get_evaluation_setup_filename(setup_part='evaluate', fold=fold)).save()
+                fold += 1
+
+
 class Task1AppCore(AcousticSceneClassificationAppCore):
     pass
 
