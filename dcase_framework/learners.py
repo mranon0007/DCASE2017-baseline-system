@@ -1055,6 +1055,7 @@ class SceneClassifierMLP(SceneClassifier, KerasMixin):
 
         """
 
+        print("called Learn!")
         training_files = sorted(list(annotations.keys()))  # Collect training files
         if self.learner_params.get_path('validation.enable', False):
             if self.learner_params.get_path('validation.setup_source').startswith('generated'):
