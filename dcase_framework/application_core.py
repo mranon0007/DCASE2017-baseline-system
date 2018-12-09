@@ -1171,6 +1171,7 @@ class AcousticSceneClassificationAppCore(AppCore):
         print("Saving0**********************************************************************************")
 
         if not overwrite:
+            print("Saving1**********************************************************************************")
             overwrite = self.params.get_path('general.overwrite', False)
 
         fold_progress = tqdm(
@@ -1182,7 +1183,8 @@ class AcousticSceneClassificationAppCore(AppCore):
             disable=self.disable_progress_bar,
             ascii=self.use_ascii_progress_bar
         )
-
+        
+        print("Savingx**********************************************************************************")
         for fold in fold_progress:
             if self.log_system_progress:
                 self.logger.info('  {title:<15s} [{fold:d}/{total:d}]'.format(title='Fold',
