@@ -1183,7 +1183,7 @@ class AcousticSceneClassificationAppCore(AppCore):
             disable=self.disable_progress_bar,
             ascii=self.use_ascii_progress_bar
         )
-        
+        print("Saving0**********************************************************************************")
         print("Savingx**********************************************************************************")
         for fold in fold_progress:
             if self.log_system_progress:
@@ -1358,12 +1358,12 @@ class AcousticSceneClassificationAppCore(AppCore):
                 # print (validation_files)
 
                 # Start learning
-                learner.learn(
-                    data=data,
-                    annotations=annotations,
-                    data_filenames=data_filelist,
-                    validation_files=validation_files
-                )
+                # learner.learn(
+                #     data=data,
+                #     annotations=annotations,
+                #     data_filenames=data_filelist,
+                #     validation_files=validation_files
+                # )
 
                 print("Saving2**********************************************************************************")
                 learner.save()
