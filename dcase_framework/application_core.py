@@ -1168,6 +1168,8 @@ class AcousticSceneClassificationAppCore(AppCore):
 
         """
 
+        print("Saving0**********************************************************************************")
+
         if not overwrite:
             overwrite = self.params.get_path('general.overwrite', False)
 
@@ -1361,7 +1363,7 @@ class AcousticSceneClassificationAppCore(AppCore):
                     validation_files=validation_files
                 )
 
-                print("Saving**********************************************************************************")
+                print("Saving2**********************************************************************************")
                 learner.save()
 
             if self.params.get_path('learner.show_model_information'):
