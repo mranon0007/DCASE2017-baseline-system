@@ -20,11 +20,11 @@ __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
 
 # import ptvsd
-# ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
-# ptvsd.wait_for_attach()
+ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+ptvsd.wait_for_attach()
 
 #Enable the below line of code only if you want the application to wait untill the debugger has attached to it
-#ptvsd.wait_for_attach()
+ptvsd.wait_for_attach()
 
 from dcase_framework.datasets import AcousticSceneDataset
 from dcase_framework.metadata import MetaDataContainer, MetaDataItem
