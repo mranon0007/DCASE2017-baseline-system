@@ -27,7 +27,7 @@ def main(argv):
     numpy.random.seed(123456)  # let's make randomization predictable
 
     dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, "b043_150_160.wav")
+    filename = os.path.join(dirname, "debug/b043_150_160.wav")
 
     # Example 1, to get feature only without storing them
     feature_repository = FeatureExtractor().extract(audio_file=filename,
