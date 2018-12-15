@@ -26,8 +26,11 @@ __version__ = '.'.join(__version_info__)
 def main(argv):
     numpy.random.seed(123456)  # let's make randomization predictable
 
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "b043_150_160.wav")
+
     # Example 1, to get feature only without storing them
-    feature_repository = FeatureExtractor().extract(audio_file='debug/b043_150_160.wav',
+    feature_repository = FeatureExtractor().extract(audio_file=filename,
                                                     extractor_name='mfcc',
                                                     extractor_params={
                                                         'mfcc': {
