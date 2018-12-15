@@ -19,6 +19,12 @@ from dcase_framework.utils import *
 __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
 
+import ptvsd
+ptvsd.enable_attach("my_secret", address = ('0.0.0.0', 3000))
+
+#Enable the below line of code only if you want the application to wait untill the debugger has attached to it
+#ptvsd.wait_for_attach()
+
 from dcase_framework.datasets import AcousticSceneDataset
 from dcase_framework.metadata import MetaDataContainer, MetaDataItem
 class DCASE2013_Scene_EvaluationSet(AcousticSceneDataset):
