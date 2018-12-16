@@ -1514,6 +1514,7 @@ class AcousticSceneClassificationAppCore(AppCore):
                     for method, feature_filename in iteritems(feature_filenames):
                         if os.path.isfile(feature_filename):
                             feature_list[method] = FeatureContainer().load(filename=feature_filename)
+                            feature_list[method].show()
                         else:
                             message = '{name}: Features not found [{file}]'.format(
                                 name=self.__class__.__name__,
