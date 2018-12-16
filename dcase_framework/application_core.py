@@ -1514,7 +1514,8 @@ class AcousticSceneClassificationAppCore(AppCore):
                     for method, feature_filename in iteritems(feature_filenames):
                         if os.path.isfile(feature_filename):
                             feature_list[method] = FeatureContainer().load(filename=feature_filename)
-                            feature_list[method].show()
+                            # feature_list[method].show()
+                            
                         else:
                             message = '{name}: Features not found [{file}]'.format(
                                 name=self.__class__.__name__,
@@ -1548,6 +1549,7 @@ class AcousticSceneClassificationAppCore(AppCore):
                         feature_data = model_container.feature_stacker.process(
                             feature_data=feature_list
                         )
+                        feature_data.show()
 
                         # Normalize features
                         if model_container.feature_normalizer:
