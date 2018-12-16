@@ -1517,8 +1517,8 @@ class AcousticSceneClassificationAppCore(AppCore):
                             
                             print("+++++++++++++++++++++++++++++++++++++++")
                             feature_list[method].show()
-                            # print(feature_list[method].feat)
-                            print(feature_list[method]['feat'])
+                            print(feature_list[method].channels)
+                            print(feature_list[method]['channels'])
                             print("+++++++++++++++++++++++++++++++++++++++")
 
                         else:
