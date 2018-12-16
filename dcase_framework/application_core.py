@@ -1514,7 +1514,10 @@ class AcousticSceneClassificationAppCore(AppCore):
                     for method, feature_filename in iteritems(feature_filenames):
                         if os.path.isfile(feature_filename):
                             feature_list[method] = FeatureContainer().load(filename=feature_filename)
+                            
+                            print("+++++++++++++++++++++++++++++++++++++++")
                             feature_list[method].show()
+                            print(feature_list[method].feat)
                             print("+++++++++++++++++++++++++++++++++++++++")
 
                         else:
