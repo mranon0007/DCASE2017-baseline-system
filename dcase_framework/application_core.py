@@ -1515,11 +1515,11 @@ class AcousticSceneClassificationAppCore(AppCore):
                         if os.path.isfile(feature_filename):
                             feature_list[method] = FeatureContainer().load(filename=feature_filename)
                             
-                            print("+++++++++++++++++++++++++++++++++++++++")
-                            feature_list[method].show()
-                            print(feature_list[method].channels)
-                            print(feature_list[method]['channels'])
-                            print("+++++++++++++++++++++++++++++++++++++++")
+                            # print("+++++++++++++++++++++++++++++++++++++++")
+                            # feature_list[method].show()
+                            # print(feature_list[method].channels)
+                            # print(feature_list[method]['channels'])
+                            # print("+++++++++++++++++++++++++++++++++++++++")
 
                         else:
                             message = '{name}: Features not found [{file}]'.format(
