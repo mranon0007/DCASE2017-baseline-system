@@ -209,6 +209,9 @@ def main(argv):
         # Process parameters
         params.process()
 
+        print(get_parameter_hash("params"))
+        return
+
         # Force overwrite
         if args.overwrite:
             params['general']['overwrite'] = True
