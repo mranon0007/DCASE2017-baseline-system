@@ -209,9 +209,6 @@ def main(argv):
         # Process parameters
         params.process()
 
-        print(get_parameter_hash("params"))
-        return
-
         # Force overwrite
         if args.overwrite:
             params['general']['overwrite'] = True
@@ -280,6 +277,9 @@ def main(argv):
         if args.show_eval:
             app.show_eval()
             return
+            
+        print(get_parameter_hash("params"))
+        return
 
         # Initialize application
         # ==================================================
