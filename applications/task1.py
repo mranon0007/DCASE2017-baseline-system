@@ -15,6 +15,7 @@ import platform
 from dcase_framework.application_core import AcousticSceneClassificationAppCore
 from dcase_framework.parameters import ParameterContainer
 from dcase_framework.utils import *
+from dcase_framework.ui import *
 
 __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
