@@ -279,7 +279,7 @@ def main(argv):
             return
             
         print(get_parameter_hash("params"))
-        return
+        # return
 
         # Initialize application
         # ==================================================
