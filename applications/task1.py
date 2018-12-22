@@ -367,7 +367,8 @@ def main(argv):
 
 if __name__ == "__main__":
     try:
-        FancyLogger.foot("EY")
+        logger = FancyLogger()
+        logger.foot("EY")
         ret = main(sys.argv)
         sys.exit(ret)
     except (ValueError, IOError) as e:
