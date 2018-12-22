@@ -296,7 +296,7 @@ defaults:
   # Logging
   # ==========================================================
   logging:
-    enable: true                        #
+    enable: false                        #
     colored: true                       # Colored console logging
 
     parameters:
