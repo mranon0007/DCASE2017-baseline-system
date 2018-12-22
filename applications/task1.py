@@ -278,7 +278,7 @@ def main(argv):
             app.show_eval()
             return
             
-        print(get_parameter_hash("params"))
+        print(get_parameter_hash(params))
         # return
 
         # Initialize application
