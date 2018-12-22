@@ -281,7 +281,7 @@ def main(argv):
             
         print(get_parameter_hash(params))
         # return
-
+        app.ui.foot("EY")
         # Initialize application
         # ==================================================
         if params['flow']['initialize']:
@@ -367,8 +367,7 @@ def main(argv):
 
 if __name__ == "__main__":
     try:
-        logger = FancyLogger()
-        logger.foot("EY")
+        
         ret = main(sys.argv)
         sys.exit(ret)
     except (ValueError, IOError) as e:
