@@ -1,6 +1,111 @@
-active_set: dcase2017
+active_set: dcase2017custom
 
 sets:
+
+  - set_id: dcase2017custom
+
+    flow: 
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: false
+      test_system: true
+      evaluate_system: false
+
+    description: DCASE2017 baseline (CPU) using DCASE2017 task 1 development dataset
+    dataset:
+      method: development
+    dataset_method_parameters:
+      development:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        fold_list: [1]
+        evaluation_mode: folds
+    feature_stacker:
+      stacking_recipe: mel
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten
+      win_length_seconds: 0.1
+      hop_length_seconds: 0.02
+    learner:
+      method: mlp
+      show_model_information: false
+    learner_method_parameters:
+      mlp:
+        seed: 0
+        keras:
+          backend: theano
+          backend_parameters:
+            floatX: float64
+            device: cpu
+            fastmath: false
+            optimizer: None
+            openmp: false
+            threads: 1
+            CNR: true
+
+        validation:
+          enable: true
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+
+        training:
+          epochs: 200
+          batch_size: 256
+          shuffle: true
+          callbacks:
+            - type: Stopper
+              parameters:
+                monitor: val_categorical_accuracy
+                initial_delay: 100
+                min_delta: 0
+                patience: 10
+
+        model:
+          config:
+            - class_name: Dense
+              config:
+                units: 50
+                kernel_initializer: uniform
+                activation: relu
+
+            - class_name: Dropout
+              config:
+                rate: 0.2
+
+            - class_name: Dense
+              config:
+                units: 50
+                kernel_initializer: uniform
+                activation: relu
+
+            - class_name: Dropout
+              config:
+                rate: 0.2
+
+            - class_name: Dense
+              config:
+                units: CLASS_COUNT
+                kernel_initializer: uniform
+                activation: softmax
+
+          loss: categorical_crossentropy
+
+          optimizer:
+            type: Adam
+
+          metrics:
+            - categorical_accuracy
+
+    recognizer:
+      frame_accumulation:
+        enable: false
+      frame_binarization:
+        enable: true
+        type: frame_max             # [frame_max, global_threshold]
+      decision_making:
+        enable: true
+        type: majority_vote         # [maximum, majority_vote]
 
   - set_id: dcase2017
     description: DCASE2017 baseline (CPU) using DCASE2017 task 1 development dataset
