@@ -233,10 +233,7 @@ def main(argv):
             # ==================================================
             if params['flow']['test_system']:
                 app.system_testing()
-
-            if params['flow']['test_system']:
-                print("recognizer:" + params['path']['recognizer'])
-
+            
             # System evaluation
             # ==================================================
             if params['flow']['evaluate_system']:
@@ -289,6 +286,9 @@ def main(argv):
             if params['flow']['evaluate_system']:
                 challenge_app.system_evaluation()
 
+    if params['flow']['test_system']:
+        print("recognizer:" + params['path']['recognizer'])
+        
     return 0
 
 if __name__ == "__main__":
