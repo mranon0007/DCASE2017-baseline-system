@@ -235,7 +235,7 @@ def main(argv):
                 app.system_testing()
 
             if params['flow']['test_system']:
-                print("recognizer:" + params.path.recognizer)
+                print("recognizer:" + params['path']['recognizer'])
 
             # System evaluation
             # ==================================================
