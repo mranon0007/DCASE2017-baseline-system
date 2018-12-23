@@ -19,10 +19,6 @@ from dcase_framework.utils import *
 __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
 
-import ptvsd
-ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
-ptvsd.wait_for_attach()
-
 class Task1AppCore(AcousticSceneClassificationAppCore):
     pass
 
@@ -288,11 +284,14 @@ def main(argv):
 
     if params['flow']['test_system']:
         print("recognizer:" + params['path']['recognizer'])
-        
+
     return 0
 
 if __name__ == "__main__":
     try:
+        import ptvsd
+        ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+        ptvsd.wait_for_attach()
         sys.exit(main(sys.argv))
     except (ValueError, IOError) as e:
         sys.exit(e)
