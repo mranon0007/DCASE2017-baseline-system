@@ -226,6 +226,9 @@ def main(argv):
         if params['flow']['train_system']:
             app.system_training()
 
+        if params['flow']['train_system']:
+            print("recognizer:" + params.path.recognizer)
+
         # System evaluation
         if not args.mode or args.mode == 'dev':
 
