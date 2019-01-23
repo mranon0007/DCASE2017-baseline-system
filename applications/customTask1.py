@@ -1,26 +1,8 @@
-# import ptvsd
-# ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
-# ptvsd.wait_for_attach()
+import ptvsd
+ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+ptvsd.wait_for_attach()
 
 import task1
-
-# from cStringIO import StringIO
-# import sys
-
-# class Capturing(list):
-#     def __enter__(self):
-#         self._stdout = sys.stdout
-#         sys.stdout = self._stringio = StringIO()
-#         return self
-#     def __exit__(self, *args):
-#         self.extend(self._stringio.getvalue().splitlines())
-#         del self._stringio    # free up some memory
-#         sys.stdout = self._stdout
-
-# with Capturing() as output:
-#     task1.main(sys.argv)
-
-# print output
 
 import os
 import sys
@@ -100,16 +82,14 @@ class OutputGrabber(object):
                 break
             self.capturedtext += char
 
-# out = OutputGrabber()
-# with out:
-#     task1.main(sys.argv)
-#     print("+++++++++++++++++++++++++++++=")
-#     print(out.capturedtext)
-#     print("+++++++++++++++++++++++++++++=")
-
+#get task1 Output
 out = OutputGrabber()
 out.start()
 task1.main(sys.argv)
 out.stop()
+Task1Output = out.capturedtext
+Task1Output = Task1Output.splitlines()
+
+
 print("+++++++++++++++++++++++++++++=")
-print(out.capturedtext.splitlines())
+print(Task1Output)
