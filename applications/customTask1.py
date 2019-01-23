@@ -1,5 +1,5 @@
-# import ptvsd
-# ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+import ptvsd
+ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
 # ptvsd.wait_for_attach()
 
 import task1
@@ -8,6 +8,8 @@ import os
 import sys
 import threading
 import time
+
+dirname = os.path.dirname(__file__)
 
 class OutputGrabber(object):
     """
@@ -81,6 +83,16 @@ class OutputGrabber(object):
             if not char or self.escape_char in char:
                 break
             self.capturedtext += char
+
+# #take an audio file, add it to test list.
+# audioFile = sys.argv[1]
+# with open(os.path.join(dirname, "data/TUT-acoustic-scenes-2017-development/evaluation_setup/fold1_test.txt"), "w+") as f:
+#     f.write("../test/"+audioFile+"\n") # write the new line before
+
+# #run task 1
+
+# #return the output.
+
 
 #get task1 Output
 out = OutputGrabber()
