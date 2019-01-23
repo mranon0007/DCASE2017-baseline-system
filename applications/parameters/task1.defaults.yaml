@@ -117,6 +117,19 @@ sets:
       test_system: true
       evaluate_system: false
 
+    path:
+      data: data/
+
+      system_base: system/task1/
+      feature_extractor: feature_extractor/
+      feature_normalizer: feature_normalizer/
+      learner: learner/
+      recognizer: recognizer/
+      evaluator: evaluator/
+
+      recognizer_challenge_output: challenge_submission/task1/
+      # logs: logs/
+
     description: DCASE2017 baseline (CPU) using DCASE2017 task 1 development dataset
     dataset:
       method: development
