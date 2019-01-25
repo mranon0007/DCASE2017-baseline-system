@@ -95,8 +95,10 @@ class OutputGrabber(object):
 out = OutputGrabber()
 out.start()
 # task1.main(sys.argv)
+start = time.clock()
 os.system('python '+ os.path.join(dirname, "task1.py -o"))
 out.stop()
+print(time.clock() - start)
 Task1Output = out.capturedtext
 Task1Output = Task1Output.splitlines()
 
