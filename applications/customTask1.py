@@ -104,7 +104,7 @@ Task1Output = Task1Output.splitlines()
 
 print(Task1Output[0].split(':')[1])
 # #return the output.
-
+print(time.clock() - start)
 
 
 # print("+++++++++++++++++++++++++++++=")
