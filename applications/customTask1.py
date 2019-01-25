@@ -93,6 +93,7 @@ class OutputGrabber(object):
 # #run task 1
 #get task1 Output
 out = OutputGrabber()
+print("starting")
 out.start()
 # task1.main(sys.argv)
 start = time.clock()
