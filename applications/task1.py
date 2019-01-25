@@ -232,7 +232,10 @@ def main(argv):
             # System testing
             # ==================================================
             if params['flow']['test_system']:
+                print("starting")
+                start = time.clock()
                 app.system_testing()
+                print(time.clock() - start)
             
             # System evaluation
             # ==================================================
@@ -296,10 +299,6 @@ if __name__ == "__main__":
         import ptvsd
         ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
         ptvsd.wait_for_attach()
-        print("starting")
-        start = time.clock()
-        # sys.exit(main(sys.argv))
-        main(sys.argv)
-        print(time.clock() - start)
+        sys.exit(main(sys.argv))
     except (ValueError, IOError) as e:
         sys.exit(e)
