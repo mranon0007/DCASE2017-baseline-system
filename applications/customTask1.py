@@ -84,26 +84,25 @@ class OutputGrabber(object):
                 break
             self.capturedtext += char
 
-#take an audio file, add it to test list.
-audioFile = sys.argv[1]
-print(audioFile)
-print(1)
+# #take an audio file, add it to test list.
+# audioFile = sys.argv[1]
+# # testFilePath = os.path.join(os.path.join(dirname, "data/test"), audioFile)
 # with open(os.path.join(dirname, "data/TUT-acoustic-scenes-2017-development/evaluation_setup/fold1_test.txt"), "w+") as f:
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
 # #run task 1
+#get task1 Output
+out = OutputGrabber()
+out.start()
+# task1.main(sys.argv)
+os.system('python '+ os.path.join(dirname, "task1.py -o"))
+out.stop()
+Task1Output = out.capturedtext
+Task1Output = Task1Output.splitlines()
 
+print(Task1Output[0].split(':')[1])
 # #return the output.
 
-
-# #get task1 Output
-# out = OutputGrabber()
-# out.start()
-# # task1.main(sys.argv)
-# os.system('python '+ os.path.join(dirname, "task1.py -o"))
-# out.stop()
-# Task1Output = out.capturedtext
-# Task1Output = Task1Output.splitlines()
 
 
 # print("+++++++++++++++++++++++++++++=")
