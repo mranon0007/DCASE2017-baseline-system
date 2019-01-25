@@ -298,7 +298,8 @@ if __name__ == "__main__":
         ptvsd.wait_for_attach()
         print("starting")
         start = time.clock()
-        sys.exit(main(sys.argv))
+        # sys.exit(main(sys.argv))
+        main(sys.argv)
         print(time.clock() - start)
     except (ValueError, IOError) as e:
         sys.exit(e)
