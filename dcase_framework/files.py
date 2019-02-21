@@ -864,6 +864,7 @@ class AudioFile(FileMixin):
                     stop_sample = None
 
                 self.data, source_fs = soundfile.read(file=self.filename, start=start_sample, stop=stop_sample)
+                lo = self.data.shape
                 self.data = self.data.T
 
                 # Down-mix audio
