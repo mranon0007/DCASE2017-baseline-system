@@ -481,7 +481,7 @@ defaults:
   flow:
     initialize: true
     extract_features: true
-    feature_normalizer: false
+    feature_normalizer: true
     train_system: false
     test_system: false
     evaluate_system: false
