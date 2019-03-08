@@ -494,7 +494,7 @@ defaults:
 
     challenge_submission_mode: false    # Save results into path->challenge_results for challenge submission
 
-    print_system_progress: false         #
+    print_system_progress: true         #
     use_ascii_progress_bar: false       #
 
     log_system_parameters: false        #
