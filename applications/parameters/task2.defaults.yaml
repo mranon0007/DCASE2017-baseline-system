@@ -267,10 +267,10 @@ defaults:
   flow:
     initialize: true
     extract_features: true
-    feature_normalizer: true
-    train_system: true
-    test_system: true
-    evaluate_system: true
+    feature_normalizer: False
+    train_system: False
+    test_system: False
+    evaluate_system: False
 
   # ==========================================================
   # General
