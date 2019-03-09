@@ -266,9 +266,9 @@ defaults:
   # ==========================================================
   flow:
     initialize: False
-    extract_features: true
-    feature_normalizer: true
-    train_system: False
+    extract_features: False
+    feature_normalizer: False
+    train_system: true
     test_system: False
     evaluate_system: False
 
