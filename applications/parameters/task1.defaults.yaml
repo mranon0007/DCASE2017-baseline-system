@@ -479,10 +479,10 @@ defaults:
   # Flow
   # ==========================================================
   flow:
-    initialize: false
-    extract_features: false
-    feature_normalizer: false
-    train_system: true
+    initialize: true
+    extract_features: true
+    feature_normalizer: true
+    train_system: false
     test_system: false
     evaluate_system: false
 
