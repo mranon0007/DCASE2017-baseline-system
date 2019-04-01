@@ -249,7 +249,7 @@ sets:
       mlp:
         seed: 0
         keras:
-          backend: theano
+          backend: tensorflow
           backend_parameters:
             floatX: float64
             device: cpu
