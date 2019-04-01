@@ -483,8 +483,8 @@ defaults:
     extract_features: true
     feature_normalizer: true
     train_system: true
-    test_system: false
-    evaluate_system: false
+    test_system: true
+    evaluate_system: true
 
   # ==========================================================
   # General
