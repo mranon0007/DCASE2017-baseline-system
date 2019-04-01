@@ -165,7 +165,7 @@ def main(argv):
 
         if not params['custom']['logging']:
             logger = logging.getLogger('dcase_framework.ui')
-            logger.disabled = True
+            # logger.disabled = True
 
         app = Task1AppCore(
             name='DCASE 2017::Acoustic Scene Classification / Baseline System',
