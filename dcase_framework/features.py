@@ -922,7 +922,7 @@ class FeatureExtractor(object):
 
             mel_spectrum = numpy.dot(mel_basis, spectrogram_)
 
-            mfcc = librosa.feature.mfcc(S=librosa.logamplitude(mel_spectrum),
+            mfcc = librosa.feature.mfcc(S=librosa.power_to_db(mel_spectrum),
                                         n_mfcc=params.get('n_mfcc'))
 
             feature_matrix.append(mfcc.T)
