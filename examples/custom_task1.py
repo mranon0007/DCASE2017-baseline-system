@@ -94,12 +94,16 @@ class DCASE2013_Scene_EvaluationSet(AcousticSceneDataset):
                 fold += 1
 
 
+from scipy import signal
+import numpy as np
+import librosa 
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
         kwargs['valid_extractors'] = [
             'zero_crossing_rate',
             'rmse',
             'centroid',
+            'spectr'
         ]
         kwargs['default_parameters'] = {
             'zero_crossing_rate': {
@@ -227,6 +231,31 @@ class CustomFeatureExtractor(FeatureExtractor):
 
         return feature_matrix
 
+    def _spectr(self, data, params):
+
+        feature_matrix = []
+        for channel in range(0, data.shape[0]):
+            
+            # handle 2 channels
+            audio_data = data[channel, :]
+
+            # resample to fix frame rate
+            if params.get('fs') != 44100:
+                audio_data = librosa.core.resample(audio_data, params.get('fs'), 44100)
+            
+            frequencies, times, spectrogram = signal.stft(
+                audio_data,
+                # fs = 22222,
+                nperseg = params.get('win_length_samples'),
+                noverlap = params.get('hop_length_samples'),
+                # window = "hamming",
+                window=signal.hamming(params.get('win_length_samples'), sym=False),
+                # mode = 'magnitude',
+            )
+
+            feature_matrix.append(np.abs(spectrogram).T)
+
+        return feature_matrix
 
 class SceneClassifierSVM(SceneClassifier):
     """Scene classifier with SVM"""
