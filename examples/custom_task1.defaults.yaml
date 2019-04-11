@@ -10,7 +10,7 @@ sets:
     dataset_method_parameters:
       development:
         name: DCASE2013_Scene_EvaluationSet
-        fold_list: [1, 2, 3, 4, 5]
+        fold_list: [1, 2]
         evaluation_mode: folds
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
