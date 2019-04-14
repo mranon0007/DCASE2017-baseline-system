@@ -15,7 +15,7 @@ sets:
 
       development17:
         name: TUTAcousticScenes_2017_DevelopmentSet
-        fold_list: [1, 2, 3, 4]
+        fold_list: [1]
         evaluation_mode: folds
 
     feature_extractor_method_parameters:
