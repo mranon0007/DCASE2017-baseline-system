@@ -327,10 +327,11 @@ class SceneClassifierCNN(SceneClassifier):
 
         training_files = annotations.keys()  # Collect training files
         activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
-        X_training = numpy.vstack([data[x].feat[0] for x in training_files])
+        X_training_temp = numpy.vstack([data[x].feat[0] for x in training_files])
         Y_training = numpy.vstack([activity_matrix_dict[x] for x in training_files])
 
-        X_training_2 = numpy.hsplit(X_training, X_training[0].shape[0]/5)
+        NUM_OF_SPLITS = 5
+        X_training = numpy.hsplit(X_training_temp, NUM_OF_SPLITS) # output shape (5 x frames x feat) where 5 is timestamps
 
         return self
 
