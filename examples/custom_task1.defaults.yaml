@@ -33,9 +33,9 @@ sets:
       stacking_recipe: spectr # mfcc;centroid;zero_crossing_rate;
     feature_aggregator:
       enable: true
-      aggregation_recipe: mean; std
-      win_length_seconds: 1
-      hop_length_seconds: 1
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.1
+      hop_length_seconds: 0.2
     learner:
       method: cnn
     learner_method_parameters:
