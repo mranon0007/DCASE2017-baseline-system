@@ -4,7 +4,7 @@ sets:
   - set_id: custom
     description: Custom system using DCASE2013 task 1 evaluation dataset
     general:
-      overwrite: true
+      overwrite: false
     dataset:
       method: development17
     dataset_method_parameters:
