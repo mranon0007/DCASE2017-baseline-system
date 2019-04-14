@@ -347,7 +347,7 @@ class SceneClassifierCNN(SceneClassifier):
         #Inputs
         X1_Shape = (883,40,1)
         X1 = Input(shape=X1_Shape)
-        output_shape = 15
+        output_shape = 10
 
         #CNN Params
         pool0_size = (22,1)
