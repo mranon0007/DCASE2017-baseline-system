@@ -27,7 +27,6 @@ sets:
         mono: true                            # [true, false]
         window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
         n_fft: 2048                           # FFT length
-
       spectr:
         mono: true
     feature_stacker:

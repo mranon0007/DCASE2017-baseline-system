@@ -93,34 +93,34 @@ class DCASE2013_Scene_EvaluationSet(AcousticSceneDataset):
                                   filename=self._get_evaluation_setup_filename(setup_part='evaluate', fold=fold)).save()
                 fold += 1
 
-
 from scipy import signal
 import numpy as np
 import librosa 
+
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
         kwargs['valid_extractors'] = [
-            'zero_crossing_rate',
-            'rmse',
-            'centroid',
+            # 'zero_crossing_rate',
+            # 'rmse',
+            # 'centroid',
             'spectr'
         ]
         kwargs['default_parameters'] = {
-            'zero_crossing_rate': {
-                'mono': True,                       # [true, false]
-                'center': True,
-            },
-            'rmse': {
-                'mono': True,                       # [true, false]
-                'window': 'hamming_asymmetric',     # [hann_asymmetric, hamming_asymmetric]
-                'n_fft': 2048,                      # FFT length
-            },
-            'centroid': {
-                'mono': True,                       # [true, false]
-                'window': 'hamming_asymmetric',     # [hann_asymmetric, hamming_asymmetric]
-                'spectrogram_type': 'magnitude',    # [magnitude, power]
-                'n_fft': 2048,                      # FFT length
-            },
+            # 'zero_crossing_rate': {
+            #     'mono': True,                       # [true, false]
+            #     'center': True,
+            # },
+            # 'rmse': {
+            #     'mono': True,                       # [true, false]
+            #     'window': 'hamming_asymmetric',     # [hann_asymmetric, hamming_asymmetric]
+            #     'n_fft': 2048,                      # FFT length
+            # },
+            # 'centroid': {
+            #     'mono': True,                       # [true, false]
+            #     'window': 'hamming_asymmetric',     # [hann_asymmetric, hamming_asymmetric]
+            #     'spectrogram_type': 'magnitude',    # [magnitude, power]
+            #     'n_fft': 2048,                      # FFT length
+            # },
         }
 
         super(CustomFeatureExtractor, self).__init__(*args, **kwargs)
