@@ -331,7 +331,8 @@ class SceneClassifierCNN(SceneClassifier):
         Y_training = numpy.vstack([activity_matrix_dict[x] for x in training_files])
 
         NUM_OF_SPLITS = 5
-        X_training = numpy.hsplit(X_training_temp, NUM_OF_SPLITS) # output shape (5 x frames x feat) where 5 is timestamps
+        # X_training shape (frames x NUM_OF_SPLITS x feat) where NUM_OF_SPLITS is # of timestamps
+        X_training = X_training_temp.reshape(X_training_temp.shape[0],NUM_OF_SPLITS,X_training_temp.shape[1]/NUM_OF_SPLITS) 
 
         return self
 
