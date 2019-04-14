@@ -330,6 +330,8 @@ class SceneClassifierCNN(SceneClassifier):
         X_training = numpy.vstack([data[x].feat[0] for x in training_files])
         Y_training = numpy.vstack([activity_matrix_dict[x] for x in training_files])
 
+        X_training_2 = numpy.hsplit(X_training, X_training[0].shape[0]/5)
+
         return self
 
     def _frame_probabilities(self, feature_data):
