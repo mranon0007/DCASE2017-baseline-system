@@ -303,6 +303,38 @@ class SceneClassifierSVM(SceneClassifier):
             self.logger.exception(message)
             raise AssertionError(message)
 
+class SceneClassifierCNN(SceneClassifier):
+    """Scene classifier with SVM"""
+    def __init__(self, *args, **kwargs):
+        super(SceneClassifierCNN, self).__init__(*args, **kwargs)
+        self.method = 'cnn'
+
+    def learn(self, data, annotations, data_filenames=None, **kwargs):
+        """Learn based on data ana annotations
+
+        Parameters
+        ----------
+        data : dict of FeatureContainers
+            Feature data
+        annotations : dict of MetadataContainers
+            Meta data
+
+        Returns
+        -------
+        self
+
+        """
+
+        training_files = annotations.keys()  # Collect training files
+        activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
+        X_training = numpy.vstack([data[x].feat[0] for x in training_files])
+        Y_training = numpy.vstack([activity_matrix_dict[x] for x in training_files])
+
+        return self
+
+    def _frame_probabilities(self, feature_data):
+        return self.model.predict(x=feature_data).T
+
 
 class CustomAppCore(AcousticSceneClassificationAppCore):
     def __init__(self, *args, **kwargs):
@@ -311,6 +343,7 @@ class CustomAppCore(AcousticSceneClassificationAppCore):
         }
         kwargs['Learners'] = {
             'svm': SceneClassifierSVM,
+            'cnn': SceneClassifierCNN
         }
         kwargs['FeatureExtractor'] = CustomFeatureExtractor
 

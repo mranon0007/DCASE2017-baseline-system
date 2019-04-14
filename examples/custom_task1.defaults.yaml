@@ -37,7 +37,7 @@ sets:
       win_length_seconds: 1
       hop_length_seconds: 1
     learner:
-      method: svm
+      method: cnn
     learner_method_parameters:
       svm:
         C: 1
@@ -52,6 +52,9 @@ sets:
         max_iter: -1
         decision_function_shape: null
         random_state: null
+
+      cnn:
+        CONVOLUTION_FILTER: 8
     recognizer:
       frame_accumulation:
         enable: true
