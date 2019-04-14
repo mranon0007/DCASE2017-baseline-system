@@ -6,7 +6,7 @@ sets:
     general:
       overwrite: true
     dataset:
-      method: development17
+      method: development
     dataset_method_parameters:
       development:
         name: DCASE2013_Scene_EvaluationSet
@@ -36,7 +36,7 @@ sets:
       spectr:
         mono: true
     feature_stacker:
-      stacking_recipe: spectr # mfcc;centroid;zero_crossing_rate;
+      stacking_recipe: mfcc # mfcc;centroid;zero_crossing_rate;
     feature_aggregator:
       enable: true
       aggregation_recipe: flatten #mean; std
