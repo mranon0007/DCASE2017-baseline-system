@@ -387,7 +387,7 @@ class SceneClassifierCNN(SceneClassifier):
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         self['model'] = model
-        self['model'].fit(x=X_training, y = Y_training)
+        self['model'].fit(x = X_training, y = Y_training, batch_size = None, epochs = 50)
         return self
 
     def _frame_probabilities(self, feature_data):
