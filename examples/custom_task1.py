@@ -354,24 +354,25 @@ class SceneClassifierCNN(SceneClassifier):
         from keras.utils import plot_model
 
         #Inputs
-        X1_Shape_In = (883*40*1)
-        X1_Shape = (883,40,1)
+        X1_Shape_In = (40*40*1)
+        X1_Shape = (40,40,1)
         X1 = Input(shape=(X1_Shape_In,))
-        output_shape = 15
+        output_shape = 10
 
         #CNN Params
-        pool0_size = (22,1)
         conv1_filters = 32
         conv1_kernel_size = 5
         conv2_filters = 16
         conv2_kernel_size = 5
         pool_size = (2,2)
 
-        #CNN
+        pool0_size = (22,1)
         # spec_reshape_func = lambda x : x.reshape(X1_Shape)
         spec_reshaper = Reshape(X1_Shape)(X1)
-        pool0 = AveragePooling2D(pool_size=pool0_size)(spec_reshaper)
-        conv1 = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(pool0)
+        # pool0 = AveragePooling2D(pool_size=pool0_size)(spec_reshaper)
+
+        #CNN
+        conv1 = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(spec_reshaper)
         pool1 = MaxPooling2D(pool_size=pool_size)(conv1)
         conv2 = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
         pool2 = MaxPooling2D(pool_size=pool_size)(conv2)
