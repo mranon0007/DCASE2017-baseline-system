@@ -337,16 +337,18 @@ class SceneClassifierCNN(SceneClassifier):
 
         ##########Creating Model
         # KERAS MODEL
-        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout
+        from keras.layers.core import Reshape
+        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda
         from keras.layers.convolutional import Conv2D
-        from keras.layers.pooling import MaxPooling2D, AveragePooling2D
+        from keras.layers.pooling import MaxPooling2D,AveragePooling2D
         from keras.models import Model
         # from keras.callbacks import EarlyStopping
         from keras.utils import plot_model
 
         #Inputs
+        X1_Shape_In = (883*40*1)
         X1_Shape = (883,40,1)
-        X1 = Input(shape=X1_Shape)
+        X1 = Input(shape=(X1_Shape_In,))
         output_shape = 10
 
         #CNN Params
@@ -358,7 +360,9 @@ class SceneClassifierCNN(SceneClassifier):
         pool_size = (2,2)
 
         #CNN
-        pool0 = AveragePooling2D(pool_size=pool0_size)(X1)
+        # spec_reshape_func = lambda x : x.reshape(X1_Shape)
+        spec_reshaper = Reshape(X1_Shape)(X1)
+        pool0 = AveragePooling2D(pool_size=pool0_size)(spec_reshaper)
         conv1 = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(pool0)
         pool1 = MaxPooling2D(pool_size=pool_size)(conv1)
         conv2 = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
