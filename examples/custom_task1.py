@@ -357,7 +357,7 @@ class SceneClassifierCNN(SceneClassifier):
         X1_Shape_In = (40*40*1)
         X1_Shape = (40,40,1)
         X1 = Input(shape=(X1_Shape_In,))
-        output_shape = 10
+        output_shape = 15
 
         #CNN Params
         conv1_filters = 32
