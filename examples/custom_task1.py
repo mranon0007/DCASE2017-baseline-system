@@ -257,9 +257,8 @@ class CustomFeatureExtractor(FeatureExtractor):
 
             # FIX THIS LINE.
             # Compress/Smoothen/Denoise the Spectrogram
-            spectrogram_temp = []
             ones = np.ones((844,))/844
-            spectrogram_temp.append([ np.convolve(x, ones, mode='valid') for x in spectrogram])
+            spectrogram_temp = [ np.convolve(x, ones, mode='valid') for x in spectrogram]
 
             feature_matrix.append(spectrogram_temp)
 
