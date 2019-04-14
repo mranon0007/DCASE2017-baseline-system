@@ -253,7 +253,15 @@ class CustomFeatureExtractor(FeatureExtractor):
                 # mode = 'magnitude',
             )
 
-            feature_matrix.append(np.abs(spectrogram).T)
+            spectrogram = np.abs(spectrogram)
+
+            # FIX THIS LINE.
+            # Compress/Smoothen/Denoise the Spectrogram
+            spectrogram_temp = []
+            ones = np.ones((844,))/844
+            spectrogram_temp.append([ np.convolve(x, ones, mode='valid') for x in spectrogram])
+
+            feature_matrix.append(spectrogram_temp.T)
 
         return feature_matrix
 
