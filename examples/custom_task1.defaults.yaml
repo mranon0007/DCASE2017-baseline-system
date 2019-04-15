@@ -121,7 +121,7 @@ defaults:
     initialize: true
     extract_features: true
     feature_normalizer: true
-    train_system: true
+    train_system: false
     test_system: true
     evaluate_system: true
 
