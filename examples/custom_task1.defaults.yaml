@@ -21,7 +21,7 @@ sets:
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
-        n_mels: 80     
+        n_mels: 128     
       centroid:                               # Centroid
         mono: true                            # [true, false]
         window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
@@ -42,7 +42,7 @@ sets:
       enable: true
       aggregation_recipe: flatten #mean; std
       win_length_seconds: 0.8
-      hop_length_seconds: 0.2
+      hop_length_seconds: 0.6
     learner:
       method: lstm
     learner_method_parameters:
