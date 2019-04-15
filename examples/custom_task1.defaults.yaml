@@ -20,7 +20,7 @@ sets:
 
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
-        n_mfcc: 12                            # Number of MFCC coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
       centroid:                               # Centroid
         mono: true                            # [true, false]
         window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
