@@ -109,7 +109,7 @@ defaults:
     initialize: false
     extract_features: false
     feature_normalizer: false
-    train_system: true
+    train_system: false
     test_system: true
     evaluate_system: true
 
