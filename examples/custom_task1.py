@@ -486,7 +486,7 @@ class SceneClassifierLSTM(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, batch_size = 1024, epochs = 20)
+        self['model'].fit(x = X_training, y = Y_training, batch_size = 1024, epochs = 50)
         return self
 
     def _frame_probabilities(self, feature_data):
