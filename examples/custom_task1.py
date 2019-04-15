@@ -328,17 +328,17 @@ class SceneClassifierCNN(SceneClassifier):
         from keras.utils import plot_model
 
         #Inputs
-        X1_Shape_In = (40*40*1)
-        X1_Shape = (40,40,1)
-        X1 = Input(shape=(X1_Shape_In,))
+        X1_Shape_In  = (40*40*1)
+        X1_Shape     = (40,40,1)
+        X1           = Input(shape=(X1_Shape_In,))
         output_shape = 15
 
         #CNN Params
-        conv1_filters = 32
+        conv1_filters     = 32
         conv1_kernel_size = 5
-        conv2_filters = 16
+        conv2_filters     = 16
         conv2_kernel_size = 5
-        pool_size = (2,2)
+        pool_size         = (2,2)
 
         pool0_size = (22,1)
         # spec_reshape_func = lambda x : x.reshape(X1_Shape)
@@ -346,22 +346,22 @@ class SceneClassifierCNN(SceneClassifier):
         # pool0 = AveragePooling2D(pool_size=pool0_size)(spec_reshaper)
 
         #CNN
-        conv1 = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(spec_reshaper)
-        pool1 = MaxPooling2D(pool_size=pool_size)(conv1)
-        conv2 = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
-        pool2 = MaxPooling2D(pool_size=pool_size)(conv2)
+        conv1         = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(spec_reshaper)
+        pool1         = MaxPooling2D(pool_size=pool_size)(conv1)
+        conv2         = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
+        pool2         = MaxPooling2D(pool_size=pool_size)(conv2)
         conv_dropout1 = Dropout(.3)(pool2)
-        flat = Flatten()(conv_dropout1)
-        hidden1 = Dense(512, activation='relu')(flat)
+        flat          = Flatten()(conv_dropout1)
+        hidden1       = Dense(512, activation='relu')(flat)
         conv_dropout2 = Dropout(.3)(hidden1)
 
         #merge
-        out=conv_dropout2
-        # out=concatenate([conv_dropout2,lstm_dropout_3],axis=-1)
+        out = conv_dropout2
+        # out = concatenate([conv_dropout2,lstm_dropout_3],axis=-1)
 
         #output
         output1 = Dense(512, activation='softmax')(out)
-        output = Dense(output_shape, activation='softmax')(output1)
+        output  = Dense(output_shape, activation='softmax')(output1)
 
         #construct Model
         model = Model(inputs=X1, outputs=output)
@@ -398,7 +398,7 @@ class SceneClassifierCNN(SceneClassifier):
         # X_training = X_training_temp.reshape(X_training_temp.shape[0],NUM_OF_SPLITS,X_training_temp.shape[1]/NUM_OF_SPLITS) 
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
-        create_model()
+        self.create_model()
         self['model'].fit(x = X_training, y = Y_training, batch_size = None, epochs = 10)
         return self
 
