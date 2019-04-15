@@ -423,19 +423,21 @@ class SceneClassifierLSTM(SceneClassifier):
         from keras.utils import plot_model
 
         #Inputs
-        X2_Shape = (40,60)
+        X2_Shape_In  = (60*40)
+        X2_Shape     = (60,40)
         output_shape = 15
 
         #LSTM Params
         lstm_units = 256
 
         #LSTM
-        X2 = Input(shape=X2_Shape)
-        lstm_1=LSTM(lstm_units,return_sequences=True)(X2)
+        X2             = Input(shape=(X2_Shape_In,))
+        lstm_reshaper  = Reshape(X2_Shape)(X2)
+        lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
         lstm_dropout_1 = Dropout(.3)(lstm_1)
-        lstm_2=LSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
+        lstm_2         = LSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
         lstm_dropout_2 = Dropout(.3)(lstm_2)
-        ff = Dense(512, activation='relu')(lstm_dropout_2)
+        ff             = Dense(512, activation='relu')(lstm_dropout_2)
         lstm_dropout_3 = Dropout(.3)(ff)
 
         #merge
@@ -445,7 +447,7 @@ class SceneClassifierLSTM(SceneClassifier):
 
         #output
         output1 = Dense(512, activation='softmax')(out)
-        output = Dense(output_shape, activation='softmax')(output1)
+        output  = Dense(output_shape, activation='softmax')(output1)
 
         #construct Model
         # model = Model(inputs=X1, outputs=output)
