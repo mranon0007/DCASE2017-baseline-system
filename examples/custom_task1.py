@@ -415,7 +415,7 @@ class SceneClassifierLSTM(SceneClassifier):
         ##########Creating Model
         # KERAS MODEL
         from keras.layers.core import Reshape
-        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda
+        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda, CuDNNLSTM
         from keras.layers.convolutional import Conv2D
         from keras.layers.pooling import MaxPooling2D,AveragePooling2D
         from keras.models import Model
