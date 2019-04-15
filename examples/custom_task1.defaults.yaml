@@ -6,7 +6,7 @@ sets:
     general:
       overwrite: false
     dataset:
-      method: development17
+      method: challenge17_train
     dataset_method_parameters:
       development:
         name: DCASE2013_Scene_EvaluationSet
@@ -18,6 +18,14 @@ sets:
         fold_list: [1]
         evaluation_mode: folds
 
+      challenge17_train:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        evaluation_mode: full
+
+    challenge17_test:
+      name: TUTAcousticScenes_2017_EvaluationSet
+      evaluation_mode: full
+      
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
