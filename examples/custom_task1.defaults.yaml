@@ -21,6 +21,7 @@ sets:
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 80     
       centroid:                               # Centroid
         mono: true                            # [true, false]
         window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
@@ -254,7 +255,7 @@ defaults:
       mono: true                            # [true, false]
       window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
       spectrogram_type: magnitude           # [magnitude, power]
-      n_mfcc: 60                            # Number of MFCC coefficients
+      n_mfcc: 20                            # Number of MFCC coefficients
       n_mels: 40                            # Number of mel bands used
       n_fft: 2048                           # FFT length
       fmin: 0                               # Minimum frequency when constructing mel bands
