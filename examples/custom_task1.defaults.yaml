@@ -61,6 +61,9 @@ sets:
 
       cnn:
         CONVOLUTION_FILTER: 8
+
+      lstm:
+        pass: pass
     recognizer:
       frame_accumulation:
         enable: true
@@ -109,7 +112,7 @@ defaults:
     initialize: false
     extract_features: false
     feature_normalizer: false
-    train_system: false
+    train_system: true
     test_system: true
     evaluate_system: true
 
