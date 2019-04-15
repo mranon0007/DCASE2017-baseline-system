@@ -433,9 +433,9 @@ class SceneClassifierLSTM(SceneClassifier):
         #LSTM
         X2             = Input(shape=(X2_Shape_In,))
         lstm_reshaper  = Reshape(X2_Shape)(X2)
-        lstm_1         = CuDNNLSTM(lstm_units,return_sequences=True)(lstm_reshaper)
+        lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
         lstm_dropout_1 = Dropout(.3)(lstm_1)
-        lstm_2         = CuDNNLSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
+        lstm_2         = LSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
         lstm_dropout_2 = Dropout(.3)(lstm_2)
         ff             = Dense(512, activation='relu')(lstm_dropout_2)
         lstm_dropout_3 = Dropout(.3)(ff)
@@ -486,7 +486,7 @@ class SceneClassifierLSTM(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, batch_size = 1024, epochs = 50)
+        self['model'].fit(x = X_training, y = Y_training, batch_size = 2048, epochs = 50)
         return self
 
     def _frame_probabilities(self, feature_data):
