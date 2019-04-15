@@ -311,7 +311,7 @@ class SceneClassifierSVM(SceneClassifier):
             raise AssertionError(message)
 
 class SceneClassifierCNN(SceneClassifier):
-    """Scene classifier with SVM"""
+    """Scene classifier with CNN"""
     def __init__(self, *args, **kwargs):
         super(SceneClassifierCNN, self).__init__(*args, **kwargs)
         self.method = 'cnn'
@@ -369,7 +369,92 @@ class SceneClassifierCNN(SceneClassifier):
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         self['model'] = model
-        return
+        return model
+
+    def learn(self, data, annotations, data_filenames=None, **kwargs):
+        """Learn based on data ana annotations
+
+        Parameters
+        ----------
+        data : dict of FeatureContainers
+            Feature data
+        annotations : dict of MetadataContainers
+            Meta data
+
+        Returns
+        -------
+        self
+
+        """
+
+        training_files       = annotations.keys()  # Collect training files
+        activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
+        X_training_temp      = numpy.vstack([data[x].feat[0] for x in training_files])
+        Y_training           = numpy.vstack([activity_matrix_dict[x] for x in training_files])
+
+        NUM_OF_SPLITS = self.feature_aggregator.win_length_frames
+        # X_training shape (frames x NUM_OF_SPLITS x feat) where NUM_OF_SPLITS is # of timestamps
+        X_training = X_training_temp
+        # X_training = X_training_temp.reshape(X_training_temp.shape[0],NUM_OF_SPLITS,X_training_temp.shape[1]/NUM_OF_SPLITS) 
+        # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
+
+        self.create_model()
+        self['model'].fit(x = X_training, y = Y_training, batch_size = None, epochs = 40)
+        return self
+
+    def _frame_probabilities(self, feature_data):
+        return self.model.predict(x=feature_data).T
+
+class SceneClassifierLSTM(SceneClassifier):
+    """Scene classifier with LSTM"""
+    def __init__(self, *args, **kwargs):
+        super(SceneClassifierLSTM, self).__init__(*args, **kwargs)
+        self.method = 'lstm'
+
+    def create_model(self):
+        ##########Creating Model
+        # KERAS MODEL
+        from keras.layers.core import Reshape
+        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda
+        from keras.layers.convolutional import Conv2D
+        from keras.layers.pooling import MaxPooling2D,AveragePooling2D
+        from keras.models import Model
+        # from keras.callbacks import EarlyStopping
+        from keras.utils import plot_model
+
+        #Inputs
+        X2_Shape = (40,60)
+        output_shape = 15
+
+        #LSTM Params
+        lstm_units = 256
+
+        #LSTM
+        X2 = Input(shape=X2_Shape)
+        lstm_1=LSTM(lstm_units,return_sequences=True)(X2)
+        lstm_dropout_1 = Dropout(.3)(lstm_1)
+        lstm_2=LSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
+        lstm_dropout_2 = Dropout(.3)(lstm_2)
+        ff = Dense(512, activation='relu')(lstm_dropout_2)
+        lstm_dropout_3 = Dropout(.3)(ff)
+
+        #merge
+        # out = conv_dropout2
+        out = lstm_dropout_3
+        # out = concatenate([conv_dropout2,lstm_dropout_3],axis=-1)
+
+        #output
+        output1 = Dense(512, activation='softmax')(out)
+        output = Dense(output_shape, activation='softmax')(output1)
+
+        #construct Model
+        # model = Model(inputs=X1, outputs=output)
+        model = Model(inputs=X2, outputs=output)
+        # model = Model(inputs=[X1,X2], outputs=output)
+        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+        self['model'] = model
+        return model
 
     def learn(self, data, annotations, data_filenames=None, **kwargs):
         """Learn based on data ana annotations
@@ -413,7 +498,8 @@ class CustomAppCore(AcousticSceneClassificationAppCore):
         }
         kwargs['Learners'] = {
             'svm': SceneClassifierSVM,
-            'cnn': SceneClassifierCNN
+            'cnn': SceneClassifierCNN,
+            'lstm': SceneClassifierLSTM,
         }
         kwargs['FeatureExtractor'] = CustomFeatureExtractor
 
