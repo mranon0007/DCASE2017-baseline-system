@@ -22,9 +22,9 @@ sets:
         name: TUTAcousticScenes_2017_DevelopmentSet
         evaluation_mode: full
 
-    challenge17_test:
-      name: TUTAcousticScenes_2017_EvaluationSet
-      evaluation_mode: full
+      challenge17_test:
+        name: TUTAcousticScenes_2017_EvaluationSet
+        evaluation_mode: full
       
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
