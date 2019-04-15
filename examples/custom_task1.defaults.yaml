@@ -6,7 +6,7 @@ sets:
     general:
       overwrite: false
     dataset:
-      method: challenge17_test
+      method: challenge17_train
     dataset_method_parameters:
       development:
         name: DCASE2013_Scene_EvaluationSet
@@ -121,7 +121,7 @@ defaults:
     initialize: false
     extract_features: false
     feature_normalizer: false
-    train_system: false
+    train_system: true
     test_system: true
     evaluate_system: true
 
