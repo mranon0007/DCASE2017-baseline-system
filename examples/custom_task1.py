@@ -446,7 +446,7 @@ class SceneClassifierLSTM(SceneClassifier):
         # out = concatenate([conv_dropout2,lstm_dropout_3],axis=-1)
 
         #output
-        output1 = Dense(512, activation='softmax')(out)
+        output1 = Dense(512, activation='relu')(out)
         output  = Dense(output_shape, activation='softmax')(output1)
 
         #construct Model
