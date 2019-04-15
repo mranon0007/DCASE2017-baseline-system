@@ -316,33 +316,7 @@ class SceneClassifierCNN(SceneClassifier):
         super(SceneClassifierCNN, self).__init__(*args, **kwargs)
         self.method = 'cnn'
 
-    def learn(self, data, annotations, data_filenames=None, **kwargs):
-        """Learn based on data ana annotations
-
-        Parameters
-        ----------
-        data : dict of FeatureContainers
-            Feature data
-        annotations : dict of MetadataContainers
-            Meta data
-
-        Returns
-        -------
-        self
-
-        """
-
-        training_files = annotations.keys()  # Collect training files
-        activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
-        X_training_temp = numpy.vstack([data[x].feat[0] for x in training_files])
-        Y_training = numpy.vstack([activity_matrix_dict[x] for x in training_files])
-
-        NUM_OF_SPLITS = self.feature_aggregator.win_length_frames
-        # X_training shape (frames x NUM_OF_SPLITS x feat) where NUM_OF_SPLITS is # of timestamps
-        X_training = X_training_temp
-        # X_training = X_training_temp.reshape(X_training_temp.shape[0],NUM_OF_SPLITS,X_training_temp.shape[1]/NUM_OF_SPLITS) 
-        # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
-
+    def create_model(self):
         ##########Creating Model
         # KERAS MODEL
         from keras.layers.core import Reshape
@@ -395,6 +369,36 @@ class SceneClassifierCNN(SceneClassifier):
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         self['model'] = model
+        return
+
+    def learn(self, data, annotations, data_filenames=None, **kwargs):
+        """Learn based on data ana annotations
+
+        Parameters
+        ----------
+        data : dict of FeatureContainers
+            Feature data
+        annotations : dict of MetadataContainers
+            Meta data
+
+        Returns
+        -------
+        self
+
+        """
+
+        training_files = annotations.keys()  # Collect training files
+        activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
+        X_training_temp = numpy.vstack([data[x].feat[0] for x in training_files])
+        Y_training = numpy.vstack([activity_matrix_dict[x] for x in training_files])
+
+        NUM_OF_SPLITS = self.feature_aggregator.win_length_frames
+        # X_training shape (frames x NUM_OF_SPLITS x feat) where NUM_OF_SPLITS is # of timestamps
+        X_training = X_training_temp
+        # X_training = X_training_temp.reshape(X_training_temp.shape[0],NUM_OF_SPLITS,X_training_temp.shape[1]/NUM_OF_SPLITS) 
+        # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
+
+        create_model()
         self['model'].fit(x = X_training, y = Y_training, batch_size = None, epochs = 10)
         return self
 
