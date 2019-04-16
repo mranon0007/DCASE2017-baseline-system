@@ -118,7 +118,7 @@ defaults:
   # Flow
   # ==========================================================
   flow:
-    initialize: false
+    initialize: true
     extract_features: false
     feature_normalizer: false
     train_system: true
