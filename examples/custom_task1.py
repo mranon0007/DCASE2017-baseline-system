@@ -489,7 +489,7 @@ class SceneClassifierLSTM(SceneClassifier):
             training_files = sorted(list(set(training_files) - set(validation_files)))
         else:
             validation_files = []
-                    # Process validation data
+            # Process validation data
         
         if validation_files:
             X_validation = self.prepare_data(data=data, files=validation_files)
@@ -509,7 +509,7 @@ class SceneClassifierLSTM(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, batch_size = 128, epochs = 20)
+        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, batch_size = 128, epochs = 30)
         return self
 
     def _frame_probabilities(self, feature_data):
