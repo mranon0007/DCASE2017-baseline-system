@@ -702,7 +702,7 @@ def main(argv):
 
         if not params['custom']['logging']:
             logger = logging.getLogger('dcase_framework.ui')
-            # logger.disabled = True
+            logger.disabled = True
 
         app = CustomAppCore(name='DCASE 2017::Acoustic Scene Classification / Baseline System',
                             params=params,
@@ -822,7 +822,7 @@ def main(argv):
 
     if params['flow']['test_system']:
         print("recognizer:" + params['path']['recognizer'])
-        
+
     return 0
 
 if __name__ == "__main__":
