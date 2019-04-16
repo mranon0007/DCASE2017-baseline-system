@@ -6,7 +6,7 @@ sets:
     general:
       overwrite: false
     dataset:
-      method: challenge17_test
+      method: challenge17_train
     dataset_method_parameters:
       development:
         name: DCASE2013_Scene_EvaluationSet
@@ -45,14 +45,14 @@ sets:
       spectr:
         mono: true
     feature_stacker:
-      stacking_recipe: spectr #spectr # mfcc;centroid;zero_crossing_rate;
+      stacking_recipe: mfcc #spectr # mfcc;centroid;zero_crossing_rate;
     feature_aggregator:
       enable: true
       aggregation_recipe: flatten #mean; std
       win_length_seconds: 0.8
       hop_length_seconds: 0.6
     learner:
-      method: cnn
+      method: lstm # lstm cnn
     learner_method_parameters:
       svm:
         C: 1
@@ -121,9 +121,9 @@ defaults:
     initialize: false
     extract_features: false
     feature_normalizer: false
-    train_system: false
-    test_system: true
-    evaluate_system: true
+    train_system: true
+    test_system: false
+    evaluate_system: false
 
   # ==========================================================
   # General
