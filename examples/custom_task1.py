@@ -260,9 +260,11 @@ class CustomFeatureExtractor(FeatureExtractor):
             # FIX THIS LINE.
             # Compress/Smoothen/Denoise the Spectrogram
             ones = self.ones
-            spectrogram_temp = np.asarray([ np.convolve(x, ones, mode='valid') for x in spectrogram ])
+            spectrogram_temp =[ np.convolve(x, ones, mode='valid') for x in spectrogram ]
+            # spectrogram_temp = np.asarray(spectrogram_temp)
             f = 40 #avg window size
-            spectrogram_temp = [ np.nanmean(np.r_[l, 0 + np.zeros((-len(l) % f,))].reshape(-1, f), axis=-1) for l in y]     
+            spectrogram_temp_2 = [ np.nanmean(np.r_[l, 0 + np.zeros((-len(l) % f,))].reshape(-1, f), axis=-1) for l in spectrogram_temp]     
+            spectrogram_temp = np.asarray(spectrogram_temp_2)
 
             feature_matrix.append(spectrogram_temp)
 
