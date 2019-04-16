@@ -71,6 +71,11 @@ sets:
       cnn:
         CONVOLUTION_FILTER: 8
 
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+
       lstm:
         pass: pass
 

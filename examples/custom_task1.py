@@ -475,16 +475,29 @@ class SceneClassifierLSTM(SceneClassifier):
         """
 
         training_files       = annotations.keys()  # Collect training files
-
-        validation_files = self._generate_validation(
-            annotations=annotations,
-            validation_type=self.learner_params.get_path('validation.setup_source'),
-            valid_percentage=self.learner_params.get_path('validation.validation_amount', 0.20),
-            seed=self.learner_params.get_path('validation.seed')
-        )
-        training_files = sorted(list(set(training_files) - set(validation_files)))
-
         activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
+
+        #generate validation files
+        if self.learner_params.get_path('validation.enable', False):
+            validation_files = self._generate_validation(
+                annotations=annotations,
+                validation_type=self.learner_params.get_path('validation.setup_source'),
+                valid_percentage=self.learner_params.get_path('validation.validation_amount', 0.20),
+                seed=self.learner_params.get_path('validation.seed')
+            )
+            training_files = sorted(list(set(training_files) - set(validation_files)))
+        else:
+            validation_files = []
+                    # Process validation data
+        
+        if validation_files:
+            X_validation = self.prepare_data(data=data, files=validation_files)
+            Y_validation = self.prepare_activity(activity_matrix_dict=activity_matrix_dict, files=validation_files)
+
+            validation = (X_validation, Y_validation)
+            if self.show_extra_debug:
+                self.logger.debug('  Validation items \t[{validation:d}]'.format(validation=len(X_validation)))
+
         X_training_temp      = numpy.vstack([data[x].feat[0] for x in training_files])
         Y_training           = numpy.vstack([activity_matrix_dict[x] for x in training_files])
 
@@ -495,7 +508,7 @@ class SceneClassifierLSTM(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, batch_size = 128, epochs = 100)
+        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, batch_size = 128, epochs = 100)
         return self
 
     def _frame_probabilities(self, feature_data):
