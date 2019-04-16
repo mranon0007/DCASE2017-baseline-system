@@ -559,7 +559,7 @@ class CustomAppCore(AcousticSceneClassificationAppCore):
 
         super(CustomAppCore, self).__init__(*args, **kwargs)
 
-
+args = False
 def main(argv):
     numpy.random.seed(123456)  # let's make randomization predictable
 
