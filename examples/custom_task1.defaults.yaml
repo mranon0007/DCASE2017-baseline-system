@@ -10,7 +10,7 @@ sets:
     dataset_method_parameters:
       development:
         name: DCASE2013_Scene_EvaluationSet
-        fold_list: [1]
+        fold_list: [1,2,3,4]
         evaluation_mode: folds
 
       development17:
