@@ -213,7 +213,7 @@ class EventDetectorLSTM(EventDetector):
         # model = Model(inputs=X1, outputs=output)
         model = Model(inputs=X2, outputs=output)
         # model = Model(inputs=[X1,X2], outputs=output)
-        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy'])
 
         self['model'] = model
         return model
@@ -275,6 +275,27 @@ class EventDetectorLSTM(EventDetector):
     def _frame_probabilities(self, feature_data):
         return self.model.predict(x=feature_data).T
 
+    def predict(self, feature_data):
+        """Predict frame probabilities for given feature matrix
+
+        Parameters
+        ----------
+        feature_data : numpy.ndarray
+            Feature data
+
+        Returns
+        -------
+        str
+            class label
+
+        """
+
+        if isinstance(feature_data, FeatureContainer):
+            # If we have featureContainer as input, get feature_data
+            feature_data = feature_data.feat[0]
+
+        # Get frame probabilities
+        return self._frame_probabilities(feature_data)
 class Task2AppCore(BinarySoundEventAppCore):
     def __init__(self, *args, **kwargs):
         # kwargs['Datasets'] = {
