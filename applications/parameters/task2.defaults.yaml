@@ -428,6 +428,9 @@ defaults:
       name: TUTRareSoundEvents_2017_EvaluationSet
       evaluation_mode: full
 
+    MyDataset:
+      name: MyDataset
+      pass: pass
   # ==========================================================
   # Feature extractor
   # ==========================================================
