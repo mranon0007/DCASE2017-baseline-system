@@ -185,7 +185,7 @@ class EventDetectorLSTM(EventDetector):
         #Inputs
         X2_Shape_In  = (60*40)
         X2_Shape     = (60,40)
-        output_shape = 15
+        output_shape = 1
 
         #LSTM Params
         lstm_units = 256
@@ -207,7 +207,7 @@ class EventDetectorLSTM(EventDetector):
 
         #output
         output1 = Dense(512, activation='relu')(out)
-        output  = Dense(output_shape, activation='softmax')(output1)
+        output  = Dense(output_shape, activation='sigmoid')(output1)
 
         #construct Model
         # model = Model(inputs=X1, outputs=output)
