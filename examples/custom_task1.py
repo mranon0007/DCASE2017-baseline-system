@@ -590,6 +590,14 @@ def main(argv):
                         dest='mode',
                         type=str)
 
+    parser.add_argument('--testing',
+                        # choices=('dev', 'challenge'),
+                        default=False,
+                        help="testing mode",
+                        required=False,
+                        dest='mode',
+                        type=str)
+
     parser.add_argument('-p', '--parameters',
                         help='parameter file override',
                         dest='parameter_override',
