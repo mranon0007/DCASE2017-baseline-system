@@ -73,7 +73,7 @@ class CustomFeatureExtractor(FeatureExtractor):
 class EventDetectorCNN(EventDetector):
     """Scene classifier with CNN"""
     def __init__(self, *args, **kwargs):
-        super(SceneClassifierCNN, self).__init__(*args, **kwargs)
+        super(EventDetectorCNN, self).__init__(*args, **kwargs)
         self.method = 'cnn'
 
     def create_model(self):
@@ -168,7 +168,7 @@ class EventDetectorCNN(EventDetector):
 class EventDetectorLSTM(EventDetector):
     """Scene classifier with LSTM"""
     def __init__(self, *args, **kwargs):
-        super(SceneClassifierLSTM, self).__init__(*args, **kwargs)
+        super(EventDetectorLSTM, self).__init__(*args, **kwargs)
         self.method = 'lstm'
 
     def create_model(self):
