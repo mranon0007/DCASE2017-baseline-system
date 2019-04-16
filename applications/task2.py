@@ -298,9 +298,9 @@ class EventDetectorLSTM(EventDetector):
         return self._frame_probabilities(feature_data)
 class Task2AppCore(BinarySoundEventAppCore):
     def __init__(self, *args, **kwargs):
-        # kwargs['Datasets'] = {
-        #     'DCASE2013_Scene_EvaluationSet': DCASE2013_Scene_EvaluationSet,
-        # }
+        kwargs['Datasets'] = {
+            'MyDataset': MyDataset,
+        }
         kwargs['Learners'] = {
             'cnn' : EventDetectorCNN,
             'lstm': EventDetectorLSTM,
@@ -607,3 +607,20 @@ if __name__ == "__main__":
         sys.exit(main(sys.argv))
     except (ValueError, IOError) as e:
         sys.exit(e)
+
+
+from dcase_framework.datasets import SoundEventDataset
+from dcase_framework.metadata import MetaDataContainer, MetaDataItem
+
+class MyDataset(SoundEventDataset):
+    def __init__(self, *args, **kwargs):
+        kwargs['storage_name'] = kwargs.get('storage_name', 'MyDataset')
+        super(MyDataset, self).__init__(*args, **kwargs)
+
+        self.dataset_group = 'acoustic scene'
+ 
+    def train(self, fold=0, scene_label=None, event_label=None):
+        self.crossvalidation_data_train[fold] = {}
+        self.crossvalidation_data_train[fold][event_label_] = MetaDataContainer()
+        params_hash = self.synth_parameters.get_hash_for_path('train')
+        self.crossvalidation_data_train[fold][event_label_] = MetaDataContainer()

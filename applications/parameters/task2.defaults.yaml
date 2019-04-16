@@ -392,7 +392,7 @@ defaults:
   # Dataset
   # ==========================================================
   dataset:
-    method: development #development #challenge_train #challenge_test
+    method: MyDataset #development #challenge_train #challenge_test MyDataset
 
   dataset_method_parameters:
     development:
