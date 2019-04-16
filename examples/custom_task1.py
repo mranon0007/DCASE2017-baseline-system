@@ -360,7 +360,7 @@ class SceneClassifierCNN(SceneClassifier):
         # out = concatenate([conv_dropout2,lstm_dropout_3],axis=-1)
 
         #output
-        output1 = Dense(512, activation='softmax')(out)
+        output1 = Dense(512, activation='relu')(out)
         output  = Dense(output_shape, activation='softmax')(output1)
 
         #construct Model
@@ -474,7 +474,15 @@ class SceneClassifierLSTM(SceneClassifier):
 
         """
 
-        training_files       = annotations.keys()  # Collect training files
+        validation_files = self._generate_validation(
+            annotations=annotations,
+            validation_type=self.learner_params.get_path('validation.setup_source'),
+            valid_percentage=self.learner_params.get_path('validation.validation_amount', 0.20),
+            seed=self.learner_params.get_path('validation.seed')
+        )
+        training_files = sorted(list(set(training_files) - set(validation_files)))
+
+        # training_files       = annotations.keys()  # Collect training files
         activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
         X_training_temp      = numpy.vstack([data[x].feat[0] for x in training_files])
         Y_training           = numpy.vstack([activity_matrix_dict[x] for x in training_files])
@@ -486,7 +494,7 @@ class SceneClassifierLSTM(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, batch_size = 128, epochs = 250)
+        self['model'].fit(x = X_training, y = Y_training, batch_size = 128, epochs = 100)
         return self
 
     def _frame_probabilities(self, feature_data):
