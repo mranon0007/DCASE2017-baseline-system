@@ -86,7 +86,7 @@ sets:
     recognizer:
       frame_accumulation:
         enable: true
-        type: mean                   # [sum, prod, mean]
+        type: prod                   # [sum, prod, mean]
       frame_binarization:
         enable: false
       decision_making:
