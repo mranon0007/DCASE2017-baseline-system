@@ -700,6 +700,10 @@ def main(argv):
         # Setup logging
         setup_logging(parameter_container=params['logging'])
 
+        if not params['custom']['logging']:
+            logger = logging.getLogger('dcase_framework.ui')
+            # logger.disabled = True
+
         app = CustomAppCore(name='DCASE 2017::Acoustic Scene Classification / Baseline System',
                             params=params,
                             system_desc=params.get('description'),
@@ -816,6 +820,9 @@ def main(argv):
             if params['flow']['evaluate_system']:
                 challenge_app.system_evaluation()
 
+    if params['flow']['test_system']:
+        print("recognizer:" + params['path']['recognizer'])
+        
     return 0
 
 if __name__ == "__main__":
