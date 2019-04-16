@@ -86,12 +86,12 @@ sets:
     recognizer:
       frame_accumulation:
         enable: false
-        type: sum                   # [sum, prod, mean]
+        type: prod                   # [sum, prod, mean]
       frame_binarization:
-        enable: true
+        enable: false
       decision_making:
         enable: true
-        type: majority_vote  # majority_vote maximum
+        type: maximum  # majority_vote maximum
 
   - set_id: minimal
     description: Minimal GMM based system to test that everything works
