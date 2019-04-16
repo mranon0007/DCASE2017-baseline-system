@@ -213,7 +213,7 @@ class EventDetectorLSTM(EventDetector):
         # model = Model(inputs=X1, outputs=output)
         model = Model(inputs=X2, outputs=output)
         # model = Model(inputs=[X1,X2], outputs=output)
-        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         self['model'] = model
         return model
