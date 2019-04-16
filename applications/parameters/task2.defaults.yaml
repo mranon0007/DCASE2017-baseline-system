@@ -5,7 +5,7 @@ sets:
     description: DCASE2017 baseline (CPU) using DCASE2017 task 2 development dataset
 
     feature_stacker:
-      stacking_recipe: mfcc #spectr # mfcc;centroid;zero_crossing_rate; mel
+      stacking_recipe: mel #spectr # mfcc;centroid;zero_crossing_rate; mel
 
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
@@ -21,7 +21,7 @@ sets:
       hop_length_seconds: 0.6
 
     learner:
-      method: lstm # lstm cnn mlp
+      method: mlp # lstm cnn mlp
 
     learner_method_parameters:
       mlp:
