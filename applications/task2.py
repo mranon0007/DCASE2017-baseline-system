@@ -34,7 +34,7 @@ class MyDataset(TUTRareSoundEvents_2017_DevelopmentSet):
 
         self.dataset_group = 'acoustic scene'
  
-    def train(self, fold=0, scene_label=None, event_label=None):
+    def trains(self, fold=0, scene_label=None, event_label=None):
         self.crossvalidation_data_train[fold] = {}
         self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
         params_hash = self.synth_parameters.get_hash_for_path('train')
