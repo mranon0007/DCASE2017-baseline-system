@@ -478,6 +478,7 @@ class SceneClassifierLSTM(SceneClassifier):
         activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
 
         #generate validation files
+        validation = False
         if self.learner_params.get_path('validation.enable', False):
             validation_files = self._generate_validation(
                 annotations=annotations,
