@@ -474,6 +474,8 @@ class SceneClassifierLSTM(SceneClassifier):
 
         """
 
+        training_files       = annotations.keys()  # Collect training files
+
         validation_files = self._generate_validation(
             annotations=annotations,
             validation_type=self.learner_params.get_path('validation.setup_source'),
@@ -482,7 +484,6 @@ class SceneClassifierLSTM(SceneClassifier):
         )
         training_files = sorted(list(set(training_files) - set(validation_files)))
 
-        # training_files       = annotations.keys()  # Collect training files
         activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
         X_training_temp      = numpy.vstack([data[x].feat[0] for x in training_files])
         Y_training           = numpy.vstack([activity_matrix_dict[x] for x in training_files])
