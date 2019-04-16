@@ -17,8 +17,8 @@ sets:
     feature_aggregator:
       enable: true
       aggregation_recipe: flatten #mean; std
-      win_length_seconds: 0.8
-      hop_length_seconds: 0.6
+      win_length_seconds: 0.1
+      hop_length_seconds: 0.02
 
     learner:
       method: mlp # lstm cnn mlp
@@ -117,7 +117,7 @@ sets:
       event_activity_processing:
         enable: true
         type: median_filtering
-        window_length_seconds: 0.84
+        window_length_seconds: 0.54
 
       event_post_processing:
         enable: false
