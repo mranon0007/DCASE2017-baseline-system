@@ -73,6 +73,10 @@ sets:
 
       lstm:
         pass: pass
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
     recognizer:
       frame_accumulation:
         enable: true
