@@ -123,6 +123,8 @@ class CustomFeatureExtractor(FeatureExtractor):
             # },
         }
 
+        self.ones = np.ones((40,))/40
+
         super(CustomFeatureExtractor, self).__init__(*args, **kwargs)
 
     def _zero_crossing_rate(self, data, params):
@@ -257,8 +259,10 @@ class CustomFeatureExtractor(FeatureExtractor):
 
             # FIX THIS LINE.
             # Compress/Smoothen/Denoise the Spectrogram
-            ones = np.ones((844,))/844
+            ones = self.ones
             spectrogram_temp = np.asarray([ np.convolve(x, ones, mode='valid') for x in spectrogram ])
+            f = 40 #avg window size
+            spectrogram_temp = [ np.nanmean(np.r_[l, 0 + np.zeros((-len(l) % f,))].reshape(-1, f), axis=-1) for l in y]     
 
             feature_matrix.append(spectrogram_temp)
 
