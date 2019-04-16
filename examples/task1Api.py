@@ -97,7 +97,7 @@ print("starting")
 out.start()
 # task1.main(sys.argv)
 start = time.clock()
-os.system('python '+ os.path.join(dirname, "custom_task1.py"))
+os.system('python '+ os.path.join(dirname, "custom_task1.py --testing x"))
 out.stop()
 print(time.clock() - start)
 Task1Output = out.capturedtext
