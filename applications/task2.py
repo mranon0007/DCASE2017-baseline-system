@@ -36,9 +36,9 @@ class MyDataset(TUTRareSoundEvents_2017_DevelopmentSet):
  
     def train(self, fold=0, scene_label=None, event_label=None):
         self.crossvalidation_data_train[fold] = {}
-        self.crossvalidation_data_train[fold][event_label_] = MetaDataContainer()
+        self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
         params_hash = self.synth_parameters.get_hash_for_path('train')
-        self.crossvalidation_data_train[fold][event_label_] = MetaDataContainer()
+        self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
 
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
