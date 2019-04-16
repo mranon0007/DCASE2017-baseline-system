@@ -85,7 +85,7 @@ sets:
           seed: 1
     recognizer:
       frame_accumulation:
-        enable: false
+        enable: true
         type: mean                   # [sum, prod, mean]
       frame_binarization:
         enable: false
