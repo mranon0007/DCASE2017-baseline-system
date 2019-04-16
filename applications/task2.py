@@ -18,6 +18,7 @@ from dcase_framework.application_core import BinarySoundEventAppCore
 from dcase_framework.parameters import ParameterContainer
 from dcase_framework.utils import *
 from dcase_framework.features import FeatureExtractor
+from dcase_framework.learners import SceneClassifier
 
 __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
