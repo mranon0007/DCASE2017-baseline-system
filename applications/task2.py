@@ -70,7 +70,7 @@ class CustomFeatureExtractor(FeatureExtractor):
 
         return feature_matrix
 
-class SceneClassifierCNN(SceneClassifier):
+class EventDetectorCNN(EventDetector):
     """Scene classifier with CNN"""
     def __init__(self, *args, **kwargs):
         super(SceneClassifierCNN, self).__init__(*args, **kwargs)
@@ -165,7 +165,7 @@ class SceneClassifierCNN(SceneClassifier):
     def _frame_probabilities(self, feature_data):
         return self.model.predict(x=feature_data).T
 
-class SceneClassifierLSTM(SceneClassifier):
+class EventDetectorLSTM(EventDetector):
     """Scene classifier with LSTM"""
     def __init__(self, *args, **kwargs):
         super(SceneClassifierLSTM, self).__init__(*args, **kwargs)
@@ -281,8 +281,8 @@ class Task2AppCore(BinarySoundEventAppCore):
         #     'DCASE2013_Scene_EvaluationSet': DCASE2013_Scene_EvaluationSet,
         # }
         kwargs['Learners'] = {
-            'cnn': SceneClassifierCNN,
-            'lstm': SceneClassifierLSTM,
+            'cnn' : EventDetectorCNN,
+            'lstm': EventDetectorLSTM,
         }
         kwargs['FeatureExtractor'] = CustomFeatureExtractor
 
