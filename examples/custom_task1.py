@@ -123,7 +123,7 @@ class CustomFeatureExtractor(FeatureExtractor):
             # },
         }
 
-        self.ones = np.ones((40,))/40
+        self.ones = np.ones((44,))/44
 
         super(CustomFeatureExtractor, self).__init__(*args, **kwargs)
 
@@ -260,9 +260,9 @@ class CustomFeatureExtractor(FeatureExtractor):
             # FIX THIS LINE.
             # Compress/Smoothen/Denoise the Spectrogram
             ones = self.ones
-            spectrogram_temp =[ np.convolve(x, ones, mode='valid') for x in spectrogram ]
+            spectrogram_temp = [ np.convolve(x, ones, mode='valid') for x in spectrogram ]
             # spectrogram_temp = np.asarray(spectrogram_temp)
-            f = 40 #avg window size
+            f = 21 #avg window size
             spectrogram_temp_2 = [ np.nanmean(np.r_[l, 0 + np.zeros((-len(l) % f,))].reshape(-1, f), axis=-1) for l in spectrogram_temp]     
             spectrogram_temp = np.asarray(spectrogram_temp_2)
 
