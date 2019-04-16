@@ -286,7 +286,7 @@ class Task2AppCore(BinarySoundEventAppCore):
         }
         kwargs['FeatureExtractor'] = CustomFeatureExtractor
 
-        super(CustomAppCore, self).__init__(*args, **kwargs)
+        super(Task2AppCore, self).__init__(*args, **kwargs)
 
 
 def main(argv):
