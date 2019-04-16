@@ -589,7 +589,7 @@ def main(argv):
                         dest='mode',
                         type=str)
 
-    parser.add_argument('--testing',
+    parser.add_argument('-t', '--testing',
                         # choices=('dev', 'challenge'),
                         default=False,
                         help="testing mode",
