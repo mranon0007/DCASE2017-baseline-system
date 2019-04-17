@@ -787,7 +787,7 @@ def main(argv):
 
             # System evaluation
             # ==================================================
-            if params['flow']['evaluate_system'] or args.testing:
+            if params['flow']['evaluate_system']:
                 app.system_evaluation()
 
         # System evaluation in challenge mode

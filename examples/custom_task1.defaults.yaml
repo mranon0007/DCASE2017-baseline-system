@@ -133,7 +133,7 @@ defaults:
     feature_normalizer: false
     train_system: false
     test_system: true
-    evaluate_system: true
+    evaluate_system: false
 
   # ==========================================================
   # General
