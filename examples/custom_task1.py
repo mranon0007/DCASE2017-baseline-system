@@ -453,7 +453,7 @@ class SceneClassifierLSTM(SceneClassifier):
         import tensorflow as tf
 
         #Inputs
-        X2_Shape_In  = (60,100)
+        X2_Shape_In  = (40,(60+40))
         X2_Shape     = (60,40)
         output_shape = 10
 
