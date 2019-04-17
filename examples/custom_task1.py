@@ -835,6 +835,8 @@ def main(argv):
     if args.testing:
         print("recognizer:" + params['path']['recognizer'])
 
+    print(args)
+
     return 0
 
 if __name__ == "__main__":
