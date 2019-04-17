@@ -652,6 +652,7 @@ def main(argv):
     args = parser.parse_args()
 
     if not args.testing:
+        print("im here")
         import ptvsd
         ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
         ptvsd.wait_for_attach()
