@@ -92,7 +92,7 @@ class OutputGrabber(object):
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
 TASK1_PYFILE = "custom_task1.py"
-TASK1_PARAMS = "--node --testing x"
+TASK1_PARAMS = "-o --node --testing x"
 TESTS_FILE = "fold4_train"
 RESULTS_FILE = "results_fold4"
 results = ''
