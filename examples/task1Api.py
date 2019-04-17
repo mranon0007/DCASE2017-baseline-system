@@ -107,7 +107,7 @@ print(Task1Output[0].split(':')[1])
 eval_file = Task1Output[0].split(':')[1] + "/results_fold1.txt"
 
 with open(eval_file, 'r') as stream:
-    stream = stream.splitlines()
+    stream = stream.readlines()
     pass
 # #return the output.
 print(time.clock() - start)
