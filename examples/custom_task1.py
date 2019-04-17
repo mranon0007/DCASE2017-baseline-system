@@ -651,12 +651,11 @@ def main(argv):
     # Parse arguments
     args = parser.parse_args()
 
-    import ptvsd
-    ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
-    ptvsd.wait_for_attach()
-
     if not args.testing:
-            lp = 1
+        import ptvsd
+        ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+        ptvsd.wait_for_attach()
+        lp = 1
     
     # Load default parameters from a file
     default_parameters_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)),
