@@ -92,15 +92,19 @@ class OutputGrabber(object):
 
 TASK1_PYFILE = "custom_task1.py"
 TASK1_PARAMS = "--node --testing x"
-RESULTS_FILE = "results_fold1"
+RESULTS_FILE = "results_fold99"
 results = ''
 
 # get audio path as input
 print(sys.argv)
 audioFile = "abc.wav"
+
+# create uploads folder
 if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
     os.makedirs(os.path.join(dirname, 'data', 'uploads'))
-    pass
+
+# create testing file
+testfoldfile = open(os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', RESULTS_FILE+".txt"), 'w+')
 
 # put audio path in fold99
 
