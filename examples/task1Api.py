@@ -106,7 +106,7 @@ if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
 
 # create testing file
 testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE+".txt")
-
+import datetime
 modifiedTime             = os.path.getmtime(testfoldfile_Path)
 timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
 testfoldfile_backup_path = FilePath+"_"+timeStamp
