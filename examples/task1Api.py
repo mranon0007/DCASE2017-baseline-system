@@ -95,7 +95,12 @@ TASK1_PARAMS = "--node --testing x"
 RESULTS_FILE = "results_fold1"
 results = ''
 
-##Run task 1
+# get audio path as input
+print(sys.argv)
+
+# put audio path in fold99
+
+## Run task 1
 out = OutputGrabber()
 out.start()
 cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
@@ -103,7 +108,7 @@ os.system(cmnd)
 out.stop()
 Task1Output = out.capturedtext
 
-#Get the Results
+# Get the Results
 Task1Output = Task1Output.splitlines()
 eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
 
@@ -120,3 +125,10 @@ with open(eval_file, 'r') as stream:
 
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
+
+
+
+
+# get audio path as input
+
+# put audio path in fold99
