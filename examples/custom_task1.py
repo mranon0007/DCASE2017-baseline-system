@@ -472,13 +472,12 @@ class SceneClassifierLSTM(SceneClassifier):
 
         lstm_plucker   = Lambda(my_lambda_func, output_shape=(2400,))(X2)
 
-
         lstm_reshaper  = Reshape(X2_Shape)(lstm_plucker)
         lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
 
-        lstm_dropout_1 = Dropout(.3)(lstm_1)
+        lstm_dropout_1 = Dropout(.4)(lstm_1)
         lstm_2         = LSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
-        lstm_dropout_2 = Dropout(.3)(lstm_2)
+        lstm_dropout_2 = Dropout(.4)(lstm_2)
         ff             = Dense(512, activation='relu')(lstm_dropout_2)
         lstm_dropout_3 = Dropout(.3)(ff)
 
