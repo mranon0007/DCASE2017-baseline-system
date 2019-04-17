@@ -138,6 +138,8 @@ with open(eval_file, 'r') as stream:
         break
 
 # We now have the results, return them.
+os.remove(testfoldfile_Path)
+os.rename(testfoldfile_backup_path, testfoldfile_Path)
 
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
