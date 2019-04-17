@@ -108,7 +108,10 @@ if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
     os.makedirs(os.path.join(dirname, 'data', 'uploads'))
 
 # create testing file
-testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-rare-sound-events-2017-development', 'generated_data', "mixtures_devtest_0367e094f3f5c81ef017d128ebff4a3c", "meta")
+testfoldfile_Path_temp = os.path.join(dirname, 'data', 'TUT-rare-sound-events-2017-development', 'generated_data', "mixtures_devtest_0367e094f3f5c81ef017d128ebff4a3c", "meta")
+testfoldfile_Path = []
+for i in range(len(TESTS_FILES)):
+    testfoldfile_Path.append(os.path.join(testfoldfile_Path_temp, TESTS_FILES[i]))
 
 modifiedTime             = os.path.getmtime(testfoldfile_Path)
 timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
