@@ -386,6 +386,14 @@ def main(argv):
                         required=False,
                         type=str)
 
+    parser.add_argument('-t', '--testing',
+                        # choices=('dev', 'challenge'),
+                        default=False,
+                        help="testing mode",
+                        required=False,
+                        dest='testing',
+                        type=str)
+
     parser.add_argument("-n", "--node",
                         help="Node mode",
                         dest="node_mode",
@@ -554,13 +562,16 @@ def main(argv):
 
         # Initialize application
         # ==================================================
-        if params['flow']['initialize']:
+        if params['flow']['initialize'] and not args.testing:
             app.initialize()
 
         # Extract features for all audio files in the dataset
         # ==================================================
-        if params['flow']['extract_features']:
-            app.feature_extraction()
+        if params['flow']['extract_features'] or args.testing:
+            if args.testing:
+                app.feature_extraction(files=["../uploads/" + args.testing])
+            else:
+                app.feature_extraction()
 
         # Prepare feature normalizers
         # ==================================================
@@ -569,20 +580,20 @@ def main(argv):
 
         # System training
         # ==================================================
-        if params['flow']['train_system']:
+        if params['flow']['train_system'] and not args.testing:
             app.system_training()
 
         # System evaluation in development mode
-        if not args.mode or args.mode == 'dev':
+        if not args.mode or args.mode == 'dev' or args.testing:
 
             # System testing
             # ==================================================
-            if params['flow']['test_system']:
+            if params['flow']['test_system'] or args.testing:
                 app.system_testing()
 
             # System evaluation
             # ==================================================
-            if params['flow']['evaluate_system']:
+            if params['flow']['evaluate_system']  and not args.testing:
                 app.system_evaluation()
 
         # System evaluation with challenge data
@@ -631,6 +642,9 @@ def main(argv):
             # System evaluation if not in challenge submission mode
             if params['flow']['evaluate_system']:
                 challenge_app.system_evaluation(single_file_per_fold=True)
+
+    if args.testing:
+        print("recognizer:" + params['path']['recognizer'])
 
     return 0
 
