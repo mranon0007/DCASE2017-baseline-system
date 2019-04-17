@@ -92,8 +92,8 @@ class OutputGrabber(object):
 
 TASK1_PYFILE = "custom_task1.py"
 TASK1_PARAMS = "--node --testing x"
-TESTS_FILE = "fold99_train"
-RESULTS_FILE = "fold99_evaluate"
+TESTS_FILE = "fold4_train"
+RESULTS_FILE = "fold4_evaluate"
 results = ''
 
 # get audio path as input
@@ -105,9 +105,15 @@ if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
     os.makedirs(os.path.join(dirname, 'data', 'uploads'))
 
 # create testing file
-testfoldfile = open(os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', RESULTS_FILE+".txt"), 'w+')
+testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE+".txt")
 
-# put audio path in fold99
+modifiedTime             = os.path.getmtime(testfoldfile_Path)
+timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
+testfoldfile_backup_path = FilePath+"_"+timeStamp
+os.rename(FilePath, testfoldfile_backup_path)
+
+testfoldfile      = open(testfoldfile_Path, 'w+')
+testfoldfile.write("../uploads/"+audioFile)
 
 ## Run task 1
 out = OutputGrabber()
