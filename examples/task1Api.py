@@ -98,7 +98,8 @@ results = ''
 ##Run task 1
 out = OutputGrabber()
 out.start()
-os.system('python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS)
+cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
+os.system(cmnd)
 Task1Output = out.capturedtext
 
 #Get the Results
