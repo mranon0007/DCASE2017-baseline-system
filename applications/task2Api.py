@@ -113,13 +113,12 @@ testfoldfile_Path = []
 for i in range(len(TESTS_FILES)):
     testfoldfile_Path.append(os.path.join(testfoldfile_Path_temp, TESTS_FILES[i]))
 
-modifiedTime             = os.path.getmtime(testfoldfile_Path)
+modifiedTime             = os.path.getmtime(testfoldfile_Path_temp)
 timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
 
-testfoldfile_backup_path = [ os.path.join(testfoldfile_Path, x)+"_"+timeStamp for x in TESTS_FILES]
+testfoldfile_backup_path = [ x+"_"+timeStamp for x in testfoldfile_Path]
 for i in range(len(TESTS_FILES)):
-    lk = os.path.join(testfoldfile_Path, TESTS_FILES[i])
-    os.rename(lk, testfoldfile_backup_path[i])
+    os.rename(testfoldfile_Path[i], testfoldfile_backup_path[i])
 
 try:
 
