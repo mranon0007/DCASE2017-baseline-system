@@ -138,7 +138,11 @@ try:
     # Get the Results
     Task1Output = Task1Output.splitlines()
 
-    results = ''
+    result = {
+        "babycry" : [],
+        "glassbreak": [],
+        "gunshot": []
+    }
     for i in range(len(RESULTS_FILE)):
         eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE[i]
 
@@ -147,10 +151,14 @@ try:
             # results = dict([ x.strip().split("\t") for x in stream_lines ])
             results = [x.strip().split("\t") for x in stream_lines]
 
-            # Debugging
-            for k in results:
-                print k
+            if(len(results) > 1):
+                result[results[3]].append([results[1], results[2]])
 
+            # Debugging
+            # for k in results:
+            #     print k
+
+    print(result)
 except:
     for i in range(len(testfoldfile_Path)):
         os.remove(testfoldfile_Path[i])
