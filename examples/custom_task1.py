@@ -777,8 +777,8 @@ def main(argv):
         # System evaluation
         if not args.mode or args.mode == 'dev' or args.testing:
 
-            if args.testing:
-                params['general']['overwrite'] = True
+            # if args.testing:
+            #     params['general']['overwrite'] = True
 
             # System testing
             # ==================================================

@@ -97,6 +97,10 @@ results = ''
 
 # get audio path as input
 print(sys.argv)
+audioFile = "abc.wav"
+if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
+    os.makedirs(os.path.join(dirname, 'data', 'uploads'))
+    pass
 
 # put audio path in fold99
 
