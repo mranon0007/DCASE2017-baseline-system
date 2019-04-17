@@ -104,16 +104,11 @@ Task1Output = out.capturedtext
 Task1Output = Task1Output.splitlines()
 
 print(Task1Output[0].split(':')[1])
-eval_file = Task1Output[0].split(':')[1]
+eval_file = Task1Output[0].split(':')[1] + "/results_fold1.txt"
 
-
-import yaml
 with open(eval_file, 'r') as stream:
-    try:
-        yamlfile = (yaml.safe_load(stream))
-        pass
-    except yaml.YAMLError as exc:
-        print(exc)
+    stream = stream.splitlines()
+    pass
 # #return the output.
 print(time.clock() - start)
 
