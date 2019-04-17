@@ -146,11 +146,11 @@ try:
             break
 
 except:
-    pass
+    for i in range(len(testfoldfile_Path)):
+        os.remove(testfoldfile_Path[i])
 
 finally:
     for i in range(len(testfoldfile_Path)):
-        os.remove(testfoldfile_Path[i])
         os.rename(testfoldfile_backup_path[i], os.path.join(testfoldfile_Path, TESTS_FILES[i]))
 
 # print("+++++++++++++++++++++++++++++=")
