@@ -152,7 +152,7 @@ try:
             results = [x.strip().split("\t") for x in stream_lines]
 
             if(len(results)>=0 and len(results[0]) > 1):
-                result[results[3]].append([results[1], results[2]])
+                result[results[0][3]].append([results[0][1], results[0][2]])
 
             # Debugging
             # for k in results:
