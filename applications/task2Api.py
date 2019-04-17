@@ -137,16 +137,19 @@ try:
 
     # Get the Results
     Task1Output = Task1Output.splitlines()
-    eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
 
-    with open(eval_file, 'r') as stream:
-        stream_lines = stream.readlines()
-        results = dict([ x.strip().split("\t") for x in stream_lines ])
+    results = ''
+    for i in range(RESULTS_FILE):
+        eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE[i]
 
-        # Debugging
-        for k, v in results.iteritems():
-            print k, v
-            break
+        with open(eval_file, 'r') as stream:
+            stream_lines = stream.readlines()
+            # results = dict([ x.strip().split("\t") for x in stream_lines ])
+            results = [x.strip().split("\t") for x in stream_lines]
+
+            # Debugging
+            for k in results:
+                print k
 
 except:
     for i in range(len(testfoldfile_Path)):
