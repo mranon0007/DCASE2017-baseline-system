@@ -754,8 +754,6 @@ def main(argv):
             app.show_eval()
             return
 
-        print(args)
-
         # Initialize application
         # ==================================================
         if params['flow']['initialize'] and not args.testing:
@@ -834,7 +832,7 @@ def main(argv):
             if params['flow']['evaluate_system']:
                 challenge_app.system_evaluation()
 
-    if args.testing:
+    if params['flow']['test_system'] or args.testing:
         print("recognizer:" + params['path']['recognizer'])
 
     return 0
