@@ -761,8 +761,11 @@ def main(argv):
 
         # Extract features for all audio files in the dataset
         # ==================================================
-        if params['flow']['extract_features']:
-            app.feature_extraction()
+        if params['flow']['extract_features'] or args.testing:
+            if args.testing:
+                app.feature_extraction(files=[args.testing])
+            else:
+                app.feature_extraction()
 
         # Prepare feature normalizers
         # ==================================================

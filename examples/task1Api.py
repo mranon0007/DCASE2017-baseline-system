@@ -91,14 +91,14 @@ class OutputGrabber(object):
 # with open(os.path.join(dirname, "data/TUT-acoustic-scenes-2017-development/evaluation_setup/fold1_test.txt"), "w+") as f:
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
+# get audio path as input
+audioFile = sys.argv[1]
+
 TASK1_PYFILE = "custom_task1.py"
-TASK1_PARAMS = "-o --node --testing x"
+TASK1_PARAMS = "-o --node --testing " + audioFile
 TESTS_FILE = "fold4_test"
 RESULTS_FILE = "results_fold4"
 results = ''
-
-# get audio path as input
-audioFile = sys.argv[1]
 
 # create uploads folder
 if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
