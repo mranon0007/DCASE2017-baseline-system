@@ -90,15 +90,15 @@ class OutputGrabber(object):
 # with open(os.path.join(dirname, "data/TUT-acoustic-scenes-2017-development/evaluation_setup/fold1_test.txt"), "w+") as f:
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
-
-TASK1_COMMAND = "custom_task1.py --node --testing x"
+TASK1_PYFILE = "custom_task1.py"
+TASK1_PARAMS = "--node --testing x"
 RESULTS_FILE = "results_fold1"
 results = ''
 
 ##Run task 1
 out = OutputGrabber()
 out.start()
-os.system('python '+ os.path.join(dirname, TASK1_COMMAND))
+os.system('python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS)
 Task1Output = out.capturedtext
 
 #Get the Results
