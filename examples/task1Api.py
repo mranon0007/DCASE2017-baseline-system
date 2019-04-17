@@ -113,7 +113,7 @@ testfoldfile_backup_path = testfoldfile_Path+"_"+timeStamp
 os.rename(testfoldfile_Path, testfoldfile_backup_path)
 
 testfoldfile      = open(testfoldfile_Path, 'w+')
-testfoldfile.write("../uploads/"+audioFile)
+testfoldfile.write("../uploads/"+audioFile).close()
 
 ## Run task 1
 out = OutputGrabber()
