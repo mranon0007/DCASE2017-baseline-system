@@ -466,7 +466,7 @@ class SceneClassifierLSTM(SceneClassifier):
         def my_func(x):
             print(x.shape)
             x_size = x.size/4000
-            return x.reshape(x_size,X2_Shape_In[0],X2_Shape_In[1])[:,:,0:X2_Shape[1]].reshape(x_size*X2_Shape[0]*X2_Shape[1])
+            return x.reshape(x_size,X2_Shape_In[0],X2_Shape_In[1])[:,:,0:X2_Shape[1]].reshape(x_size,X2_Shape[0]*X2_Shape[1])
         def my_lambda_func(x):
             return tf.py_func(my_func,[x],tf.float32)
 
