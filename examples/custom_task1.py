@@ -702,7 +702,7 @@ def main(argv):
             params.process_method_parameters(section='dataset')
 
         if args.node_mode:
-            params['general']['log_system_progress'] = True
+            params['general']['log_system_progress'] = False
             params['general']['print_system_progress'] = False
 
         # Force ascii progress bar under Windows console
