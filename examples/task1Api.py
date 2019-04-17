@@ -112,34 +112,40 @@ timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftim
 testfoldfile_backup_path = testfoldfile_Path+"_"+timeStamp
 os.rename(testfoldfile_Path, testfoldfile_backup_path)
 
-testfoldfile      = open(testfoldfile_Path, 'w+')
-testfoldfile.write("../uploads/"+audioFile)
-testfoldfile.close()
 
-## Run task 1
-out = OutputGrabber()
-out.start()
-cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
-os.system(cmnd)
-out.stop()
-Task1Output = out.capturedtext
+try:
 
-# Get the Results
-Task1Output = Task1Output.splitlines()
-eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
+    testfoldfile      = open(testfoldfile_Path, 'w+')
+    testfoldfile.write("../uploads/"+audioFile)
+    testfoldfile.close()
 
-with open(eval_file, 'r') as stream:
-    stream_lines = stream.readlines()
-    results = dict([ x.strip().split("\t") for x in stream_lines ])
+    ## Run task 1
+    out = OutputGrabber()
+    out.start()
+    cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
+    os.system(cmnd)
+    out.stop()
+    Task1Output = out.capturedtext
 
-    # Debugging
-    for k, v in results.iteritems():
-        print k, v
-        break
+    # Get the Results
+    Task1Output = Task1Output.splitlines()
+    eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
 
-# We now have the results, return them.
-os.remove(testfoldfile_Path)
-os.rename(testfoldfile_backup_path, testfoldfile_Path)
+    with open(eval_file, 'r') as stream:
+        stream_lines = stream.readlines()
+        results = dict([ x.strip().split("\t") for x in stream_lines ])
+
+        # Debugging
+        for k, v in results.iteritems():
+            print k, v
+            break
+
+except:
+    pass
+
+finally:
+    os.remove(testfoldfile_Path)
+    os.rename(testfoldfile_backup_path, testfoldfile_Path)
 
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
