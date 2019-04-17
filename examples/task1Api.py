@@ -110,8 +110,9 @@ with open(eval_file, 'r') as stream:
     stream_lines = stream.readlines()
     stream = dict([ x.strip().split("\t") for x in stream_lines ])
     # stream = { x.strip().split("\t")[0]: x.strip().split("\t")[1] for (key, x) in stream_lines}
-    print(stream)
-    pass
+    for k, v in stream.iteritems():
+        print k, v
+        break
 # #return the output.
 print(time.clock() - start)
 
