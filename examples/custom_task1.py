@@ -594,7 +594,7 @@ def main(argv):
                         default=False,
                         help="testing mode",
                         required=False,
-                        dest='mode',
+                        dest='testing',
                         type=str)
 
     parser.add_argument('-p', '--parameters',
@@ -651,12 +651,10 @@ def main(argv):
     # Parse arguments
     args = parser.parse_args()
 
-    # if not args.testing:
-    #     pass
-
-    import ptvsd
-    ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
-    ptvsd.wait_for_attach()
+    if not args.testing:
+        import ptvsd
+        ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+        ptvsd.wait_for_attach()
 
     # Load default parameters from a file
     default_parameters_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)),
