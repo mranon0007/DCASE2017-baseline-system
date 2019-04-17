@@ -100,6 +100,7 @@ out = OutputGrabber()
 out.start()
 cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
 os.system(cmnd)
+out.stop()
 Task1Output = out.capturedtext
 
 #Get the Results
