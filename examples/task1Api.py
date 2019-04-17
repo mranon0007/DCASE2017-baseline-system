@@ -92,7 +92,8 @@ class OutputGrabber(object):
 
 TASK1_PYFILE = "custom_task1.py"
 TASK1_PARAMS = "--node --testing x"
-RESULTS_FILE = "results_fold99"
+TESTS_FILE = "fold99_train"
+RESULTS_FILE = "fold99_evaluate"
 results = ''
 
 # get audio path as input
