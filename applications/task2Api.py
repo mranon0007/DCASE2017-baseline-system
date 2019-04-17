@@ -151,7 +151,7 @@ try:
             # results = dict([ x.strip().split("\t") for x in stream_lines ])
             results = [x.strip().split("\t") for x in stream_lines]
 
-            if(len(results) > 1):
+            if(len(results)>=0 and len(results[0]) > 1):
                 result[results[3]].append([results[1], results[2]])
 
             # Debugging
