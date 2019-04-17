@@ -428,7 +428,7 @@ class SceneClassifierCNN(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, batch_size = 64, epochs = 50)
+        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, batch_size = 64, epochs = 25)
         return self
 
     def _frame_probabilities(self, feature_data):
