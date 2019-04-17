@@ -115,7 +115,8 @@ timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftim
 
 testfoldfile_backup_path = [ x+"_"+timeStamp for x in TESTS_FILES]
 for i in range(len(TESTS_FILES)):
-    os.rename(os.path.join(testfoldfile_Path, TESTS_FILES[i]), testfoldfile_backup_path[i])
+    lk = os.path.join(testfoldfile_Path, TESTS_FILES[i])
+    os.rename(lk, testfoldfile_backup_path[i])
 
 try:
 
