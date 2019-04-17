@@ -92,7 +92,10 @@ class OutputGrabber(object):
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
 # get audio path as input
-audioFile = sys.argv[1]
+try:
+    audioFile = sys.argv[1]
+except:
+    exit()
 
 TASK1_PYFILE = "custom_task1.py"
 TASK1_PARAMS = "-o --node --testing " + audioFile

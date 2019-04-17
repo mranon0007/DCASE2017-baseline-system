@@ -15,7 +15,7 @@ sets:
 
       development17:
         name: TUTAcousticScenes_2017_DevelopmentSet
-        fold_list: [4]
+        fold_list: [1,2,3,4]
         evaluation_mode: folds
 
       challenge17_train:
@@ -45,14 +45,14 @@ sets:
       spectr:
         mono: true
     feature_stacker:
-      stacking_recipe: mfcc #spectr # mfcc;centroid;zero_crossing_rate;
+      stacking_recipe: spectr #spectr # mfcc;centroid;zero_crossing_rate;
     feature_aggregator:
       enable: true
       aggregation_recipe: flatten #mean; std
       win_length_seconds: 0.8
       hop_length_seconds: 0.6
     learner:
-      method: lstm # lstm cnn
+      method: cnn # lstm cnn
     learner_method_parameters:
       svm:
         C: 1
@@ -128,9 +128,9 @@ defaults:
   # Flow
   # ==========================================================
   flow:
-    initialize: true
-    extract_features: true
-    feature_normalizer: true
+    initialize: false
+    extract_features: false
+    feature_normalizer: false
     train_system: true
     test_system: true
     evaluate_system: true
