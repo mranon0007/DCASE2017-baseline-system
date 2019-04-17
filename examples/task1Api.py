@@ -93,7 +93,7 @@ class OutputGrabber(object):
 
 TASK1_PYFILE = "custom_task1.py"
 TASK1_PARAMS = "-o --node --testing x"
-TESTS_FILE = "fold4_train"
+TESTS_FILE = "fold4_test"
 RESULTS_FILE = "results_fold4"
 results = ''
 
@@ -106,7 +106,7 @@ if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
     os.makedirs(os.path.join(dirname, 'data', 'uploads'))
 
 # create testing file
-testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE+".txt")
+testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE + ".txt")
 
 modifiedTime             = os.path.getmtime(testfoldfile_Path)
 timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
