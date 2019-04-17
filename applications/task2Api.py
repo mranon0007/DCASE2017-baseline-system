@@ -1,4 +1,4 @@
-import custom_task1
+import task2
 
 import os
 import sys
