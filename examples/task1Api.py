@@ -98,7 +98,6 @@ RESULTS_FILE = "results_fold4"
 results = ''
 
 # get audio path as input
-print(sys.argv)
 audioFile = sys.argv[1]
 
 # create uploads folder
