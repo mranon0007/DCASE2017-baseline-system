@@ -756,22 +756,22 @@ def main(argv):
 
         # Initialize application
         # ==================================================
-        if params['flow']['initialize']:
+        if params['flow']['initialize'] and not args.testing:
             app.initialize()
 
         # Extract features for all audio files in the dataset
         # ==================================================
-        if params['flow']['extract_features']:
+        if params['flow']['extract_features'] and not args.testing:
             app.feature_extraction()
 
         # Prepare feature normalizers
         # ==================================================
-        if params['flow']['feature_normalizer']:
+        if params['flow']['feature_normalizer'] and not args.testing:
             app.feature_normalization()
 
         # System training
         # ==================================================
-        if params['flow']['train_system']:
+        if params['flow']['train_system'] and not args.testing:
             app.system_training()
 
         # System evaluation
