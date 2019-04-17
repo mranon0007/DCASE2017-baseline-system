@@ -4,6 +4,7 @@ import os
 import sys
 import threading
 import time
+import datetime
 
 import ptvsd
 ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
@@ -106,7 +107,7 @@ if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
 
 # create testing file
 testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE+".txt")
-import datetime
+
 modifiedTime             = os.path.getmtime(testfoldfile_Path)
 timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
 testfoldfile_backup_path = testfoldfile_Path+"_"+timeStamp
