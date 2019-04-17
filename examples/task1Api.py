@@ -112,7 +112,7 @@ with open(eval_file, 'r') as stream:
     results = dict([ x.strip().split("\t") for x in stream_lines ])
 
     # Debugging
-    for k, v in stream.iteritems():
+    for k, v in results.iteritems():
         print k, v
         break
 
