@@ -334,7 +334,7 @@ class EventDetectorLSTM(EventDetector):
 class Task2AppCore(BinarySoundEventAppCore):
     def __init__(self, *args, **kwargs):
         kwargs['Datasets'] = {
-            'MyDataset': MyDataset,
+            # 'MyDataset': MyDataset,
         }
         kwargs['Learners'] = {
             'cnn' : EventDetectorCNN,
