@@ -452,7 +452,7 @@ class SceneClassifierLSTM(SceneClassifier):
         from keras.utils import plot_model
 
         #Inputs
-        X2_Shape_In  = (60*40)
+        X2_Shape_In  = (60,60)
         X2_Shape     = (60,40)
         output_shape = 15
 
@@ -460,9 +460,19 @@ class SceneClassifierLSTM(SceneClassifier):
         lstm_units = 256
 
         #LSTM
-        X2             = Input(shape=(X2_Shape_In,))
-        lstm_reshaper  = Reshape(X2_Shape)(X2)
+        X2             = Input(shape=(X2_Shape_In[0]*X2_Shape_In[1],))
+
+        def my_func(x):
+            return x.reshape(X2_Shape_In)[:,0:X2_Shape[1]].reshape(X2_Shape[0]*X2_Shape[1])
+        def my_lambda_func(x):
+            return tf.py_func(my_func,[x],tf.float32)
+
+        lstm_plucker   = Lambda(my_lambda_func, output_shape=(2400,))(X2)
+
+
+        lstm_reshaper  = Reshape(X2_Shape)(lstm_plucker)
         lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
+
         lstm_dropout_1 = Dropout(.3)(lstm_1)
         lstm_2         = LSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
         lstm_dropout_2 = Dropout(.3)(lstm_2)
