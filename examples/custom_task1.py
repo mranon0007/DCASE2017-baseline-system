@@ -763,7 +763,7 @@ def main(argv):
         # ==================================================
         if params['flow']['extract_features'] or args.testing:
             if args.testing:
-                app.feature_extraction(files=[args.testing])
+                app.feature_extraction(files=["../uploads/" + args.testing])
             else:
                 app.feature_extraction()
 
