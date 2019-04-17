@@ -139,7 +139,7 @@ try:
     Task1Output = Task1Output.splitlines()
 
     results = ''
-    for i in range(RESULTS_FILE):
+    for i in range(len(RESULTS_FILE)):
         eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE[i]
 
         with open(eval_file, 'r') as stream:
