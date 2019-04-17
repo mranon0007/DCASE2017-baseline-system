@@ -149,8 +149,9 @@ except:
     pass
 
 finally:
-    os.remove(testfoldfile_Path)
-    os.rename(testfoldfile_backup_path, testfoldfile_Path)
+    for i in range(len(testfoldfile_Path)):
+        os.remove(testfoldfile_Path[i])
+        os.rename(testfoldfile_backup_path[i], os.path.join(testfoldfile_Path, TESTS_FILES[i]))
 
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
