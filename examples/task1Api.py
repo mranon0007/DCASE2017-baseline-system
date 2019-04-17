@@ -109,8 +109,8 @@ testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-deve
 import datetime
 modifiedTime             = os.path.getmtime(testfoldfile_Path)
 timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
-testfoldfile_backup_path = FilePath+"_"+timeStamp
-os.rename(FilePath, testfoldfile_backup_path)
+testfoldfile_backup_path = testfoldfile_Path+"_"+timeStamp
+os.rename(testfoldfile_Path, testfoldfile_backup_path)
 
 testfoldfile      = open(testfoldfile_Path, 'w+')
 testfoldfile.write("../uploads/"+audioFile)
