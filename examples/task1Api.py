@@ -99,7 +99,7 @@ results = ''
 
 # get audio path as input
 print(sys.argv)
-audioFile = "abc.wav"
+audioFile = sys.argv[1]
 
 # create uploads folder
 if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
