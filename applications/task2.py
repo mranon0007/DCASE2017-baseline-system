@@ -27,18 +27,36 @@ __version__ = '.'.join(__version_info__)
 from dcase_framework.datasets import SoundEventDataset, TUTRareSoundEvents_2017_DevelopmentSet
 from dcase_framework.metadata import MetaDataContainer, MetaDataItem
 
-class MyDataset(TUTRareSoundEvents_2017_DevelopmentSet):
-    def __init__(self, *args, **kwargs):
-        kwargs['storage_name'] = kwargs.get('storage_name', 'MyDataset')
-        super(MyDataset, self).__init__(*args, **kwargs)
+# class MyDataset(SyntheticSoundEventDataset):
+#     def __init__(self, *args, **kwargs):
+#         kwargs['storage_name'] = kwargs.get('storage_name', 'MyDataset')
+#         super(MyDataset, self).__init__(*args, **kwargs)
 
-        self.dataset_group = 'acoustic scene'
+#         self.dataset_group = 'acoustic scene'
+
+#     @property
+#     def event_labels(self, scene_label=None):
+#         """List of unique event labels in the meta data.
+
+#         Parameters
+#         ----------
+
+#         Returns
+#         -------
+#         labels : list
+#             List of event labels in alphabetical order.
+
+#         """
+
+#         labels = ['babycry', 'glassbreak', 'gunshot']
+#         labels.sort()
+#         return labels
  
-    def trains(self, fold=0, scene_label=None, event_label=None):
-        self.crossvalidation_data_train[fold] = {}
-        self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
-        params_hash = self.synth_parameters.get_hash_for_path('train')
-        self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
+#     def trains(self, fold=0, scene_label=None, event_label=None):
+#         self.crossvalidation_data_train[fold] = {}
+#         self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
+#         params_hash = self.synth_parameters.get_hash_for_path('train')
+#         self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
 
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
