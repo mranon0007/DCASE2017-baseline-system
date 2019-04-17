@@ -712,9 +712,9 @@ def main(argv):
         # Setup logging
         setup_logging(parameter_container=params['logging'])
 
-        if not params['custom']['logging']:
-            logger = logging.getLogger('dcase_framework.ui')
-            logger.disabled = True
+        # if not params['custom']['logging']:
+        #     logger = logging.getLogger('dcase_framework.ui')
+        #     logger.disabled = True
 
         app = CustomAppCore(name='DCASE 2017::Acoustic Scene Classification / Baseline System',
                             params=params,

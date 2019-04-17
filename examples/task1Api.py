@@ -90,32 +90,31 @@ class OutputGrabber(object):
 # with open(os.path.join(dirname, "data/TUT-acoustic-scenes-2017-development/evaluation_setup/fold1_test.txt"), "w+") as f:
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
-# #run task 1
-#get task1 Output
-out = OutputGrabber()
-print("starting")
-out.start()
-# task1.main(sys.argv)
-start = time.clock()
-os.system('python '+ os.path.join(dirname, "custom_task1.py --node --testing x"))
-out.stop()
-print(time.clock() - start)
-Task1Output = out.capturedtext
-Task1Output = Task1Output.splitlines()
 
-print(Task1Output[0].split(':')[1])
-eval_file = Task1Output[0].split(':')[1] + "/results_fold1.txt"
+TASK1_COMMAND = "custom_task1.py --node --testing x"
+RESULTS_FILE = "results_fold1"
+results = ''
+
+##Run task 1
+out = OutputGrabber()
+out.start()
+os.system('python '+ os.path.join(dirname, TASK1_COMMAND))
+Task1Output = out.capturedtext
+
+#Get the Results
+Task1Output = Task1Output.splitlines()
+eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
 
 with open(eval_file, 'r') as stream:
     stream_lines = stream.readlines()
-    stream = dict([ x.strip().split("\t") for x in stream_lines ])
-    # stream = { x.strip().split("\t")[0]: x.strip().split("\t")[1] for (key, x) in stream_lines}
+    results = dict([ x.strip().split("\t") for x in stream_lines ])
+
+    # Debugging
     for k, v in stream.iteritems():
         print k, v
         break
-# #return the output.
-print(time.clock() - start)
 
+# We now have the results, return them.
 
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
