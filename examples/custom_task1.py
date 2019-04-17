@@ -451,10 +451,10 @@ class SceneClassifierLSTM(SceneClassifier):
         # from keras.callbacks import EarlyStopping
         from keras.utils import plot_model
         import tensorflow as tf
-        
+
         #Inputs
-        X2_Shape_In  = (60,60)
-        X2_Shape     = (60,100)
+        X2_Shape_In  = (60,100)
+        X2_Shape     = (60,40)
         output_shape = 10
 
         #LSTM Params
