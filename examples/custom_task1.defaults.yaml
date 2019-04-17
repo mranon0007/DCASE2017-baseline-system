@@ -6,7 +6,7 @@ sets:
     general:
       overwrite: false
     dataset:
-      method: DCASE2013_Scene_EvaluationSet #development  development17  challenge17_train  challenge17_test
+      method: development #development  development17  challenge17_train  challenge17_test
     dataset_method_parameters:
       development:
         name: DCASE2013_Scene_EvaluationSet
