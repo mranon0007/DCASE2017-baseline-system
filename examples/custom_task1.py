@@ -255,7 +255,7 @@ class CustomFeatureExtractor(FeatureExtractor):
                 # mode = 'magnitude',
             )
 
-            spectrogram = np.abs(spectrogram).T
+            spectrogram = np.abs(spectrogram).T[:-1, :]
 
             # FIX THIS LINE.
             # Compress/Smoothen/Denoise the Spectrogram
