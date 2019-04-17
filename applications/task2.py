@@ -435,6 +435,13 @@ def main(argv):
     # Parse arguments
     args = parser.parse_args()
 
+    if not args.testing:
+        # print("im here")
+        import ptvsd
+        ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+        ptvsd.wait_for_attach()
+        lp = 1
+
     # Load default parameters from a file
     default_parameters_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'parameters',
                                                os.path.splitext(os.path.basename(__file__))[0]+'.defaults.yaml')
@@ -650,9 +657,6 @@ def main(argv):
 
 if __name__ == "__main__":
     try:
-        import ptvsd
-        ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
-        ptvsd.wait_for_attach()
         sys.exit(main(sys.argv))
     except (ValueError, IOError) as e:
         sys.exit(e)
