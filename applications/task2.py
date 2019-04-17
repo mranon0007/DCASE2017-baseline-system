@@ -661,10 +661,10 @@ if __name__ == "__main__":
     except (ValueError, IOError) as e:
         sys.exit(e)
 
-python applications/task2Api.py mixture_devtest_babycry_001_f33132b1ff9b5ff4270bc2a289e8287b.wav
-python applications/task2Api.py mixture_devtest_babycry_002_04b75338e2ab48cbd85c666dd859a140.wav
-python applications/task2Api.py mixture_devtest_babycry_003_9d3885eba392ebf059355c864e83908c.wav
-python applications/task2Api.py mixture_devtest_babycry_004_19c4bcb10576524449c83b01fae0b731.wav
-python applications/task2Api.py mixture_devtest_babycry_024_8aac5fc9f11083a35bacb4ee2927c086.wav
-python applications/task2Api.py 
-python applications/task2Api.py 
+# python applications/task2Api.py mixture_devtest_babycry_001_f33132b1ff9b5ff4270bc2a289e8287b.wav
+# python applications/task2Api.py mixture_devtest_babycry_002_04b75338e2ab48cbd85c666dd859a140.wav
+# python applications/task2Api.py mixture_devtest_babycry_003_9d3885eba392ebf059355c864e83908c.wav
+# python applications/task2Api.py mixture_devtest_babycry_004_19c4bcb10576524449c83b01fae0b731.wav
+# python applications/task2Api.py mixture_devtest_babycry_024_8aac5fc9f11083a35bacb4ee2927c086.wav
+# python applications/task2Api.py 
+# python applications/task2Api.py 
