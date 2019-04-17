@@ -832,7 +832,7 @@ def main(argv):
             if params['flow']['evaluate_system']:
                 challenge_app.system_evaluation()
 
-    if params['flow']['test_system'] or args.testing:
+    if args.testing:
         print("recognizer:" + params['path']['recognizer'])
 
     return 0
