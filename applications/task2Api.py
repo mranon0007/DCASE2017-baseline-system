@@ -122,9 +122,10 @@ for i in range(len(TESTS_FILES)):
 
 try:
 
-    testfoldfile      = open(testfoldfile_Path, 'w+')
-    testfoldfile.write("../uploads/"+audioFile)
-    testfoldfile.close()
+    for i in range(len(testfoldfile_Path)):
+        testfoldfile      = open(testfoldfile_Path[i], 'w+')
+        testfoldfile.write("../uploads/"+audioFile)
+        testfoldfile.close()
 
     ## Run task 1
     out = OutputGrabber()
