@@ -672,8 +672,8 @@ class SceneClassifierCNNLSTM(SceneClassifier):
 
         """
 
-        batch_size = 128 
-        epochs = 20
+        BATCHSIZE = 128 
+        EPOCS = 20
 
         training_files       = annotations.keys()  # Collect training files
         activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
