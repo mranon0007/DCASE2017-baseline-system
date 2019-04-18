@@ -27,6 +27,16 @@ __version__ = '.'.join(__version_info__)
 from dcase_framework.datasets import SoundEventDataset, TUTRareSoundEvents_2017_DevelopmentSet
 from dcase_framework.metadata import MetaDataContainer, MetaDataItem
 
+
+from keras.layers.core import Reshape
+from keras.layers import Layer, Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda, CuDNNLSTM
+from keras.layers.convolutional import Conv2D
+from keras.layers.pooling import MaxPooling2D,AveragePooling2D
+from keras.models import Model
+# from keras.callbacks import EarlyStopping
+from keras.utils import plot_model
+import tensorflow as tf
+
 # class MyDataset(SyntheticSoundEventDataset):
 #     def __init__(self, *args, **kwargs):
 #         kwargs['storage_name'] = kwargs.get('storage_name', 'MyDataset')
@@ -487,7 +497,7 @@ class EventDetectorCNNLSTM(EventDetector):
 
         self.create_model()
         self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
-        batch_size = 128, epochs = 15)
+        batch_size = 128, epochs = 1)
         return self
 
     def _frame_probabilities(self, feature_data):
