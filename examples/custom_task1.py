@@ -455,11 +455,11 @@ class MyLayerLSTM(Layer):
     def call(self, x):
         return self.my_lambda_func(x)
 
-    def my_func(x):
+    def my_func(self, x):
         x_size = x.size/4000
         return x.reshape(x_size,X2_Shape_In[0],X2_Shape_In[1])[:,:,0:X2_Shape[1]].reshape(x_size,X2_Shape[0]*X2_Shape[1])
     
-    def my_lambda_func(x):
+    def my_lambda_func(self, x):
         return tf.py_func(self.my_func,[x],tf.float32)
 
     def compute_output_shape(self, input_shape):
