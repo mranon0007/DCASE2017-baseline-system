@@ -83,6 +83,14 @@ sets:
           setup_source: generated_scene_balanced
           validation_amount: 0.10
           seed: 1
+
+      cnnlstm:
+        pass: pass
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
     recognizer:
       frame_accumulation:
         enable: true
