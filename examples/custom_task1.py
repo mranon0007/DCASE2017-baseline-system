@@ -97,6 +97,15 @@ from scipy import signal
 import numpy as np
 import librosa 
 
+from keras.layers.core import Reshape
+from keras.layers import Layer, Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda, CuDNNLSTM
+from keras.layers.convolutional import Conv2D
+from keras.layers.pooling import MaxPooling2D,AveragePooling2D
+from keras.models import Model
+# from keras.callbacks import EarlyStopping
+from keras.utils import plot_model
+import tensorflow as tf
+
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
         kwargs['valid_extractors'] = [
@@ -466,15 +475,7 @@ class SceneClassifierLSTM(SceneClassifier):
     def create_model(self):
         ##########Creating Model
         # KERAS MODEL
-        from keras.layers.core import Reshape
-        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda, CuDNNLSTM
-        from keras.layers.convolutional import Conv2D
-        from keras.layers.pooling import MaxPooling2D,AveragePooling2D
-        from keras.models import Model
-        # from keras.callbacks import EarlyStopping
-        from keras.utils import plot_model
-        import tensorflow as tf
-
+        
         #Inputs
         X2_Shape_In  = (40,(60+40)) #frames, features
         X2_Shape     = (40, 60) #times, features
