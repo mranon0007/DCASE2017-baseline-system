@@ -335,7 +335,7 @@ class EventDetectorLSTM(EventDetector):
 class EventDetectorCNNLSTM(EventDetector):
     """Scene classifier with CNNLSTM"""
     def __init__(self, *args, **kwargs):
-        super(EventDetectorLSTM, self).__init__(*args, **kwargs)
+        super(EventDetectorCNNLSTM, self).__init__(*args, **kwargs)
         self.method = 'cnnlstm'
 
     def create_model(self):
