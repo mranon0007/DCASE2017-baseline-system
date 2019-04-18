@@ -374,7 +374,7 @@ class EventDetectorCNNLSTM(EventDetector):
         X2_Shape     = (40, 60) #times, features
 
         #output shape
-        output_shape = 15
+        output_shape = 1
 
         #LSTM Params
         lstm_units = 256
