@@ -453,6 +453,7 @@ class MyLayerLSTM(Layer):
         super(MyLayerLSTM, self).build(input_shape)  # Be sure to call this at the end
 
     def call(self, x):
+        tf.enable_eager_execution()
         l = x.numpy()
         return l.reshape(40,100)[:,0:40].reshape(2400)
         return self.my_lambda_func(x)
