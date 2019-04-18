@@ -99,8 +99,8 @@ except:
 
 TASK1_PYFILE = "custom_task1.py"
 TASK1_PARAMS = "-o --node --testing " + audioFile
-TESTS_FILE = "fold4_test"
-RESULTS_FILE = "results_fold4"
+TESTS_FILE = "fold1_test"
+RESULTS_FILE = "results_fold1"
 results = ''
 
 # create uploads folder
