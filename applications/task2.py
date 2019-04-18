@@ -331,6 +331,180 @@ class EventDetectorLSTM(EventDetector):
 
         # Get frame probabilities
         return self._frame_probabilities(feature_data)
+
+class EventDetectorCNNLSTM(EventDetector):
+    """Scene classifier with CNNLSTM"""
+    def __init__(self, *args, **kwargs):
+        super(EventDetectorLSTM, self).__init__(*args, **kwargs)
+        self.method = 'cnnlstm'
+
+    def create_model(self):
+       ##########Creating Model
+        # KERAS MODEL
+        
+        #model input
+        X_Shape_In  = (40,(60+40)) # frames, features
+        X1_Shape_In  = (40,40) # cnn
+        X2_Shape_In  = (40,60) # lstm
+
+        #cnn input
+        X1_Shape     = (40,40,1)
+
+        #lstm input
+        X2_Shape     = (40, 60) #times, features
+
+        #output shape
+        output_shape = 15
+
+        #LSTM Params
+        lstm_units = 256
+
+        #CNN Params
+        conv1_filters     = 32
+        conv1_kernel_size = 5
+        conv2_filters     = 16
+        conv2_kernel_size = 5
+        pool_size         = (2,2)
+
+        # #CNN
+        # X1           = Input(shape=(X1_Shape_In[0]*X1_Shape_In[1],))
+        #LSTM
+        X2             = Input(shape=(X2_Shape_In[0]*X2_Shape_In[1],))
+
+        #CNNLSTM
+        X         = Input(shape=(X_Shape_In[0]*X_Shape_In[1],))
+        cnn_reshaper = Reshape((40,100,1))(X)
+        lstm_reshaper  = Reshape((40,100))(X)
+
+        #CNN
+        # cnn_reshaper = Reshape(X1_Shape)(X1)
+        conv1         = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(cnn_reshaper)
+        pool1         = MaxPooling2D(pool_size=pool_size)(conv1)
+        conv2         = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
+        pool2         = MaxPooling2D(pool_size=pool_size)(conv2)
+        conv_dropout1 = Dropout(.3)(pool2)
+        flat          = Flatten()(conv_dropout1)
+        hidden1       = Dense(512, activation='relu')(flat)
+        conv_dropout2 = Dropout(.3)(hidden1)
+
+        #LSTM
+        # lstm_reshaper  = Reshape(X2_Shape)(X2)
+        lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
+
+        lstm_dropout_1 = Dropout(.4)(lstm_1)
+        lstm_2         = LSTM(lstm_units,return_sequences=False)(lstm_dropout_1)
+        lstm_dropout_2 = Dropout(.4)(lstm_2)
+        ff             = Dense(512, activation='relu')(lstm_dropout_2)
+        lstm_dropout_3 = Dropout(.3)(ff)
+
+        #merge
+        # out = conv_dropout2 #cnn
+        # out = lstm_dropout_3 #lstm
+        out = concatenate([conv_dropout2,lstm_dropout_3],axis=-1) #cnn-lstm
+
+        #output
+        output1 = Dense(512, activation='relu')(out)
+
+        # #classifier
+        # output = Dense(output_shape, activation='softmax')(output1)
+        #detector
+        output  = Dense(output_shape, activation='sigmoid')(output1)
+
+        #construct Model
+        # model = Model(inputs=X1, outputs=output) #CNN
+        # model = Model(inputs=X2, outputs=output) #LSTM
+        model = Model(inputs=X, outputs=output) #CNNLSTM
+        # model = Model(inputs=[X1,X2], outputs=output)
+
+        # #classifier
+        # model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+        #detector
+        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy'])
+
+        self['model'] = model
+        return model
+
+    def learn(self, data, annotations, data_filenames=None, **kwargs):
+        """Learn based on data ana annotations
+
+        Parameters
+        ----------
+        data : dict of FeatureContainers
+            Feature data
+        annotations : dict of MetadataContainers
+            Meta data
+
+        Returns
+        -------
+        self
+
+        """
+
+        training_files       = annotations.keys()  # Collect training files
+        activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
+
+        #generate validation files
+        validation = False
+        if self.learner_params.get_path('validation.enable', False):
+            validation_files = self._generate_validation(
+                annotations=annotations,
+                validation_type=self.learner_params.get_path('validation.setup_source'),
+                valid_percentage=self.learner_params.get_path('validation.validation_amount', 0.20),
+                seed=self.learner_params.get_path('validation.seed')
+            )
+            training_files = sorted(list(set(training_files) - set(validation_files)))
+        else:
+            validation_files = []
+            # Process validation data
+        
+        if validation_files:
+            X_validation = self.prepare_data(data=data, files=validation_files)
+            Y_validation = self.prepare_activity(activity_matrix_dict=activity_matrix_dict, files=validation_files)
+
+            validation = (X_validation, Y_validation)
+            if self.show_extra_debug:
+                self.logger.debug('  Validation items \t[{validation:d}]'.format(validation=len(X_validation)))
+
+        X_training_temp      = numpy.vstack([data[x].feat[0] for x in training_files])
+        Y_training           = numpy.vstack([activity_matrix_dict[x] for x in training_files])
+
+        NUM_OF_SPLITS = self.feature_aggregator.win_length_frames
+        # X_training shape (frames x NUM_OF_SPLITS x feat) where NUM_OF_SPLITS is # of timestamps
+        X_training = X_training_temp
+        # X_training = X_training_temp.reshape(X_training_temp.shape[0],NUM_OF_SPLITS,X_training_temp.shape[1]/NUM_OF_SPLITS) 
+        # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
+
+        self.create_model()
+        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
+        batch_size = 128, epochs = 15)
+        return self
+
+    def _frame_probabilities(self, feature_data):
+        return self.model.predict(x=feature_data).T
+
+    def predict(self, feature_data):
+        """Predict frame probabilities for given feature matrix
+
+        Parameters
+        ----------
+        feature_data : numpy.ndarray
+            Feature data
+
+        Returns
+        -------
+        str
+            class label
+
+        """
+
+        if isinstance(feature_data, FeatureContainer):
+            # If we have featureContainer as input, get feature_data
+            feature_data = feature_data.feat[0]
+
+        # Get frame probabilities
+        return self._frame_probabilities(feature_data)
+
 class Task2AppCore(BinarySoundEventAppCore):
     def __init__(self, *args, **kwargs):
         kwargs['Datasets'] = {
@@ -339,6 +513,7 @@ class Task2AppCore(BinarySoundEventAppCore):
         kwargs['Learners'] = {
             'cnn' : EventDetectorCNN,
             'lstm': EventDetectorLSTM,
+            'cnnlstm': EventDetectorCNNLSTM
         }
         kwargs['FeatureExtractor'] = CustomFeatureExtractor
 

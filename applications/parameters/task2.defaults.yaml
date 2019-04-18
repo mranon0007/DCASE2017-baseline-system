@@ -5,7 +5,7 @@ sets:
     description: DCASE2017 baseline (CPU) using DCASE2017 task 2 development dataset
 
     feature_stacker:
-      stacking_recipe: mel #spectr # mfcc;centroid;zero_crossing_rate; mel
+      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
 
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
@@ -21,7 +21,7 @@ sets:
       hop_length_seconds: 0.02
 
     learner:
-      method: mlp # lstm cnn mlp
+      method: cnnlstm # lstm cnn mlp cnnlstm
 
     learner_method_parameters:
       mlp:
@@ -99,6 +99,14 @@ sets:
           seed: 1
 
       lstm:
+        pass: pass
+
+        validation:
+          setup_source: generated_event_file_balanced
+          validation_amount: 0.10
+          seed: 1
+        
+      cnnlstm:
         pass: pass
 
         validation:
@@ -287,10 +295,10 @@ defaults:
   # Flow
   # ==========================================================
   flow:
-    initialize: false
-    extract_features: false
-    feature_normalizer: false
-    train_system: false
+    initialize: true
+    extract_features: true
+    feature_normalizer: true
+    train_system: true
     test_system: true
     evaluate_system: false
 
