@@ -17,8 +17,8 @@ sets:
     feature_aggregator:
       enable: true
       aggregation_recipe: flatten #mean; std
-      win_length_seconds: 0.1
-      hop_length_seconds: 0.02
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
 
     learner:
       method: cnnlstm # lstm cnn mlp cnnlstm
