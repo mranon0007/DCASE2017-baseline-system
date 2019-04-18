@@ -58,6 +58,10 @@ from dcase_framework.metadata import MetaDataContainer, MetaDataItem
 #         params_hash = self.synth_parameters.get_hash_for_path('train')
 #         self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
 
+
+from scipy import signal
+import numpy as np
+import librosa 
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
         kwargs['valid_extractors'] = [
@@ -69,6 +73,8 @@ class CustomFeatureExtractor(FeatureExtractor):
             #     'center': True,
             # },
         }
+
+        self.ones = np.ones((44,))/44
 
         super(CustomFeatureExtractor, self).__init__(*args, **kwargs)
 
@@ -94,12 +100,16 @@ class CustomFeatureExtractor(FeatureExtractor):
                 # mode = 'magnitude',
             )
 
-            spectrogram = np.abs(spectrogram).T
+            spectrogram = np.abs(spectrogram).T[:-1, :]
 
             # FIX THIS LINE.
             # Compress/Smoothen/Denoise the Spectrogram
-            ones = np.ones((844,))/844
-            spectrogram_temp = np.asarray([ np.convolve(x, ones, mode='valid') for x in spectrogram ])
+            ones = self.ones
+            spectrogram_temp = [ np.convolve(x, ones, mode='valid') for x in spectrogram ]
+            # spectrogram_temp = np.asarray(spectrogram_temp)
+            f = 21 #avg window size
+            spectrogram_temp_2 = [ np.nanmean(np.r_[l, 0 + np.zeros((-len(l) % f,))].reshape(-1, f), axis=-1) for l in spectrogram_temp]     
+            spectrogram_temp = np.asarray(spectrogram_temp_2)
 
             feature_matrix.append(spectrogram_temp)
 
