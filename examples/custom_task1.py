@@ -495,7 +495,7 @@ class SceneClassifierLSTM(SceneClassifier):
 
         # lstm_plucker   = Lambda(lambda t : my_lambda_func(t), output_shape=(2400,))(X2)
 
-        lstm_plucker = MyLayerLSTM()(X2)
+        lstm_plucker = MyLayerLSTM((2400,))(X2)
 
         lstm_reshaper  = Reshape(X2_Shape)(lstm_plucker)
         lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
