@@ -434,6 +434,29 @@ class SceneClassifierCNN(SceneClassifier):
     def _frame_probabilities(self, feature_data):
         return self.model.predict(x=feature_data).T
 
+class MyLayerLSTM(Layer):
+
+    def __init__(self, output_dim, **kwargs):
+        self.output_dim = output_dim
+        super(MyLayerLSTM, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        super(MyLayerLSTM, self).build(input_shape)  # Be sure to call this at the end
+
+    def call(self, x):
+        return my_lambda_func(x)
+
+    def my_func(x):
+        x_size = x.size/4000
+        return x.reshape(x_size,X2_Shape_In[0],X2_Shape_In[1])[:,:,0:X2_Shape[1]].reshape(x_size,X2_Shape[0]*X2_Shape[1])
+    
+    def my_lambda_func(x):
+        return tf.py_func(my_func,[x],tf.float32)
+
+    def compute_output_shape(self, input_shape):
+        # return (input_shape[0], self.output_dim)
+        return (2400,)
+
 class SceneClassifierLSTM(SceneClassifier):
     """Scene classifier with LSTM"""
     def __init__(self, *args, **kwargs):
@@ -463,13 +486,15 @@ class SceneClassifierLSTM(SceneClassifier):
         #LSTM
         X2             = Input(shape=(X2_Shape_In[0]*X2_Shape_In[1],))
 
-        def my_func(x):
-            x_size = x.size/4000
-            return x.reshape(x_size,X2_Shape_In[0],X2_Shape_In[1])[:,:,0:X2_Shape[1]].reshape(x_size,X2_Shape[0]*X2_Shape[1])
-        def my_lambda_func(x):
-            return tf.py_func(my_func,[x],tf.float32)
+        # def my_func(x):
+        #     x_size = x.size/4000
+        #     return x.reshape(x_size,X2_Shape_In[0],X2_Shape_In[1])[:,:,0:X2_Shape[1]].reshape(x_size,X2_Shape[0]*X2_Shape[1])
+        # def my_lambda_func(x):
+        #     return tf.py_func(my_func,[x],tf.float32)
 
-        lstm_plucker   = Lambda(lambda t : my_lambda_func(t), output_shape=(2400,))(X2)
+        # lstm_plucker   = Lambda(lambda t : my_lambda_func(t), output_shape=(2400,))(X2)
+
+        lstm_plucker = MyLayerLSTM()(X2)
 
         lstm_reshaper  = Reshape(X2_Shape)(lstm_plucker)
         lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
