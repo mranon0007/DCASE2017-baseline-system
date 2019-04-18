@@ -464,7 +464,7 @@ class MyLayerLSTM(Layer):
 
     def compute_output_shape(self, input_shape):
         # return (input_shape[0], self.output_dim)
-        return (4000,)
+        return self.output_dim
 
 class SceneClassifierLSTM(SceneClassifier):
     """Scene classifier with LSTM"""
