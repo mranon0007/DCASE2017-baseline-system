@@ -585,7 +585,7 @@ class SceneClassifierCNNLSTM(SceneClassifier):
         X2_Shape     = (40, 60) #times, features
 
         #output shape
-        output_shape = 10
+        output_shape = 15
 
         #LSTM Params
         lstm_units = 256
