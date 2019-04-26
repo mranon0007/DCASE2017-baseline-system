@@ -1,14 +1,13 @@
 import task2
-
 import os
 import sys
 import threading
 import time
 import datetime
 
-import ptvsd
-ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
-ptvsd.wait_for_attach()
+# import ptvsd
+# ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
+# ptvsd.wait_for_attach()
 
 dirname = os.path.dirname(__file__)
 
