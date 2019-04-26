@@ -92,87 +92,87 @@ class OutputGrabber(object):
 # with open(os.path.join(dirname, "data/TUT-acoustic-scenes-2017-development/evaluation_setup/fold1_test.txt"), "w+") as f:
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
-# get audio path as input
-try:
-    audioFile = sys.argv[1]
-except:
-    exit()
+def run(audioFile):
+    # get audio path as input
+    try:
+        if not audioFile: audioFile = sys.argv[1]
+    except:
+        exit()
 
-TASK1_PYFILE = "task2.py"
-TASK1_PARAMS = "-o --node --testing " + audioFile
-TESTS_FILES = ["event_list_devtest_babycry.csv", "event_list_devtest_glassbreak.csv", "event_list_devtest_gunshot.csv"]
-RESULTS_FILE = ["results_fold1_babycry.txt", "results_fold1_glassbreak.txt", "results_fold1_gunshot.txt" ]
-results = ''
+    TASK1_PYFILE = "task2.py"
+    TASK1_PARAMS = "-o --node --testing " + audioFile
+    TESTS_FILES = ["event_list_devtest_babycry.csv", "event_list_devtest_glassbreak.csv", "event_list_devtest_gunshot.csv"]
+    RESULTS_FILE = ["results_fold1_babycry.txt", "results_fold1_glassbreak.txt", "results_fold1_gunshot.txt" ]
+    results = ''
 
-# create uploads folder
-if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
-    os.makedirs(os.path.join(dirname, 'data', 'uploads'))
+    # create uploads folder
+    if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
+        os.makedirs(os.path.join(dirname, 'data', 'uploads'))
 
-# create testing file
-testfoldfile_Path_temp = os.path.join(dirname, 'data', 'TUT-rare-sound-events-2017-development', 'generated_data', "mixtures_devtest_0367e094f3f5c81ef017d128ebff4a3c", "meta")
-testfoldfile_Path = []
-for i in range(len(TESTS_FILES)):
-    testfoldfile_Path.append(os.path.join(testfoldfile_Path_temp, TESTS_FILES[i]))
+    # create testing file
+    testfoldfile_Path_temp = os.path.join(dirname, 'data', 'TUT-rare-sound-events-2017-development', 'generated_data', "mixtures_devtest_0367e094f3f5c81ef017d128ebff4a3c", "meta")
+    testfoldfile_Path = []
+    for i in range(len(TESTS_FILES)):
+        testfoldfile_Path.append(os.path.join(testfoldfile_Path_temp, TESTS_FILES[i]))
 
-modifiedTime             = os.path.getmtime(testfoldfile_Path_temp)
-timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
+    modifiedTime             = os.path.getmtime(testfoldfile_Path_temp)
+    timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
 
-testfoldfile_backup_path = [ x+"_"+timeStamp for x in testfoldfile_Path]
-for i in range(len(TESTS_FILES)):
-    os.rename(testfoldfile_Path[i], testfoldfile_backup_path[i])
+    testfoldfile_backup_path = [ x+"_"+timeStamp for x in testfoldfile_Path]
+    for i in range(len(TESTS_FILES)):
+        os.rename(testfoldfile_Path[i], testfoldfile_backup_path[i])
 
-try:
+    try:
 
-    for i in range(len(testfoldfile_Path)):
-        testfoldfile      = open(testfoldfile_Path[i], 'w+')
-        testfoldfile.write("../uploads/"+audioFile)
-        testfoldfile.close()
+        for i in range(len(testfoldfile_Path)):
+            testfoldfile      = open(testfoldfile_Path[i], 'w+')
+            testfoldfile.write("../uploads/"+audioFile)
+            testfoldfile.close()
 
-    ## Run task 1
-    out = OutputGrabber()
-    out.start()
-    cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
-    os.system(cmnd)
-    out.stop()
-    Task1Output = out.capturedtext
+        ## Run task 1
+        out = OutputGrabber()
+        out.start()
+        cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
+        os.system(cmnd)
+        out.stop()
+        Task1Output = out.capturedtext
 
-    # Get the Results
-    Task1Output = Task1Output.splitlines()
+        # Get the Results
+        Task1Output = Task1Output.splitlines()
 
-    result = {
-        "babycry" : [],
-        "glassbreak": [],
-        "gunshot": []
-    }
-    for i in range(len(RESULTS_FILE)):
-        eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE[i]
+        result = {
+            "babycry" : [],
+            "glassbreak": [],
+            "gunshot": []
+        }
+        for i in range(len(RESULTS_FILE)):
+            eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE[i]
 
-        with open(eval_file, 'r') as stream:
-            stream_lines = stream.readlines()
-            # results = dict([ x.strip().split("\t") for x in stream_lines ])
-            results = [x.strip().split("\t") for x in stream_lines]
+            with open(eval_file, 'r') as stream:
+                stream_lines = stream.readlines()
+                # results = dict([ x.strip().split("\t") for x in stream_lines ])
+                results = [x.strip().split("\t") for x in stream_lines]
 
-            if(len(results)>=0 and len(results[0]) > 1):
-                result[results[0][3]].append([results[0][1], results[0][2]])
+                if(len(results)>=0 and len(results[0]) > 1):
+                    result[results[0][3]].append([results[0][1], results[0][2]])
 
-            # Debugging
-            # for k in results:
-            #     print k
+                # Debugging
+                # for k in results:
+                #     print k
 
-    print(result)
-except:
-    for i in range(len(testfoldfile_Path)):
-        os.remove(testfoldfile_Path[i])
+        print(result)
+    except:
+        for i in range(len(testfoldfile_Path)):
+            os.remove(testfoldfile_Path[i])
 
-finally:
-    for i in range(len(testfoldfile_Path)):
-        os.rename(testfoldfile_backup_path[i], testfoldfile_Path[i])
+    finally:
+        for i in range(len(testfoldfile_Path)):
+            os.rename(testfoldfile_backup_path[i], testfoldfile_Path[i])
 
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
 
-
-
+run(sys.argv[1])
 
 # get audio path as input
 
