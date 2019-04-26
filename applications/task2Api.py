@@ -172,7 +172,8 @@ def run(audioFile):
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
 
-run(sys.argv[1])
+if __name__ == "__main__":
+    run(sys.argv[1])
 
 # get audio path as input
 
