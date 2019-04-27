@@ -33,90 +33,6 @@ sets:
       method: cnnlstm # lstm cnn mlp cnnlstm
 
     learner_method_parameters:
-      mlp:
-        seed: 5
-        keras:
-          backend: theano
-          backend_parameters:
-            floatX: float64
-            device: cpu
-            fastmath: false
-            optimizer: None
-            openmp: false
-            threads: 1
-            CNR: true
-
-        validation:
-          enable: true
-          setup_source: generated_event_file_balanced
-          validation_amount: 0.10
-          seed: 5
-
-        training:
-          epochs: 200
-          batch_size: 256
-          shuffle: true
-          callbacks:
-            - type: Stopper
-              parameters:
-                monitor: val_binary_accuracy
-                initial_delay: 100
-                min_delta: 0
-                patience: 10
-
-        model:
-          config:
-            - class_name: Dense
-              config:
-                units: 50
-                kernel_initializer: uniform
-                activation: relu
-
-            - class_name: Dropout
-              config:
-                rate: 0.2
-
-            - class_name: Dense
-              config:
-                units: 50
-                kernel_initializer: uniform
-                activation: relu
-
-            - class_name: Dropout
-              config:
-                rate: 0.2
-
-            - class_name: Dense
-              config:
-                units: CLASS_COUNT
-                kernel_initializer: uniform
-                activation: sigmoid
-
-          loss: binary_crossentropy
-
-          optimizer:
-            type: Adam
-
-          metrics:
-            - binary_accuracy
-      cnn:
-        batch_size: 128
-        epochs: 1
-
-        validation:
-          setup_source: generated_event_file_balanced
-          validation_amount: 0.10
-          seed: 1
-
-      lstm:
-        batch_size: 128
-        epochs: 1
-
-        validation:
-          setup_source: generated_event_file_balanced
-          validation_amount: 0.10
-          seed: 1
-        
       cnnlstm:
         batch_size: 128
         epochs: 1
@@ -143,7 +59,7 @@ sets:
         enable: false
 
   - set_id: lstm_train
-    description: DCASE2017 baseline (CPU) using DCASE2017 task 2 development dataset
+    description: LSTM Training
 
     flow:
       initialize: true
@@ -154,15 +70,13 @@ sets:
       evaluate_system: true
 
     feature_stacker:
-      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
+      stacking_recipe: mfcc #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
 
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
         n_mels: 128     
-      spectr:
-        mono: true
-
+    
     feature_aggregator:
       enable: true
       aggregation_recipe: flatten #mean; std
@@ -170,84 +84,9 @@ sets:
       hop_length_seconds: 0.6
 
     learner:
-      method: cnnlstm # lstm cnn mlp cnnlstm
+      method: lstm # lstm cnn mlp cnnlstm
 
     learner_method_parameters:
-      mlp:
-        seed: 5
-        keras:
-          backend: theano
-          backend_parameters:
-            floatX: float64
-            device: cpu
-            fastmath: false
-            optimizer: None
-            openmp: false
-            threads: 1
-            CNR: true
-
-        validation:
-          enable: true
-          setup_source: generated_event_file_balanced
-          validation_amount: 0.10
-          seed: 5
-
-        training:
-          epochs: 200
-          batch_size: 256
-          shuffle: true
-          callbacks:
-            - type: Stopper
-              parameters:
-                monitor: val_binary_accuracy
-                initial_delay: 100
-                min_delta: 0
-                patience: 10
-
-        model:
-          config:
-            - class_name: Dense
-              config:
-                units: 50
-                kernel_initializer: uniform
-                activation: relu
-
-            - class_name: Dropout
-              config:
-                rate: 0.2
-
-            - class_name: Dense
-              config:
-                units: 50
-                kernel_initializer: uniform
-                activation: relu
-
-            - class_name: Dropout
-              config:
-                rate: 0.2
-
-            - class_name: Dense
-              config:
-                units: CLASS_COUNT
-                kernel_initializer: uniform
-                activation: sigmoid
-
-          loss: binary_crossentropy
-
-          optimizer:
-            type: Adam
-
-          metrics:
-            - binary_accuracy
-      cnn:
-        batch_size: 128
-        epochs: 1
-
-        validation:
-          setup_source: generated_event_file_balanced
-          validation_amount: 0.10
-          seed: 1
-
       lstm:
         batch_size: 128
         epochs: 1
@@ -257,15 +96,6 @@ sets:
           validation_amount: 0.10
           seed: 1
         
-      cnnlstm:
-        batch_size: 128
-        epochs: 1
-
-        validation:
-          setup_source: generated_event_file_balanced
-          validation_amount: 0.10
-          seed: 1
-
     recognizer:
       frame_accumulation:
         enable: false
@@ -297,9 +127,6 @@ sets:
       stacking_recipe: spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
 
     feature_extractor_method_parameters:
-      mfcc:                                   # Mel-frequency cepstral coefficients
-        n_mfcc: 60                            # Number of MFCC coefficients
-        n_mels: 128     
       spectr:
         mono: true
 
