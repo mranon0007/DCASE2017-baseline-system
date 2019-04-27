@@ -23,10 +23,8 @@ from dcase_framework.learners import EventDetector
 __version_info__ = ('1', '0', '0')
 __version__ = '.'.join(__version_info__)
 
-
 from dcase_framework.datasets import SoundEventDataset, TUTRareSoundEvents_2017_DevelopmentSet
 from dcase_framework.metadata import MetaDataContainer, MetaDataItem
-
 
 from keras.layers.core import Reshape
 from keras.layers import Layer, Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda, CuDNNLSTM
@@ -35,43 +33,13 @@ from keras.layers.pooling import MaxPooling2D,AveragePooling2D
 from keras.models import Model
 # from keras.callbacks import EarlyStopping
 from keras.utils import plot_model
+
 import tensorflow as tf
-
-# class MyDataset(SyntheticSoundEventDataset):
-#     def __init__(self, *args, **kwargs):
-#         kwargs['storage_name'] = kwargs.get('storage_name', 'MyDataset')
-#         super(MyDataset, self).__init__(*args, **kwargs)
-
-#         self.dataset_group = 'acoustic scene'
-
-#     @property
-#     def event_labels(self, scene_label=None):
-#         """List of unique event labels in the meta data.
-
-#         Parameters
-#         ----------
-
-#         Returns
-#         -------
-#         labels : list
-#             List of event labels in alphabetical order.
-
-#         """
-
-#         labels = ['babycry', 'glassbreak', 'gunshot']
-#         labels.sort()
-#         return labels
- 
-#     def trains(self, fold=0, scene_label=None, event_label=None):
-#         self.crossvalidation_data_train[fold] = {}
-#         self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
-#         params_hash = self.synth_parameters.get_hash_for_path('train')
-#         self.crossvalidation_data_train[fold][event_label] = MetaDataContainer()
-
 
 from scipy import signal
 import numpy as np
 import librosa 
+
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
         kwargs['valid_extractors'] = [
@@ -112,7 +80,7 @@ class CustomFeatureExtractor(FeatureExtractor):
 
             spectrogram = np.abs(spectrogram).T[:-1, :]
 
-            # FIX THIS LINE.
+            # Improve this section
             # Compress/Smoothen/Denoise the Spectrogram
             ones = self.ones
             spectrogram_temp = [ np.convolve(x, ones, mode='valid') for x in spectrogram ]
@@ -134,14 +102,7 @@ class EventDetectorCNN(EventDetector):
     def create_model(self):
         ##########Creating Model
         # KERAS MODEL
-        from keras.layers.core import Reshape
-        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda
-        from keras.layers.convolutional import Conv2D
-        from keras.layers.pooling import MaxPooling2D,AveragePooling2D
-        from keras.models import Model
-        # from keras.callbacks import EarlyStopping
-        from keras.utils import plot_model
-
+        
         #Inputs
         X1_Shape_In  = (40*40*1)
         X1_Shape     = (40,40,1)
@@ -204,6 +165,29 @@ class EventDetectorCNN(EventDetector):
 
         training_files       = annotations.keys()  # Collect training files
         activity_matrix_dict = self._get_target_matrix_dict(data, annotations)
+
+        #generate validation files
+        validation = False
+        if self.learner_params.get_path('validation.enable', False):
+            validation_files = self._generate_validation(
+                annotations=annotations,
+                validation_type=self.learner_params.get_path('validation.setup_source'),
+                valid_percentage=self.learner_params.get_path('validation.validation_amount', 0.20),
+                seed=self.learner_params.get_path('validation.seed')
+            )
+            training_files = sorted(list(set(training_files) - set(validation_files)))
+        else:
+            validation_files = []
+            # Process validation data
+        
+        if validation_files:
+            X_validation = self.prepare_data(data=data, files=validation_files)
+            Y_validation = self.prepare_activity(activity_matrix_dict=activity_matrix_dict, files=validation_files)
+
+            validation = (X_validation, Y_validation)
+            if self.show_extra_debug:
+                self.logger.debug('  Validation items \t[{validation:d}]'.format(validation=len(X_validation)))
+
         X_training_temp      = numpy.vstack([data[x].feat[0] for x in training_files])
         Y_training           = numpy.vstack([activity_matrix_dict[x] for x in training_files])
 
@@ -214,11 +198,35 @@ class EventDetectorCNN(EventDetector):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, batch_size = None, epochs = 40)
+        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
+            batch_size = self.learner_params.get_path('batch_size', None),
+            epochs     = self.learner_params.get_path('epochs', 100))
         return self
 
     def _frame_probabilities(self, feature_data):
         return self.model.predict(x=feature_data).T
+    
+    def predict(self, feature_data):
+        """Predict frame probabilities for given feature matrix
+
+        Parameters
+        ----------
+        feature_data : numpy.ndarray
+            Feature data
+
+        Returns
+        -------
+        str
+            class label
+
+        """
+
+        if isinstance(feature_data, FeatureContainer):
+            # If we have featureContainer as input, get feature_data
+            feature_data = feature_data.feat[0]
+
+        # Get frame probabilities
+        return self._frame_probabilities(feature_data)
 
 class EventDetectorLSTM(EventDetector):
     """Scene classifier with LSTM"""
@@ -228,14 +236,6 @@ class EventDetectorLSTM(EventDetector):
 
     def create_model(self):
         ##########Creating Model
-        # KERAS MODEL
-        from keras.layers.core import Reshape
-        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda, CuDNNLSTM
-        from keras.layers.convolutional import Conv2D
-        from keras.layers.pooling import MaxPooling2D,AveragePooling2D
-        from keras.models import Model
-        # from keras.callbacks import EarlyStopping
-        from keras.utils import plot_model
 
         #Inputs
         X2_Shape_In  = (60*40)
@@ -324,7 +324,9 @@ class EventDetectorLSTM(EventDetector):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, batch_size = 128, epochs = 15)
+        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
+            batch_size = self.learner_params.get_path('batch_size', 128),
+            epochs     = self.learner_params.get_path('epochs', 100))
         return self
 
     def _frame_probabilities(self, feature_data):
@@ -359,9 +361,6 @@ class EventDetectorCNNLSTM(EventDetector):
         self.method = 'cnnlstm'
 
     def create_model(self):
-       ##########Creating Model
-        # KERAS MODEL
-        
         #model input
         X_Shape_In  = (40,(60+40)) # frames, features
         X1_Shape_In  = (40,40) # cnn
@@ -497,7 +496,8 @@ class EventDetectorCNNLSTM(EventDetector):
 
         self.create_model()
         self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
-        batch_size = 128, epochs = 1)
+            batch_size = self.learner_params.get_path('batch_size', 128),
+            epochs     = self.learner_params.get_path('epochs', 100))
         return self
 
     def _frame_probabilities(self, feature_data):
