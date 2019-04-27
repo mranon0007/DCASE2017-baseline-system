@@ -452,7 +452,7 @@ class SceneClassifierLSTM(SceneClassifier):
         #Inputs
 
         #model input
-        X2_Shape_In  = (40,(60+40)) #frames, features
+        X2_Shape_In  = (40,(60+0)) #frames, features
         
         #lstm input
         X2_Shape     = (40, 60) #times, features

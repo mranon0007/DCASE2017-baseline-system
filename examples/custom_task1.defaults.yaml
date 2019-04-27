@@ -2,7 +2,7 @@ active_set: cnn_train
 
 sets:
   - set_id: cnn_lstm_parallel_train
-    description: Custom system using DCASE2013 task 1 evaluation dataset
+    description: Training of Parallel Model CNN+LSTM
     general:
       overwrite: false
     flow:
@@ -12,26 +12,12 @@ sets:
       train_system: true
       test_system: true
       evaluate_system: true
-
     dataset:
       method: challenge_train #development  development17  challenge17_train  challenge17_test
-  
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
         n_mels: 128     
-      centroid:                               # Centroid
-        mono: true                            # [true, false]
-        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
-        spectrogram_type: magnitude           # [magnitude, power]
-        n_fft: 2048                           # FFT length
-      zero_crossing_rate:
-        mono: true                            # [true, false]
-        center: True
-      rmse:
-        mono: true                            # [true, false]
-        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
-        n_fft: 2048                           # FFT length
       spectr:
         mono: true
     feature_stacker:
@@ -44,38 +30,9 @@ sets:
     learner:
       method: cnnlstm # lstm cnn cnnlstm
     learner_method_parameters:
-      svm:
-        C: 1
-        kernel: rbf
-        gamma: auto
-        probability: true
-        shrinking: true
-        tol: 0.001
-        cache_size: 200
-        class_weight: balanced
-        verbose: false
-        max_iter: -1
-        decision_function_shape: null
-        random_state: null
-
-      cnn:
-        CONVOLUTION_FILTER: 8
-
-        validation:
-          setup_source: generated_scene_balanced
-          validation_amount: 0.10
-          seed: 1
-
-      lstm:
-        pass: pass
-
-        validation:
-          setup_source: generated_scene_balanced
-          validation_amount: 0.10
-          seed: 1
-
       cnnlstm:
-        pass: pass
+        batch_size: 64
+        epochs: 1
 
         validation:
           setup_source: generated_scene_balanced
