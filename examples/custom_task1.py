@@ -93,6 +93,7 @@ class DCASE2013_Scene_EvaluationSet(AcousticSceneDataset):
                                   filename=self._get_evaluation_setup_filename(setup_part='evaluate', fold=fold)).save()
                 fold += 1
 
+import tensorflow as tf
 from scipy import signal
 import numpy as np
 import librosa 
@@ -104,7 +105,7 @@ from keras.layers.pooling import MaxPooling2D,AveragePooling2D
 from keras.models import Model
 # from keras.callbacks import EarlyStopping
 from keras.utils import plot_model
-import tensorflow as tf
+
 
 class CustomFeatureExtractor(FeatureExtractor):
     def __init__(self, *args, **kwargs):
@@ -333,15 +334,7 @@ class SceneClassifierCNN(SceneClassifier):
 
     def create_model(self):
         ##########Creating Model
-        # KERAS MODEL
-        from keras.layers.core import Reshape
-        from keras.layers import Flatten, LSTM, concatenate, Input, Dense, Dropout, Lambda
-        from keras.layers.convolutional import Conv2D
-        from keras.layers.pooling import MaxPooling2D,AveragePooling2D
-        from keras.models import Model
-        # from keras.callbacks import EarlyStopping
-        from keras.utils import plot_model
-
+       
         #Inputs
         X1_Shape_In  = (40*40*1)
         X1_Shape     = (40,40,1)
