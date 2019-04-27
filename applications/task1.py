@@ -602,7 +602,7 @@ def main(argv):
         lp = 1
     
     # Load default parameters from a file
-    default_parameters_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+    default_parameters_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'parameters',
                                                os.path.splitext(os.path.basename(__file__))[0]+'.defaults.yaml')
     if args.parameter_set:
         parameters_sets = args.parameter_set.split(',')
