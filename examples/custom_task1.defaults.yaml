@@ -205,6 +205,15 @@ sets:
     description: CNN Training 
     general:
       overwrite: false
+
+    flow:
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: true
+      test_system: true
+      evaluate_system: true
+
     dataset:
       method: challenge17_train #development  development17  challenge17_train  challenge17_test
     dataset_method_parameters:
@@ -373,9 +382,9 @@ defaults:
   # Flow
   # ==========================================================
   flow:
-    initialize: false
-    extract_features: false
-    feature_normalizer: false
+    initialize: true
+    extract_features: true
+    feature_normalizer: true
     train_system: true
     test_system: true
     evaluate_system: true
