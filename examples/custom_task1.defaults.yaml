@@ -1,7 +1,7 @@
-active_set: custom
+active_set: cnn_train
 
 sets:
-  - set_id: custom
+  - set_id: cnn_lstm_parallel_train
     description: Custom system using DCASE2013 task 1 evaluation dataset
     general:
       overwrite: false
@@ -101,35 +101,272 @@ sets:
         enable: true
         type: maximum  # majority_vote maximum
 
-  - set_id: minimal
-    description: Minimal GMM based system to test that everything works
+  - set_id: lstm_train
+    description: Custom system using DCASE2013 task 1 evaluation dataset
+    general:
+      overwrite: false
     dataset:
-      method: development
+      method: development17 #development  development17  challenge17_train  challenge17_test
     dataset_method_parameters:
       development:
+        name: DCASE2013_Scene_EvaluationSet
+        fold_list: [1]
+        evaluation_mode: folds
+
+      development17:
         name: TUTAcousticScenes_2017_DevelopmentSet
         fold_list: [1]
         evaluation_mode: folds
+
+      challenge17_train:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        evaluation_mode: full
+
+      challenge17_test:
+        name: TUTAcousticScenes_2017_EvaluationSet
+        evaluation_mode: full
+      
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+      centroid:                               # Centroid
+        mono: true                            # [true, false]
+        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+        spectrogram_type: magnitude           # [magnitude, power]
+        n_fft: 2048                           # FFT length
+      zero_crossing_rate:
+        mono: true                            # [true, false]
+        center: True
+      rmse:
+        mono: true                            # [true, false]
+        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+        n_fft: 2048                           # FFT length
+      spectr:
+        mono: true
     feature_stacker:
-      stacking_recipe: mfcc
-    feature_normalizer:
-      enable: true
+      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
     feature_aggregator:
-      enable: false
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
     learner:
-      method: gmm
+      method: cnnlstm # lstm cnn cnnlstm
     learner_method_parameters:
-      gmm:
-        n_components: 1
+      svm:
+        C: 1
+        kernel: rbf
+        gamma: auto
+        probability: true
+        shrinking: true
+        tol: 0.001
+        cache_size: 200
+        class_weight: balanced
+        verbose: false
+        max_iter: -1
+        decision_function_shape: null
+        random_state: null
+
+      cnn:
+        CONVOLUTION_FILTER: 8
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+
+      lstm:
+        pass: pass
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+
+      cnnlstm:
+        pass: pass
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
     recognizer:
       frame_accumulation:
         enable: true
-        type: sum
+        type: prod                   # [sum, prod, mean]
       frame_binarization:
         enable: false
       decision_making:
         enable: true
-        type: maximum
+        type: maximum  # majority_vote maximum
+
+  - set_id: cnn_train
+    description: CNN Training 
+    general:
+      overwrite: false
+    dataset:
+      method: challenge17_train #development  development17  challenge17_train  challenge17_test
+    dataset_method_parameters:
+      development:
+        name: DCASE2013_Scene_EvaluationSet
+        fold_list: [1]
+        evaluation_mode: folds
+
+      development17:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        fold_list: [1]
+        evaluation_mode: folds
+
+      challenge17_train:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        evaluation_mode: full
+      
+    feature_extractor_method_parameters:
+      # mfcc:                                   # Mel-frequency cepstral coefficients
+      #   n_mfcc: 60                            # Number of MFCC coefficients
+      #   n_mels: 128     
+      # centroid:                               # Centroid
+      #   mono: true                            # [true, false]
+      #   window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+      #   spectrogram_type: magnitude           # [magnitude, power]
+      #   n_fft: 2048                           # FFT length
+      # zero_crossing_rate:
+      #   mono: true                            # [true, false]
+      #   center: True
+      # rmse:
+      #   mono: true                            # [true, false]
+      #   window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+      #   n_fft: 2048                           # FFT length
+      spectr:
+        mono: true
+    feature_stacker:
+      stacking_recipe: spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+    learner:
+      method: cnn # lstm cnn cnnlstm
+    learner_method_parameters:
+      cnn:
+        batch_size: 64
+        epochs: 1
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+
+    recognizer:
+      frame_accumulation:
+        enable: true
+        type: prod                   # [sum, prod, mean]
+      frame_binarization:
+        enable: false
+      decision_making:
+        enable: true
+        type: maximum  # majority_vote maximum
+
+  - set_id: custom
+    description: Custom system using DCASE2013 task 1 evaluation dataset
+    general:
+      overwrite: false
+    dataset:
+      method: development17 #development  development17  challenge17_train  challenge17_test
+    dataset_method_parameters:
+      development:
+        name: DCASE2013_Scene_EvaluationSet
+        fold_list: [1]
+        evaluation_mode: folds
+
+      development17:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        fold_list: [1]
+        evaluation_mode: folds
+
+      challenge17_train:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        evaluation_mode: full
+
+      challenge17_test:
+        name: TUTAcousticScenes_2017_EvaluationSet
+        evaluation_mode: full
+      
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+      centroid:                               # Centroid
+        mono: true                            # [true, false]
+        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+        spectrogram_type: magnitude           # [magnitude, power]
+        n_fft: 2048                           # FFT length
+      zero_crossing_rate:
+        mono: true                            # [true, false]
+        center: True
+      rmse:
+        mono: true                            # [true, false]
+        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+        n_fft: 2048                           # FFT length
+      spectr:
+        mono: true
+    feature_stacker:
+      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+    learner:
+      method: cnnlstm # lstm cnn cnnlstm
+    learner_method_parameters:
+      svm:
+        C: 1
+        kernel: rbf
+        gamma: auto
+        probability: true
+        shrinking: true
+        tol: 0.001
+        cache_size: 200
+        class_weight: balanced
+        verbose: false
+        max_iter: -1
+        decision_function_shape: null
+        random_state: null
+
+      cnn:
+        CONVOLUTION_FILTER: 8
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+
+      lstm:
+        pass: pass
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+
+      cnnlstm:
+        pass: pass
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+    recognizer:
+      frame_accumulation:
+        enable: true
+        type: prod                   # [sum, prod, mean]
+      frame_binarization:
+        enable: false
+      decision_making:
+        enable: true
+        type: maximum  # majority_vote maximum
 
 defaults:
   # ==========================================================

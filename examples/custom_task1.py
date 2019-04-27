@@ -136,111 +136,111 @@ class CustomFeatureExtractor(FeatureExtractor):
 
         super(CustomFeatureExtractor, self).__init__(*args, **kwargs)
 
-    def _zero_crossing_rate(self, data, params):
-        """Zero crossing rate
+    # def _zero_crossing_rate(self, data, params):
+    #     """Zero crossing rate
 
-        Parameters
-        ----------
-        data : numpy.ndarray
-            Audio data
-        params : dict
-            Parameters
+    #     Parameters
+    #     ----------
+    #     data : numpy.ndarray
+    #         Audio data
+    #     params : dict
+    #         Parameters
 
-        Returns
-        -------
+    #     Returns
+    #     -------
 
-        """
+    #     """
 
-        import librosa
+    #     import librosa
 
-        feature_matrix = []
-        for channel in range(0, data.shape[0]):
-            zero_crossing_rate = librosa.feature.zero_crossing_rate(y=data[channel, :],
-                                                                    frame_length=params.get('win_length_samples'),
-                                                                    hop_length=params.get('hop_length_samples'),
-                                                                    center=params.get('center')
-                                                                    )
+    #     feature_matrix = []
+    #     for channel in range(0, data.shape[0]):
+    #         zero_crossing_rate = librosa.feature.zero_crossing_rate(y=data[channel, :],
+    #                                                                 frame_length=params.get('win_length_samples'),
+    #                                                                 hop_length=params.get('hop_length_samples'),
+    #                                                                 center=params.get('center')
+    #                                                                 )
 
-            zero_crossing_rate = zero_crossing_rate.reshape((-1, 1))
-            feature_matrix.append(zero_crossing_rate)
+    #         zero_crossing_rate = zero_crossing_rate.reshape((-1, 1))
+    #         feature_matrix.append(zero_crossing_rate)
 
-        return feature_matrix
+    #     return feature_matrix
 
-    def _rmse(self, data, params):
-        """Root-mean-square energy
+    # def _rmse(self, data, params):
+    #     """Root-mean-square energy
 
-        Parameters
-        ----------
-        data : numpy.ndarray
-            Audio data
-        params : dict
-            Parameters
+    #     Parameters
+    #     ----------
+    #     data : numpy.ndarray
+    #         Audio data
+    #     params : dict
+    #         Parameters
 
-        Returns
-        -------
+    #     Returns
+    #     -------
 
-        """
-        import librosa
+    #     """
+    #     import librosa
 
-        window = self._window_function(N=params.get('win_length_samples'),
-                                       window_type=params.get('window'))
+    #     window = self._window_function(N=params.get('win_length_samples'),
+    #                                    window_type=params.get('window'))
 
-        feature_matrix = []
-        for channel in range(0, data.shape[0]):
-            S = librosa.magphase(librosa.stft(y=data[channel, :] + self.eps,
-                                              n_fft=params.get('n_fft'),
-                                              win_length=params.get('win_length_samples'),
-                                              hop_length=params.get('hop_length_samples'),
-                                              center=False,
-                                              window=window)
-                                 )[0]
-            rmse = librosa.feature.rmse(S=S,
-                                        frame_length=params.get('win_length_samples'),
-                                        hop_length=params.get('hop_length_samples')
-                                        )
-            rmse = rmse.reshape((-1, 1))
-            feature_matrix.append(rmse)
+    #     feature_matrix = []
+    #     for channel in range(0, data.shape[0]):
+    #         S = librosa.magphase(librosa.stft(y=data[channel, :] + self.eps,
+    #                                           n_fft=params.get('n_fft'),
+    #                                           win_length=params.get('win_length_samples'),
+    #                                           hop_length=params.get('hop_length_samples'),
+    #                                           center=False,
+    #                                           window=window)
+    #                              )[0]
+    #         rmse = librosa.feature.rmse(S=S,
+    #                                     frame_length=params.get('win_length_samples'),
+    #                                     hop_length=params.get('hop_length_samples')
+    #                                     )
+    #         rmse = rmse.reshape((-1, 1))
+    #         feature_matrix.append(rmse)
 
-        return feature_matrix
+    #     return feature_matrix
 
-    def _centroid(self, data, params):
-        """Centroid
+    # def _centroid(self, data, params):
+    #     """Centroid
 
-        Parameters
-        ----------
-        data : numpy.ndarray
-            Audio data
-        params : dict
-            Parameters
+    #     Parameters
+    #     ----------
+    #     data : numpy.ndarray
+    #         Audio data
+    #     params : dict
+    #         Parameters
 
-        Returns
-        -------
-        list of numpy.ndarrays
-            List of feature matrices, feature matrix per audio channel
-        """
-        import librosa
+    #     Returns
+    #     -------
+    #     list of numpy.ndarrays
+    #         List of feature matrices, feature matrix per audio channel
+    #     """
+    #     import librosa
 
-        window = self._window_function(N=params.get('win_length_samples'),
-                                       window_type=params.get('window'))
-        freq = librosa.core.time_frequency.fft_frequencies(sr=params.get('fs'),
-                                                           n_fft=params.get('n_fft'))
-        freq = freq.reshape((-1, 1))
+    #     window = self._window_function(N=params.get('win_length_samples'),
+    #                                    window_type=params.get('window'))
+    #     freq = librosa.core.time_frequency.fft_frequencies(sr=params.get('fs'),
+    #                                                        n_fft=params.get('n_fft'))
+    #     freq = freq.reshape((-1, 1))
 
-        feature_matrix = []
-        for channel in range(0, data.shape[0]):
-            spectrogram_ = self._spectrogram(y=data[channel, :],
-                                             n_fft=params.get('n_fft'),
-                                             win_length_samples=params.get('win_length_samples'),
-                                             hop_length_samples=params.get('hop_length_samples'),
-                                             spectrogram_type=params.get('spectrogram_type') if 'spectrogram_type' in params else 'magnitude',
-                                             center=True,
-                                             window=window)
+    #     feature_matrix = []
+    #     for channel in range(0, data.shape[0]):
+    #         spectrogram_ = self._spectrogram(y=data[channel, :],
+    #                                          n_fft=params.get('n_fft'),
+    #                                          win_length_samples=params.get('win_length_samples'),
+    #                                          hop_length_samples=params.get('hop_length_samples'),
+    #                                          spectrogram_type=params.get('spectrogram_type') if 'spectrogram_type' in params else 'magnitude',
+    #                                          center=True,
+    #                                          window=window)
 
-            centroid = numpy.sum(freq * librosa.util.normalize(spectrogram_, norm=1, axis=0), axis=0, keepdims=True)
-            centroid = centroid.reshape((-1, 1))
-            feature_matrix.append(centroid)
+    #         centroid = numpy.sum(freq * librosa.util.normalize(spectrogram_, norm=1, axis=0), axis=0, keepdims=True)
+    #         centroid = centroid.reshape((-1, 1))
+    #         feature_matrix.append(centroid)
 
-        return feature_matrix
+    #     return feature_matrix
 
     def _spectr(self, data, params):
 
@@ -266,7 +266,7 @@ class CustomFeatureExtractor(FeatureExtractor):
 
             spectrogram = np.abs(spectrogram).T[:-1, :]
 
-            # FIX THIS LINE.
+            # IMPROVE THIS LOGIC
             # Compress/Smoothen/Denoise the Spectrogram
             ones = self.ones
             spectrogram_temp = [ np.convolve(x, ones, mode='valid') for x in spectrogram ]
@@ -355,7 +355,7 @@ class SceneClassifierCNN(SceneClassifier):
         conv2_kernel_size = 5
         pool_size         = (2,2)
 
-        pool0_size = (22,1)
+        # pool0_size = (22,1)
         # spec_reshape_func = lambda x : x.reshape(X1_Shape)
         spec_reshaper = Reshape(X1_Shape)(X1)
         # pool0 = AveragePooling2D(pool_size=pool0_size)(spec_reshaper)
@@ -409,10 +409,10 @@ class SceneClassifierCNN(SceneClassifier):
         validation = False
         if self.learner_params.get_path('validation.enable', False):
             validation_files = self._generate_validation(
-                annotations=annotations,
-                validation_type=self.learner_params.get_path('validation.setup_source'),
-                valid_percentage=self.learner_params.get_path('validation.validation_amount', 0.20),
-                seed=self.learner_params.get_path('validation.seed')
+                annotations      = annotations,
+                validation_type  = self.learner_params.get_path('validation.setup_source'),
+                valid_percentage = self.learner_params.get_path('validation.validation_amount', 0.20),
+                seed             = self.learner_params.get_path('validation.seed')
             )
             training_files = sorted(list(set(training_files) - set(validation_files)))
         else:
@@ -437,7 +437,10 @@ class SceneClassifierCNN(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, batch_size = 64, epochs = 25)
+        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
+            batch_size = self.learner_params.get_path('batch_size', 128),
+            epochs     = self.learner_params.get_path('epochs', 100))
+
         return self
 
     def _frame_probabilities(self, feature_data):
