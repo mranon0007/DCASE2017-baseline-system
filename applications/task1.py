@@ -376,12 +376,15 @@ class SceneClassifierCNNLSTM(SceneClassifier):
         X2             = Input(shape=(X2_Shape_In[0]*X2_Shape_In[1],))
 
         #CNNLSTM
-        X         = Input(shape=(X_Shape_In[0]*X_Shape_In[1],))
-        cnn_reshaper = Reshape((40,100,1))(X)
-        lstm_reshaper  = Reshape((40,100))(X)
+        X             = Input(shape=(X_Shape_In[0]*X_Shape_In[1],))
+        cnn_reshaper  = Reshape((40,100,1))(X)
+        lstm_reshaper = Reshape((40,100))(X)
 
         #CNN
         # cnn_reshaper = Reshape(X1_Shape)(X1)
+        
+        #add layer to reshape (40,100,1) to (40,60:100,1) #first 60 columns are MFCCS
+
         conv1         = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(cnn_reshaper)
         pool1         = MaxPooling2D(pool_size=pool_size)(conv1)
         conv2         = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
@@ -393,6 +396,9 @@ class SceneClassifierCNNLSTM(SceneClassifier):
 
         #LSTM
         # lstm_reshaper  = Reshape(X2_Shape)(X2)
+
+        #add layer to reshape (40,100) to (40,0:60)
+
         lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
 
         lstm_dropout_1 = Dropout(.4)(lstm_1)

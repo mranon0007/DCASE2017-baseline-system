@@ -107,7 +107,7 @@ class EventDetectorCNN(EventDetector):
         X1_Shape_In  = (40*40*1)
         X1_Shape     = (40,40,1)
         X1           = Input(shape=(X1_Shape_In,))
-        output_shape = 15
+        output_shape = 2
 
         #CNN Params
         conv1_filters     = 32
@@ -116,7 +116,7 @@ class EventDetectorCNN(EventDetector):
         conv2_kernel_size = 5
         pool_size         = (2,2)
 
-        pool0_size = (22,1)
+        # pool0_size = (22,1)
         # spec_reshape_func = lambda x : x.reshape(X1_Shape)
         spec_reshaper = Reshape(X1_Shape)(X1)
         # pool0 = AveragePooling2D(pool_size=pool0_size)(spec_reshaper)
@@ -137,12 +137,12 @@ class EventDetectorCNN(EventDetector):
 
         #output
         output1 = Dense(512, activation='relu')(out)
-        output  = Dense(output_shape, activation='softmax')(output1)
+        output  = Dense(output_shape, activation='sigmoid')(output1)
 
         #construct Model
         model = Model(inputs=X1, outputs=output)
         # model = Model(inputs=[X1,X2], outputs=output)
-        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy'])
 
         self['model'] = model
         return model
@@ -235,18 +235,19 @@ class EventDetectorLSTM(EventDetector):
         self.method = 'lstm'
 
     def create_model(self):
-        ##########Creating Model
-
-        #Inputs
-        X2_Shape_In  = (60*40)
-        X2_Shape     = (60,40)
-        output_shape = 1
+        #model input
+        X2_Shape_In  = (40,(60+0)) #frames, features
+        
+        #lstm input
+        X2_Shape     = (40, 60) #times, features
+        output_shape = 15
 
         #LSTM Params
         lstm_units = 256
 
         #LSTM
-        X2             = Input(shape=(X2_Shape_In,))
+        X2             = Input(shape=(X2_Shape_In[0]*X2_Shape_In[1],))
+
         lstm_reshaper  = Reshape(X2_Shape)(X2)
         lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
         lstm_dropout_1 = Dropout(.3)(lstm_1)
@@ -391,12 +392,15 @@ class EventDetectorCNNLSTM(EventDetector):
         X2             = Input(shape=(X2_Shape_In[0]*X2_Shape_In[1],))
 
         #CNNLSTM
-        X         = Input(shape=(X_Shape_In[0]*X_Shape_In[1],))
-        cnn_reshaper = Reshape((40,100,1))(X)
-        lstm_reshaper  = Reshape((40,100))(X)
+        X             = Input(shape=(X_Shape_In[0]*X_Shape_In[1],))
+        cnn_reshaper  = Reshape((40,100,1))(X)
+        lstm_reshaper = Reshape((40,100))(X)
 
         #CNN
         # cnn_reshaper = Reshape(X1_Shape)(X1)
+
+        #add layer to reshape (40,100,1) to (40,60:100,1) #first 60 columns are MFCCS
+
         conv1         = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(cnn_reshaper)
         pool1         = MaxPooling2D(pool_size=pool_size)(conv1)
         conv2         = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
@@ -408,6 +412,9 @@ class EventDetectorCNNLSTM(EventDetector):
 
         #LSTM
         # lstm_reshaper  = Reshape(X2_Shape)(X2)
+
+        #add layer to reshape (40,100) to (40,0:60)
+
         lstm_1         = LSTM(lstm_units,return_sequences=True)(lstm_reshaper)
 
         lstm_dropout_1 = Dropout(.4)(lstm_1)
