@@ -522,10 +522,10 @@ class SceneClassifierLSTM(SceneClassifier):
         validation = False
         if self.learner_params.get_path('validation.enable', False):
             validation_files = self._generate_validation(
-                annotations=annotations,
-                validation_type=self.learner_params.get_path('validation.setup_source'),
-                valid_percentage=self.learner_params.get_path('validation.validation_amount', 0.20),
-                seed=self.learner_params.get_path('validation.seed')
+                annotations      = annotations,
+                validation_type  = self.learner_params.get_path('validation.setup_source'),
+                valid_percentage = self.learner_params.get_path('validation.validation_amount', 0.20),
+                seed             = self.learner_params.get_path('validation.seed')
             )
             training_files = sorted(list(set(training_files) - set(validation_files)))
         else:
@@ -551,9 +551,8 @@ class SceneClassifierLSTM(SceneClassifier):
 
         self.create_model()
         self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
-            batch_size = 128, 
-            epochs = 1
-        )
+            batch_size = self.learner_params.get_path('batch_size', 128),
+            epochs     = self.learner_params.get_path('epochs', 100))
         return self
 
     def _frame_probabilities(self, feature_data):

@@ -5,27 +5,17 @@ sets:
     description: Custom system using DCASE2013 task 1 evaluation dataset
     general:
       overwrite: false
+    flow:
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
+      train_system: true
+      test_system: true
+      evaluate_system: true
+
     dataset:
-      method: development17 #development  development17  challenge17_train  challenge17_test
-    dataset_method_parameters:
-      development:
-        name: DCASE2013_Scene_EvaluationSet
-        fold_list: [1]
-        evaluation_mode: folds
-
-      development17:
-        name: TUTAcousticScenes_2017_DevelopmentSet
-        fold_list: [1]
-        evaluation_mode: folds
-
-      challenge17_train:
-        name: TUTAcousticScenes_2017_DevelopmentSet
-        evaluation_mode: full
-
-      challenge17_test:
-        name: TUTAcousticScenes_2017_EvaluationSet
-        evaluation_mode: full
-      
+      method: challenge_train #development  development17  challenge17_train  challenge17_test
+  
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
@@ -102,30 +92,19 @@ sets:
         type: maximum  # majority_vote maximum
 
   - set_id: lstm_train
-    description: Custom system using DCASE2013 task 1 evaluation dataset
+    description: LSTM Training
     general:
       overwrite: false
+    flow:
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
+      train_system: true
+      test_system: true
+      evaluate_system: true
+
     dataset:
-      method: development17 #development  development17  challenge17_train  challenge17_test
-    dataset_method_parameters:
-      development:
-        name: DCASE2013_Scene_EvaluationSet
-        fold_list: [1]
-        evaluation_mode: folds
-
-      development17:
-        name: TUTAcousticScenes_2017_DevelopmentSet
-        fold_list: [1]
-        evaluation_mode: folds
-
-      challenge17_train:
-        name: TUTAcousticScenes_2017_DevelopmentSet
-        evaluation_mode: full
-
-      challenge17_test:
-        name: TUTAcousticScenes_2017_EvaluationSet
-        evaluation_mode: full
-      
+      method: challenge_train #development  development17  challenge17_train  challenge17_test
     feature_extractor_method_parameters:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
@@ -152,40 +131,11 @@ sets:
       win_length_seconds: 0.8
       hop_length_seconds: 0.6
     learner:
-      method: cnnlstm # lstm cnn cnnlstm
+      method: lstm # lstm cnn cnnlstm
     learner_method_parameters:
-      svm:
-        C: 1
-        kernel: rbf
-        gamma: auto
-        probability: true
-        shrinking: true
-        tol: 0.001
-        cache_size: 200
-        class_weight: balanced
-        verbose: false
-        max_iter: -1
-        decision_function_shape: null
-        random_state: null
-
-      cnn:
-        CONVOLUTION_FILTER: 8
-
-        validation:
-          setup_source: generated_scene_balanced
-          validation_amount: 0.10
-          seed: 1
-
       lstm:
-        pass: pass
-
-        validation:
-          setup_source: generated_scene_balanced
-          validation_amount: 0.10
-          seed: 1
-
-      cnnlstm:
-        pass: pass
+        batch_size: 64
+        epochs: 1
 
         validation:
           setup_source: generated_scene_balanced
@@ -215,21 +165,7 @@ sets:
       evaluate_system: true
 
     dataset:
-      method: challenge17_train #development  development17  challenge17_train  challenge17_test
-    dataset_method_parameters:
-      development:
-        name: DCASE2013_Scene_EvaluationSet
-        fold_list: [1]
-        evaluation_mode: folds
-
-      development17:
-        name: TUTAcousticScenes_2017_DevelopmentSet
-        fold_list: [1]
-        evaluation_mode: folds
-
-      challenge17_train:
-        name: TUTAcousticScenes_2017_DevelopmentSet
-        evaluation_mode: full
+      method: challenge_train #development  development17  challenge17_train  challenge17_test
       
     feature_extractor_method_parameters:
       # mfcc:                                   # Mel-frequency cepstral coefficients
@@ -501,6 +437,16 @@ defaults:
     challenge_test:
       name: TUTAcousticScenes_2017_EvaluationSet
       evaluation_mode: full
+
+    # development:
+    #   name: DCASE2013_Scene_EvaluationSet
+    #   fold_list: [1]
+    #   evaluation_mode: folds
+
+    # development17:
+    #   name: TUTAcousticScenes_2017_DevelopmentSet
+    #   fold_list: [1]
+    #   evaluation_mode: folds
 
   # ==========================================================
   # Feature extractor
