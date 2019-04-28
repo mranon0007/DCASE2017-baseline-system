@@ -449,7 +449,7 @@ class EventDetectorCNNLSTM(EventDetector):
 
         #detector
         model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy'])
-        plot_model(model, to_file='model.png')
+        plot_model(model, to_file='model.png', show_shapes=True)
 
         self['model'] = model
         return model
