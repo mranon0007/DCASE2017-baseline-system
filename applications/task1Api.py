@@ -1,4 +1,4 @@
-import custom_task1
+import task1
 
 import os
 import sys
@@ -97,7 +97,7 @@ try:
 except:
     exit()
 
-TASK1_PYFILE = "custom_task1.py"
+TASK1_PYFILE = "task1.py"
 TASK1_PARAMS = "-o --node --testing " + audioFile
 TESTS_FILE = "fold1_test"
 RESULTS_FILE = "results_fold1"
