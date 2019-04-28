@@ -393,13 +393,12 @@ class EventDetectorCNNLSTM(EventDetector):
 
         #CNNLSTM
         X             = Input(shape=(X_Shape_In[0]*X_Shape_In[1],))
-        cnn_reshaper  = Reshape((40,100,1))(X)
-        lstm_reshaper = Reshape((40,100))(X)
 
         #CNN
         # cnn_reshaper = Reshape(X1_Shape)(X1)
 
         #add layer to reshape (40,100,1) to (40,60:100,1) #first 60 columns are MFCCS
+        cnn_reshaper  = Reshape((40,100,1))(X)
         cl_c_reshaper = Lambda((lambda x: x[:,:,60:100,:]), output_shape=(40,40,1))(cnn_reshaper)
 
         conv1         = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(cl_c_reshaper)
@@ -415,6 +414,7 @@ class EventDetectorCNNLSTM(EventDetector):
         # lstm_reshaper  = Reshape(X2_Shape)(X2)
 
         #add layer to reshape (40,100) to (40,0:60)
+        lstm_reshaper = Reshape((40,100))(X)
         cl_l_reshaper = Lambda((lambda x: x[:,:,0:60]), output_shape=(40,60))(lstm_reshaper)
 
         lstm_1         = LSTM(lstm_units,return_sequences=True)(cl_l_reshaper)
