@@ -62,9 +62,9 @@ sets:
     description: CNN+LSTM Testing On Evaluation Dataset
 
     flow:
-      initialize: false
-      extract_features: false
-      feature_normalizer: false
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
       train_system: false
       test_system: true
       evaluate_system: true
@@ -173,9 +173,9 @@ sets:
     description: LSTM Testing On Evaluation Dataset
 
     flow:
-      initialize: false
-      extract_features: false
-      feature_normalizer: false
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
       train_system: false
       test_system: true
       evaluate_system: true
@@ -281,9 +281,9 @@ sets:
     description: CNN Testing On Evaluation Dataset
 
     flow:
-      initialize: false
-      extract_features: false
-      feature_normalizer: false
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
       train_system: false
       test_system: true
       evaluate_system: true
