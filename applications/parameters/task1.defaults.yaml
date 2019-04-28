@@ -6,9 +6,9 @@ sets:
     general:
       overwrite: false
     flow:
-      initialize: true
-      extract_features: true
-      feature_normalizer: true
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
       train_system: true
       test_system: false
       evaluate_system: false
