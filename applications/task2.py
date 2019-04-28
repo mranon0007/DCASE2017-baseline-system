@@ -399,9 +399,10 @@ class EventDetectorCNNLSTM(EventDetector):
         #CNN
         # cnn_reshaper = Reshape(X1_Shape)(X1)
 
+        cl_c_reshaper = Lambda((lambda x: x[:,:,60:100,1]), output_shape=(40,40,1,))(cnn_reshaper)
         #add layer to reshape (40,100,1) to (40,60:100,1) #first 60 columns are MFCCS
 
-        conv1         = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(cnn_reshaper)
+        conv1         = Conv2D(conv1_filters, kernel_size=conv1_kernel_size, activation='relu')(cl_c_reshaper)
         pool1         = MaxPooling2D(pool_size=pool_size)(conv1)
         conv2         = Conv2D(conv2_filters, kernel_size=conv2_kernel_size, activation='relu')(pool1)
         pool2         = MaxPooling2D(pool_size=pool_size)(conv2)
