@@ -3,13 +3,69 @@ active_set: dcase2017
 sets:
 
   - set_id: cnn_lstm_parallel_train
-    description: DCASE2017 baseline (CPU) using DCASE2017 task 2 development dataset
+    description: CNN+LSTM Parallel Model Training
 
     flow:
       initialize: true
       extract_features: true
       feature_normalizer: true
       train_system: true
+      test_system: false
+      evaluate_system: false
+
+    feature_stacker:
+      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
+
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+      spectr:
+        mono: true
+
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+
+    learner:
+      method: cnnlstm # lstm cnn mlp cnnlstm
+
+    learner_method_parameters:
+      cnnlstm:
+        batch_size: 128
+        epochs: 1
+
+        validation:
+          setup_source: generated_event_file_balanced
+          validation_amount: 0.10
+          seed: 1
+
+    recognizer:
+      frame_accumulation:
+        enable: false
+
+      frame_binarization:
+        enable: true
+        threshold: 0.5
+
+      event_activity_processing:
+        enable: false
+        type: median_filtering
+        window_length_seconds: 1.54
+
+      event_post_processing:
+        enable: false
+
+  - set_id: cnn_lstm_parallel_test
+    description: CNN+LSTM Testing On Evaluation Dataset
+
+    flow:
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: false
       test_system: true
       evaluate_system: true
 
@@ -58,6 +114,7 @@ sets:
       event_post_processing:
         enable: false
 
+
   - set_id: lstm_train
     description: LSTM Training
 
@@ -66,6 +123,60 @@ sets:
       extract_features: true
       feature_normalizer: true
       train_system: true
+      test_system: false
+      evaluate_system: false
+
+    feature_stacker:
+      stacking_recipe: mfcc #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
+
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+    
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+
+    learner:
+      method: lstm # lstm cnn mlp cnnlstm
+
+    learner_method_parameters:
+      lstm:
+        batch_size: 128
+        epochs: 1
+
+        validation:
+          setup_source: generated_event_file_balanced
+          validation_amount: 0.10
+          seed: 1
+        
+    recognizer:
+      frame_accumulation:
+        enable: false
+
+      frame_binarization:
+        enable: true
+        threshold: 0.5
+
+      event_activity_processing:
+        enable: false
+        type: median_filtering
+        window_length_seconds: 1.54
+
+      event_post_processing:
+        enable: false
+
+  - set_id: lstm_test
+    description: LSTM Testing On Evaluation Dataset
+
+    flow:
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: false
       test_system: true
       evaluate_system: true
 
@@ -112,14 +223,68 @@ sets:
       event_post_processing:
         enable: false
 
+
   - set_id: cnn_train
-    description: DCASE2017 baseline (CPU) using DCASE2017 task 2 development dataset
+    description: CNN Training
 
     flow:
       initialize: true
       extract_features: true
       feature_normalizer: true
       train_system: true
+      test_system: false
+      evaluate_system: false
+
+    feature_stacker:
+      stacking_recipe: spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
+
+    feature_extractor_method_parameters:
+      spectr:
+        mono: true
+
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+
+    learner:
+      method: cnn # lstm cnn mlp cnnlstm
+
+    learner_method_parameters:
+      cnn:
+        batch_size: 128
+        epochs: 1
+
+        validation:
+          setup_source: generated_event_file_balanced
+          validation_amount: 0.10
+          seed: 1
+
+    recognizer:
+      frame_accumulation:
+        enable: false
+
+      frame_binarization:
+        enable: true
+        threshold: 0.5
+
+      event_activity_processing:
+        enable: false
+        type: median_filtering
+        window_length_seconds: 1.54
+
+      event_post_processing:
+        enable: false
+
+  - set_id: cnn_test
+    description: CNN Testing On Evaluation Dataset
+
+    flow:
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: false
       test_system: true
       evaluate_system: true
 
@@ -164,6 +329,7 @@ sets:
 
       event_post_processing:
         enable: false
+
 
   - set_id: dcase2017
     description: DCASE2017 baseline (CPU) using DCASE2017 task 2 development dataset

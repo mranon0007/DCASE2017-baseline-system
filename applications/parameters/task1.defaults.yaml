@@ -10,8 +10,8 @@ sets:
       extract_features: true
       feature_normalizer: true
       train_system: true
-      test_system: true
-      evaluate_system: true
+      test_system: false
+      evaluate_system: false
     dataset:
       method: challenge_train #development  development17  challenge17_train  challenge17_test
     feature_extractor_method_parameters:
@@ -48,6 +48,54 @@ sets:
         enable: true
         type: maximum  # majority_vote maximum
 
+  - set_id: cnn_lstm_parallel_test
+    description: Testing of Parallel Model CNN+LSTM on Evaluation Dataset
+    general:
+      overwrite: false
+    flow:
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: false
+      test_system: true
+      evaluate_system: true
+    dataset:
+      method: challenge_test #development  development17  challenge17_train  challenge17_test
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+      spectr:
+        mono: true
+    feature_stacker:
+      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+    learner:
+      method: cnnlstm # lstm cnn cnnlstm
+    learner_method_parameters:
+      cnnlstm:
+        batch_size: 128
+        epochs: 1
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+    recognizer:
+      frame_accumulation:
+        enable: true
+        type: prod                   # [sum, prod, mean]
+      frame_binarization:
+        enable: false
+      decision_making:
+        enable: true
+        type: maximum  # majority_vote maximum
+
+
   - set_id: lstm_train
     description: LSTM Training
     general:
@@ -57,8 +105,8 @@ sets:
       extract_features: true
       feature_normalizer: true
       train_system: true
-      test_system: true
-      evaluate_system: true
+      test_system: false
+      evaluate_system: false
 
     dataset:
       method: challenge_train #development  development17  challenge17_train  challenge17_test
@@ -66,20 +114,7 @@ sets:
       mfcc:                                   # Mel-frequency cepstral coefficients
         n_mfcc: 60                            # Number of MFCC coefficients
         n_mels: 128     
-      centroid:                               # Centroid
-        mono: true                            # [true, false]
-        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
-        spectrogram_type: magnitude           # [magnitude, power]
-        n_fft: 2048                           # FFT length
-      zero_crossing_rate:
-        mono: true                            # [true, false]
-        center: True
-      rmse:
-        mono: true                            # [true, false]
-        window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
-        n_fft: 2048                           # FFT length
-      spectr:
-        mono: true
+     
     feature_stacker:
       stacking_recipe: mfcc #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
     feature_aggregator:
@@ -108,6 +143,54 @@ sets:
         enable: true
         type: maximum  # majority_vote maximum
 
+  - set_id: lstm_test
+    description: LSTM Testing on Evaluation Dataset
+    general:
+      overwrite: true
+    flow:
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: false
+      test_system: true
+      evaluate_system: true
+
+    dataset:
+      method: challenge_test #development  development17  challenge17_train  challenge17_test
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+      
+    feature_stacker:
+      stacking_recipe: mfcc #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+    learner:
+      method: lstm # lstm cnn cnnlstm
+    learner_method_parameters:
+      lstm:
+        batch_size: 128
+        epochs: 1
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+    recognizer:
+      frame_accumulation:
+        enable: true
+        type: prod                   # [sum, prod, mean]
+      frame_binarization:
+        enable: false
+      decision_making:
+        enable: true
+        type: maximum  # majority_vote maximum
+
+
   - set_id: cnn_train
     description: CNN Training 
     general:
@@ -118,8 +201,8 @@ sets:
       extract_features: true
       feature_normalizer: true
       train_system: true
-      test_system: true
-      evaluate_system: true
+      test_system: false
+      evaluate_system: false
 
     dataset:
       method: challenge_train #development  development17  challenge17_train  challenge17_test
@@ -169,6 +252,69 @@ sets:
       decision_making:
         enable: true
         type: maximum  # majority_vote maximum
+
+  - set_id: cnn_test
+    description: CNN Testing On Evaluation Dataset
+    general:
+      overwrite: true
+
+    flow:
+      initialize: false
+      extract_features: false
+      feature_normalizer: false
+      train_system: false
+      test_system: true
+      evaluate_system: true
+
+    dataset:
+      method: challenge_test #development  development17  challenge17_train  challenge17_test
+      
+    feature_extractor_method_parameters:
+      # mfcc:                                   # Mel-frequency cepstral coefficients
+      #   n_mfcc: 60                            # Number of MFCC coefficients
+      #   n_mels: 128     
+      # centroid:                               # Centroid
+      #   mono: true                            # [true, false]
+      #   window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+      #   spectrogram_type: magnitude           # [magnitude, power]
+      #   n_fft: 2048                           # FFT length
+      # zero_crossing_rate:
+      #   mono: true                            # [true, false]
+      #   center: True
+      # rmse:
+      #   mono: true                            # [true, false]
+      #   window: hamming_asymmetric            # [hann_asymmetric, hamming_asymmetric]
+      #   n_fft: 2048                           # FFT length
+      spectr:
+        mono: true
+    feature_stacker:
+      stacking_recipe: spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+    learner:
+      method: cnn # lstm cnn cnnlstm
+    learner_method_parameters:
+      cnn:
+        batch_size: 64
+        epochs: 1
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
+
+    recognizer:
+      frame_accumulation:
+        enable: true
+        type: prod                   # [sum, prod, mean]
+      frame_binarization:
+        enable: false
+      decision_making:
+        enable: true
+        type: maximum  # majority_vote maximum
+
 
   - set_id: custom
     description: Custom system using DCASE2013 task 1 evaluation dataset
