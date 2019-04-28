@@ -9,7 +9,7 @@ sets:
       initialize: true
       extract_features: true
       feature_normalizer: true
-      train_system: false
+      train_system: true
       test_system: false
       evaluate_system: false
 
@@ -122,7 +122,7 @@ sets:
       initialize: true
       extract_features: true
       feature_normalizer: true
-      train_system: false
+      train_system: true
       test_system: false
       evaluate_system: false
 
@@ -231,7 +231,7 @@ sets:
       initialize: true
       extract_features: true
       feature_normalizer: true
-      train_system: false
+      train_system: true
       test_system: false
       evaluate_system: false
 
