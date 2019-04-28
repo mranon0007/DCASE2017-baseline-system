@@ -6,12 +6,12 @@ sets:
     description: CNN+LSTM Parallel Model Training
 
     flow:
-      initialize: false
-      extract_features: false
-      feature_normalizer: false
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
       train_system: true
-      test_system: true
-      evaluate_system: true
+      test_system: false
+      evaluate_system: false
 
     feature_stacker:
       stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
