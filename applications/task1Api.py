@@ -93,7 +93,7 @@ class OutputGrabber(object):
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
 def run(audioFile):
-    return("10")
+
     # get audio path as input
     try:
         if not audioFile: audioFile = sys.argv[1]
