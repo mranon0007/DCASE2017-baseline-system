@@ -16,7 +16,8 @@ def a():
 @app.route("/upload", methods = ['POST'])
 def hello():
     # request.form['key']
-
+    files = request.files
+    
     return "10"
 
     import task1Api
