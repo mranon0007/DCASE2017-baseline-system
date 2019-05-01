@@ -18,7 +18,7 @@ def hello():
     # request.form['key']
 
     import task1Api
-    return task1Api.run()
+    return task1Api.run("a016_120_130.wav")
     
     if "classifying":
         # run task 1
