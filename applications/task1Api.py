@@ -5,6 +5,7 @@ import sys
 import threading
 import time
 import datetime
+import json
 
 # import ptvsd
 # ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
@@ -144,6 +145,8 @@ def run(audioFile):
             for k, v in results.iteritems():
                 print k, v
                 break
+            
+            return(json.dumps(results))
 
     except:
         pass
