@@ -37,18 +37,6 @@ def hello():
     files = request.files
     print(request.form['taskn'])
     print(request.form)
-    
-    if "classifying":
-        # run task 1
-        # return results
-        pass
-    elif "detecting":
-        # run task 2
-        # return results
-        pass
-    else:
-        #throw error
-        pass
 
     # No file uploaded
     if 'audioFile' not in request.files:
@@ -59,11 +47,24 @@ def hello():
         audioFile = request.files['audioFile']
         fname     = secure_filename(audioFile.filename)
         audioFile.save(os.path.join(os.path.dirname(__file__), "data/uploads", fname))
+        
+        if "1" == request.form['taskn']:
+            # run task 1
+            # return results
+            return runTask(fname, task = 1)
+        elif "2" == request.form['taskn']:
+            # run task 2
+            # return results
+            return runTask(fname, task = 2)
+        else:
+            #throw error
+             return 'ERR!'
+             
         return fname
 
     return "Hello World!"
 
-    res = runTask("a", task = 2)
+    res = 
     return res
 
 app.run(debug=True, host= '0.0.0.0', port=4996)
