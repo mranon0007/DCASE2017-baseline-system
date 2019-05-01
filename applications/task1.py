@@ -330,7 +330,8 @@ class SceneClassifierLSTM(SceneClassifier):
         self.create_model()
         self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
             batch_size = self.learner_params.get_path('batch_size', 128),
-            epochs     = self.learner_params.get_path('epochs', 100))
+            epochs     = self.learner_params.get_path('epochs', 100),
+            shuffle    = True )
         return self
 
     def _frame_probabilities(self, feature_data):
@@ -490,7 +491,8 @@ class SceneClassifierCNNLSTM(SceneClassifier):
         self.create_model()
         self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
             batch_size = self.learner_params.get_path('batch_size', 128),
-            epochs     = self.learner_params.get_path('epochs', 100))
+            epochs     = self.learner_params.get_path('epochs', 100),
+            shuffle    = True )
         return self
 
     def _frame_probabilities(self, feature_data):
