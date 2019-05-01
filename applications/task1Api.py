@@ -137,6 +137,7 @@ def run(audioFile):
 
         with open(eval_file, 'r') as stream:
             stream_lines = stream.readlines()
+            print(stream_lines)
             results = dict([ x.strip().split("\t") for x in stream_lines ])
 
             # Debugging
