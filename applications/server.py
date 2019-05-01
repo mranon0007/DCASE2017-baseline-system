@@ -35,6 +35,7 @@ def a():
 def hello():
     # request.form['key']
     files = request.files
+    print(request.form['taskn'])
     
     if "classifying":
         # run task 1
@@ -55,8 +56,9 @@ def hello():
     else:
         #if file uploaded
         audioFile = request.files['audioFile']
-        audioFile.save(os.path.join(os.path.dirname(__file__), "data/uploads", secure_filename(audioFile.filename)))
-        return secure_filename(audioFile.filename)
+        fname     = secure_filename(audioFile.filename)
+        audioFile.save(os.path.join(os.path.dirname(__file__), "data/uploads", fname))
+        return fname
 
     return "Hello World!"
 
