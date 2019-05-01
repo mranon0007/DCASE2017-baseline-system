@@ -31,7 +31,7 @@ sets:
       method: cnnlstm # lstm cnn cnnlstm
     learner_method_parameters:
       cnnlstm:
-        batch_size: 64
+        batch_size: 256
         epochs: 50
 
         validation:
