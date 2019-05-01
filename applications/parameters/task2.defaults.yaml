@@ -254,7 +254,7 @@ sets:
     learner_method_parameters:
       cnn:
         batch_size: 128
-        epochs: 100
+        epochs: 30
 
         validation:
           setup_source: generated_event_file_balanced
@@ -307,7 +307,7 @@ sets:
     learner_method_parameters:
       cnn:
         batch_size: 128
-        epochs: 100
+        epochs: 30
 
         validation:
           setup_source: generated_event_file_balanced
@@ -581,7 +581,7 @@ defaults:
   # Dataset
   # ==========================================================
   dataset:
-    method: challenge_test #development #challenge_train #challenge_test MyDataset
+    method: development #development #challenge_train #challenge_test MyDataset
 
   dataset_method_parameters:
     development:
