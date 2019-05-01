@@ -8,22 +8,396 @@
     <title>Document</title>
 
 
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+        crossorigin="anonymous"></script>
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
 </head>
 
 <body>
 
+
     <div class="container">
         <div class="row">
-            <div class="col s12">This div is 12-columns wide on all screen sizes</div>
-            <div class="col s6">6-columns (one-half)</div>
-            <div class="col s6">6-columns (one-half)</div>
+            <div class="col s12">
+
+                <div class="col s6">
+                    <h2 class="header red-text text-lighten-1">Acoustic Scene Classification & Detection</h2>
+                </div>
+
+                <div class="col s6">
+                    <div class="row">
+                        <div class="col s12 center-align">
+                            <img src="../static/nust-logo.png" height="100px" alt="" style="margin: 20px auto -20px; display: block;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center-align">
+                            <img src="../static/teradata-logo.png" height="100px" alt="">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- h4 class="light">Learn about Material Design and our Project Team.</h4> -->
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s6"><a href="#asctab" class="active">ASC</a></li>
+                    <li class="tab col s6"><a href="#edtab">Event Detector</a></li>
+                </ul>
+            </div>
+
+            <div id="asctab" class="col s12">
+                <form action="xyz.com" id="ascform">
+                    <input type="hidden" name="taskn" id="" value="1">
+
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="file-field input-field">
+                                <div class="btn pink">
+                                    <span>File</span>
+                                    <input type="file" name="audioFile" id="audioFile">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                </div>
+                                <div class="progress" id="ascuploader" style="display:none; height: 20px;">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider" style="display:none;"></div>
+
+                    <div class="row section" id="ascresult-row" style="display:none;">
+                        <div class="col s12">
+                            <h5 id="ascresult">Scene Class: CAR</h5>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="divider"></div> -->
+
+                    <div class="row section" id="waveformasc-row">
+                        <div class="col s12">
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <div id="waveformasc"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div id="waveformasc-spectrogram" class="materialboxed"></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <button type="button" style="display:none;" data-action="play" id="waveformasc-btn"
+                                        class="waves-effect waves-light btn">Play/Pause</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- <div class="col s4 input-field file-field">
+                    <a class="btn waves-effect waves-light pink col s4" style="width: 100%;">button</a>
+                </div> -->
+                </form>
+            </div>
+
+            <div id="edtab" class="col s12">
+                <form action="" id="edform">
+                    <input type="hidden" name="taskn" id="" value="2">
+
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="file-field input-field">
+                                <div class="btn pink">
+                                    <span>File</span>
+                                    <input type="file" name="audioFile" id="audioFileed">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                </div>
+                                <div class="progress" id="eduploader" style="display:none; height: 20px;">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider" style="display:none;"></div>
+
+                    <div class="row section" id="edresult-row" style="display:none;">
+                        <div class="col s12">
+                            <h5 id="edresult">Event Detected: Gunshot</h5>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="divider"></div> -->
+
+                    <div class="row section" id="waveformed-row">
+                        <div class="col s12">
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <div id="waveformed"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div id="waveformed-spectrogram" class="materialboxed"></div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <button type="button" style="display:none;" data-action="play" id="waveformed-btn"
+                                        class="waves-effect waves-light btn">Play/Pause</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- <div class="col s4 input-field file-field">
+                    <a class="btn waves-effect waves-light pink col s4" style="width: 100%;">button</a>
+                </div> -->
+                </form>
+            </div>
         </div>
     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <script src='https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.spectrogram.js'></script>
+
+    <script>
+        var wavesurfered;
+
+        $(document).ready(function () {
+            $('.tabs').tabs();
+
+            //*********************************File Change for ASC
+
+            $("#audioFile").change(function (event) {
+
+                //Audio Player
+                var reader = new FileReader();
+                reader.onloadend = function (evt) {
+
+                    $("#waveformasc").html("");
+                    $("#waveformasc-spectrogram").html("");
+                    $("#waveformasc-btn").unbind("click");
+                    $('.materialboxed').materialbox();
+                    $("#waveformasc-btn").show();
+
+                    var wavesurfer = WaveSurfer.create({
+                        container: '#waveformasc',
+                        waveColor: 'violet',
+                        progressColor: 'purple',
+                        barHeight: 12,
+                        hideScrollbar: true,
+                        plugins: [
+                            WaveSurfer.spectrogram.create({
+                                wavesurfer: wavesurfer,
+                                container: "#waveformasc-spectrogram",
+                                labels: true,
+                                //fftSamples: 512
+                            })
+                        ]
+                    });
+
+                    wavesurfer.load(evt.target.result);
+                    $("#waveformasc-btn").click(function () {
+                        wavesurfer.playPause();
+                    });
+                    /*var sound = new Howl({
+                        src: [evt.target.result],
+                        sprite: {
+                            blast: [0, 3000],
+                            laser: [4000, 1000],
+                            winner: [6000, 5000]
+                          }
+                    });
+                      
+                    sound.play('laser');
+                    */
+                }
+                reader.readAsDataURL(document.getElementById("audioFile").files[0])
+
+                //FILE UPLOAD
+                event.preventDefault();
+
+                var formData = new FormData(document.getElementById('ascform'));
+
+                $.ajax({
+                    url: "http://35.198.194.246:4996/upload",
+                    type: "post",
+                    data: formData,
+                    contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                    processData: false, // NEEDED, DON'T OMIT THIS
+                    beforeSend: function () {
+                        $("#ascuploader").show();
+                        $("#ascresult-row").hide();
+                    },
+                    success: function (response) {
+                        // you will get response from your php page (what you echo or print)   
+                        response = JSON.parse(response);
+                        $("#ascresult").text("Scene Class: " + response[Object.keys(response)[0]]);
+                    },
+
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                        $("#ascresult").text("ERR!");
+                    },
+                    complete: function () {
+                        $("#ascuploader").hide();
+                        $("#ascresult-row").prev().show();
+                        $("#ascresult-row").show();
+                    }
+
+                });
+
+
+            })
+
+
+
+
+
+
+
+
+
+
+
+            //*********************************File Change for EVENT DETECTOR
+            $("#audioFileed").change(function (event) {
+
+
+                //Audio Player
+                var reader = new FileReader();
+                reader.onloadend = function (evt) {
+
+                    $("#waveformed").html("");
+                    $("#waveformed-spectrogram").html("");
+                    $("#waveformed-btn").unbind("click");
+                    $('.materialboxed').materialbox();
+                    $("#waveformed-btn").show();
+
+                    wavesurfered = WaveSurfer.create({
+                        container: '#waveformed',
+                        waveColor: 'violet',
+                        progressColor: 'purple',
+                        barHeight: 12,
+                        hideScrollbar: true,
+                        plugins: [
+                            WaveSurfer.spectrogram.create({
+                                wavesurfer: wavesurfered,
+                                container: "#waveformed-spectrogram",
+                                labels: true,
+                                //fftSamples: 512
+                            })
+                        ]
+                    });
+
+                    wavesurfered.load(evt.target.result);
+                    $("#waveformed-btn").click(function () {
+                        wavesurfered.playPause();
+                    });
+
+                }
+                reader.readAsDataURL(document.getElementById("audioFileed").files[0])
+
+                //FILE UPLOAD
+                event.preventDefault();
+
+                var formData = new FormData(document.getElementById('edform'));
+
+                function getDetectedEvent(response) {
+                    console.log(response)
+                    var a = response
+                    for (var key in a) {
+                        for(var i = 0; i < a[key].length; i++) { 
+                            if (a[key][i].length == 2) {
+                                return {
+                                    "event": key,
+                                    "start": a[key][i][0],
+                                    "end"  : a[key][i][1]
+                                }
+                            }
+                        }
+                    } 
+                    return {
+                        "event": "None",
+                    }
+                }
+
+                $.ajax({
+                    url: "http://35.198.194.246:4996/upload",
+                    type: "post",
+                    data: formData,
+                    contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                    processData: false, // NEEDED, DON'T OMIT THIS
+                    beforeSend: function () {
+                        $("#eduploader").show();
+                        $("#edresult-row").hide();
+                    },
+                    success: function (response) {
+                        // you will get response from your php page (what you echo or print)   
+                        response = JSON.parse(response);
+                        result = getDetectedEvent(response);
+                        if (result['event'] != "None") {
+                            $("#edresult").text("Event Detected: " + result['event'] + "[" + result['start'] + "s : " + result['end'] + "s]");
+                            wavesurfered.pause();
+                            wavesurfered.seekTo(((Math.abs(result['start']-1) / wavesurfered.getDuration())))
+                        } else {
+                            $("#edresult").text("Event Detected: None");
+                        }
+                    },
+
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                        $("edresult").text("ERR!");
+                    },
+                    complete: function () {
+                        $("#eduploader").hide();
+                        $("#edresult-row").prev().show();
+                        $("#edresult-row").show();
+                    }
+
+                });
+
+
+            })
+        });
+    </script>
 
 </body>
 

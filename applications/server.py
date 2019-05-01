@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request
 from werkzeug import secure_filename
 from flask_cors import CORS
 import json
@@ -10,18 +10,18 @@ app.config['UPLOAD_FOLDER'] = "uploads"
 
 def runTask(filename, task = 1):
     if task == 1:
-        import task1Api
-        return task1Api.run(filename)
+        # import task1Api
+        # return task1Api.run("a016_120_130.wav")
         return '''{"/home/yusufkhanjee/FYP/applications/data/uploads/a016_120_130.wav": "beach"}'''
 
     elif task == 2:
-        import task2Api
-        return task2Api.run(filename)
+        # import task2Api
+        # return task2Api.run("mixture_devtest_GUNSHOT_478_7cddfc5abf0fe86d4c2de430da87a7c3.wav")
         return ''' {"glassbreak": [["17.4", "18.0"]], "gunshot": [["17.4", "18.599999999999998"]], "babycry": [["17.4", "18.0"]]}'''
     
     else: 
         # error
-        abort(404)
+        pass
 
 @app.route("/")
 def home():
@@ -40,7 +40,6 @@ def hello():
 
     # No file uploaded
     if 'audioFile' not in request.files:
-        abort(404)
         return 'No file part'
 
     else:
@@ -59,8 +58,7 @@ def hello():
             return runTask(fname, task = 2)
         else:
             #throw error
-            abort(404)
-            return 'ERR!'
+             return 'ERR!'
 
         return fname
 
