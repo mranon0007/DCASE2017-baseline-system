@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request
 from werkzeug import secure_filename
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
+CORS(app)
 app.config['UPLOAD_FOLDER'] = "uploads" 
 
 @app.route("/")
@@ -20,6 +22,7 @@ def hello():
 
     import task1Api
     return task1Api.run("a016_120_130.wav")
+    # {"/home/yusufkhanjee/FYP/applications/data/uploads/a016_120_130.wav": "beach"}
 
     import task2Api
     return task2Api.run("mixture_devtest_GUNSHOT_478_7cddfc5abf0fe86d4c2de430da87a7c3.wav")
