@@ -17,6 +17,8 @@ def a():
 def hello():
     # request.form['key']
 
+    return "10"
+
     import task1Api
     return task1Api.run("a016_120_130.wav")
     
