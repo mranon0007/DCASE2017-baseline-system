@@ -109,7 +109,7 @@ def run(audioFile):
         os.makedirs(os.path.join(dirname, 'data', 'uploads'))
 
     # create testing file
-    testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE + ".txt")
+    testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-evaluation', 'evaluation_setup', TESTS_FILE + ".txt")
 
     modifiedTime             = os.path.getmtime(testfoldfile_Path)
     timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
