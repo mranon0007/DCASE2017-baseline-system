@@ -134,10 +134,10 @@ def run(audioFile):
         # Get the Results
         Task1Output = Task1Output.splitlines()
         eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
+        print(eval_file)
 
         with open(eval_file, 'r') as stream:
             stream_lines = stream.readlines()
-            print(stream_lines)
             results = dict([ x.strip().split("\t") for x in stream_lines ])
 
             # Debugging
