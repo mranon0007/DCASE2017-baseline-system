@@ -6,6 +6,7 @@ import sys
 import threading
 import time
 import datetime
+import json
 
 # import ptvsd
 # ptvsd.enable_attach(address = ('10.148.0.2', 3289), redirect_output=True)
@@ -161,6 +162,7 @@ def run(audioFile):
                 #     print k
 
         print(result)
+        return json.dumps(result)
     except:
         for i in range(len(testfoldfile_Path)):
             os.remove(testfoldfile_Path[i])

@@ -19,7 +19,10 @@ def hello():
     files = request.files
 
     import task1Api
-    return task1Api.run("a016_120_130.wav")
+    # return task1Api.run("a016_120_130.wav")
+
+    import task2Api
+    return task2Api.run("mixture_devtest_GUNSHOT_478_7cddfc5abf0fe86d4c2de430da87a7c3.wav")
     
     if "classifying":
         # run task 1
