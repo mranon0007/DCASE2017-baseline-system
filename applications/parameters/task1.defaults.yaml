@@ -1,4 +1,4 @@
-active_set: cnn_train
+active_set: testing
 
 sets:
   - set_id: cnn_lstm_parallel_train
@@ -305,6 +305,61 @@ sets:
           validation_amount: 0.10
           seed: 1
 
+    recognizer:
+      frame_accumulation:
+        enable: true
+        type: prod                   # [sum, prod, mean]
+      frame_binarization:
+        enable: false
+      decision_making:
+        enable: true
+        type: maximum  # majority_vote maximum
+
+
+  - set_id: testing
+    description: Testing 1 File
+    general:
+      overwrite: false
+    flow:
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
+      train_system: false
+      test_system: true
+      evaluate_system: true
+    dataset:
+      method: development #development  development17  challenge17_train  challenge17_test
+
+    dataset_method_parameters:
+      development:
+        name: TUTAcousticScenes_2017_DevelopmentSet
+        fold_list: [1]
+        evaluation_mode: folds
+
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+      spectr:
+        mono: true
+    feature_stacker:
+      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+    learner:
+      method: cnnlstm # lstm cnn cnnlstm
+    learner_method_parameters:
+      cnnlstm:
+        batch_size: 256
+        epochs: 50
+
+        validation:
+          setup_source: generated_scene_balanced
+          validation_amount: 0.10
+          seed: 1
     recognizer:
       frame_accumulation:
         enable: true

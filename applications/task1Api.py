@@ -91,70 +91,71 @@ class OutputGrabber(object):
 # with open(os.path.join(dirname, "data/TUT-acoustic-scenes-2017-development/evaluation_setup/fold1_test.txt"), "w+") as f:
 #     f.write("../test/"+audioFile+"\n") # write the new line before
 
-# get audio path as input
-try:
-    audioFile = sys.argv[1]
-except:
-    exit()
+def run(audioFile):
+    # get audio path as input
+    try:
+        if not audioFile: audioFile = sys.argv[1]
+    except:
+        exit()
 
-TASK1_PYFILE = "task1.py"
-TASK1_PARAMS = "-o --node --testing " + audioFile
-TESTS_FILE = "fold1_test"
-RESULTS_FILE = "results_fold1"
-results = ''
+    TASK1_PYFILE = "task1.py"
+    TASK1_PARAMS = "-o --node --testing " + audioFile
+    TESTS_FILE = "fold1_test"
+    RESULTS_FILE = "results_fold1"
+    results = ''
 
-# create uploads folder
-if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
-    os.makedirs(os.path.join(dirname, 'data', 'uploads'))
+    # create uploads folder
+    if not (os.path.exists(os.path.join(dirname, 'data', 'uploads'))):
+        os.makedirs(os.path.join(dirname, 'data', 'uploads'))
 
-# create testing file
-testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE + ".txt")
+    # create testing file
+    testfoldfile_Path = os.path.join(dirname, 'data', 'TUT-acoustic-scenes-2017-development', 'evaluation_setup', TESTS_FILE + ".txt")
 
-modifiedTime             = os.path.getmtime(testfoldfile_Path)
-timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
-testfoldfile_backup_path = testfoldfile_Path+"_"+timeStamp
-os.rename(testfoldfile_Path, testfoldfile_backup_path)
+    modifiedTime             = os.path.getmtime(testfoldfile_Path)
+    timeStamp                = datetime.datetime.fromtimestamp(modifiedTime).strftime("%b-%d-%y-%H:%M:%S")
+    testfoldfile_backup_path = testfoldfile_Path+"_"+timeStamp
+    os.rename(testfoldfile_Path, testfoldfile_backup_path)
 
 
-try:
+    try:
 
-    testfoldfile      = open(testfoldfile_Path, 'w+')
-    testfoldfile.write("../uploads/"+audioFile)
-    testfoldfile.close()
+        testfoldfile      = open(testfoldfile_Path, 'w+')
+        testfoldfile.write("../uploads/"+audioFile)
+        testfoldfile.close()
 
-    ## Run task 1
-    out = OutputGrabber()
-    out.start()
-    cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
-    os.system(cmnd)
-    out.stop()
-    Task1Output = out.capturedtext
+        ## Run task 1
+        out = OutputGrabber()
+        out.start()
+        cmnd = 'python '+ os.path.join(dirname, TASK1_PYFILE) + " " +TASK1_PARAMS
+        os.system(cmnd)
+        out.stop()
+        Task1Output = out.capturedtext
 
-    # Get the Results
-    Task1Output = Task1Output.splitlines()
-    eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
+        # Get the Results
+        Task1Output = Task1Output.splitlines()
+        eval_file = Task1Output[0].split(':')[1] + "/"+RESULTS_FILE+".txt"
 
-    with open(eval_file, 'r') as stream:
-        stream_lines = stream.readlines()
-        results = dict([ x.strip().split("\t") for x in stream_lines ])
+        with open(eval_file, 'r') as stream:
+            stream_lines = stream.readlines()
+            results = dict([ x.strip().split("\t") for x in stream_lines ])
 
-        # Debugging
-        for k, v in results.iteritems():
-            print k, v
-            break
+            # Debugging
+            for k, v in results.iteritems():
+                print k, v
+                break
 
-except:
-    pass
+    except:
+        pass
 
-finally:
-    os.remove(testfoldfile_Path)
-    os.rename(testfoldfile_backup_path, testfoldfile_Path)
+    finally:
+        os.remove(testfoldfile_Path)
+        os.rename(testfoldfile_backup_path, testfoldfile_Path)
 
 # print("+++++++++++++++++++++++++++++=")
 # print(Task1Output)
 
-
-
+if __name__ == "__main__":
+    run(sys.argv[1])
 
 # get audio path as input
 
