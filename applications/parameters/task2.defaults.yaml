@@ -1,4 +1,4 @@
-active_set: dcase2017
+active_set: testing
 
 sets:
 
@@ -60,6 +60,62 @@ sets:
 
   - set_id: cnn_lstm_parallel_test
     description: CNN+LSTM Testing On Evaluation Dataset
+
+    flow:
+      initialize: true
+      extract_features: true
+      feature_normalizer: true
+      train_system: false
+      test_system: true
+      evaluate_system: true
+
+    feature_stacker:
+      stacking_recipe: mfcc;spectr #spectr # mfcc;centroid;zero_crossing_rate;   mfcc;spectr mel
+
+    feature_extractor_method_parameters:
+      mfcc:                                   # Mel-frequency cepstral coefficients
+        n_mfcc: 60                            # Number of MFCC coefficients
+        n_mels: 128     
+      spectr:
+        mono: true
+
+    feature_aggregator:
+      enable: true
+      aggregation_recipe: flatten #mean; std
+      win_length_seconds: 0.8
+      hop_length_seconds: 0.6
+
+    learner:
+      method: cnnlstm # lstm cnn mlp cnnlstm
+
+    learner_method_parameters:
+      cnnlstm:
+        batch_size: 256
+        epochs: 3
+
+        validation:
+          setup_source: generated_event_file_balanced
+          validation_amount: 0.10
+          seed: 1
+
+    recognizer:
+      frame_accumulation:
+        enable: false
+
+      frame_binarization:
+        enable: true
+        threshold: 0.5
+
+      event_activity_processing:
+        enable: false
+        type: median_filtering
+        window_length_seconds: 1.54
+
+      event_post_processing:
+        enable: false
+
+  - set_id: testing
+    description: Testing One File over CNN+LSTM Model
 
     flow:
       initialize: true
