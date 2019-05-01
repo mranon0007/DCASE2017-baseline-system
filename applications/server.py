@@ -36,6 +36,7 @@ def hello():
     # request.form['key']
     files = request.files
     print(request.form['taskn'])
+    print(request.form)
     
     if "classifying":
         # run task 1
