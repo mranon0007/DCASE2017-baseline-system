@@ -17,8 +17,8 @@ def a():
 def hello():
     # request.form['key']
 
-    import task1
-    return task1.run()
+    import task1Api
+    return task1Api.run()
     
     if "classifying":
         # run task 1
