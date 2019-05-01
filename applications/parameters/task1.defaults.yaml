@@ -328,7 +328,7 @@ sets:
       test_system: true
       evaluate_system: true
     dataset:
-      method: challenge17_test #development  development17  challenge17_train  challenge17_test
+      method: challenge_test #development  development17  challenge17_train  challenge17_test
 
     dataset_method_parameters:
       development:
