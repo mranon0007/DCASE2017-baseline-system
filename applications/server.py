@@ -34,9 +34,6 @@ def a():
 def hello():
     # request.form['key']
     files = request.files
-
-    res = runTask("a", task = 2)
-    
     
     if "classifying":
         # run task 1
@@ -50,18 +47,19 @@ def hello():
         #throw error
         pass
 
+    # No file uploaded
+    if 'audioFile' not in request.files:
+        return 'No file part'
 
-    # # No file uploaded
-    # if 'audioFile' not in request.files:
-    #     return 'No file part'
+    else:
+        #if file uploaded
+        audioFile = request.files['audioFile']
+        audioFile.save(os.path.join(os.path.dirname(__file__), "data/uploads", secure_filename(audioFile.filename)))
+        return secure_filename(audioFile.filename)
 
-    # else:
-    #     #if file uploaded
-    #     audioFile = request.files['audioFile']
-    #     audioFile.save(secure_filename(audioFile.filename))
-    #     return secure_filename(audioFile.filename)
+    return "Hello World!"
 
-    # return "Hello World!"
+    res = runTask("a", task = 2)
     return res
 
 app.run(debug=True, host= '0.0.0.0', port=4996)
