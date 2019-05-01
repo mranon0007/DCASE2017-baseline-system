@@ -100,8 +100,8 @@ def run(audioFile):
 
     TASK1_PYFILE = "task1.py"
     TASK1_PARAMS = "-o --node --testing " + audioFile
-    TESTS_FILE = "fold1_test"
-    RESULTS_FILE = "results_fold1"
+    TESTS_FILE = "test"
+    RESULTS_FILE = "results"
     results = ''
 
     # create uploads folder
