@@ -13,5 +13,5 @@ class SimpleEcho(WebSocket):
         print(self.address, 'closed')
 
 
-server = WebSocketServer('', 8000, SimpleEcho)
+server = WebSocketServer('0.0.0.0', 8000, SimpleEcho)
 server.serve_forever()
