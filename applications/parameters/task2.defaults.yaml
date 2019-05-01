@@ -35,7 +35,7 @@ sets:
     learner_method_parameters:
       cnnlstm:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -91,7 +91,7 @@ sets:
     learner_method_parameters:
       cnnlstm:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -146,7 +146,7 @@ sets:
     learner_method_parameters:
       lstm:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -200,7 +200,7 @@ sets:
     learner_method_parameters:
       lstm:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -254,7 +254,7 @@ sets:
     learner_method_parameters:
       cnn:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -307,7 +307,7 @@ sets:
     learner_method_parameters:
       cnn:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -430,7 +430,7 @@ sets:
             - binary_accuracy
       cnn:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -439,7 +439,7 @@ sets:
 
       lstm:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
@@ -448,7 +448,7 @@ sets:
         
       cnnlstm:
         batch_size: 128
-        epochs: 1
+        epochs: 100
 
         validation:
           setup_source: generated_event_file_balanced
