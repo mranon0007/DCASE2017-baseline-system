@@ -34,8 +34,8 @@ sets:
 
     learner_method_parameters:
       cnnlstm:
-        batch_size: 128
-        epochs: 100
+        batch_size: 256
+        epochs: 50
 
         validation:
           setup_source: generated_event_file_balanced
@@ -90,8 +90,8 @@ sets:
 
     learner_method_parameters:
       cnnlstm:
-        batch_size: 128
-        epochs: 100
+        batch_size: 256
+        epochs: 50
 
         validation:
           setup_source: generated_event_file_balanced
@@ -145,8 +145,8 @@ sets:
 
     learner_method_parameters:
       lstm:
-        batch_size: 128
-        epochs: 100
+        batch_size: 256
+        epochs: 50
 
         validation:
           setup_source: generated_event_file_balanced
@@ -199,8 +199,8 @@ sets:
 
     learner_method_parameters:
       lstm:
-        batch_size: 128
-        epochs: 100
+        batch_size: 256
+        epochs: 50
 
         validation:
           setup_source: generated_event_file_balanced
