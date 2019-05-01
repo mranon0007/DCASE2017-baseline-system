@@ -59,12 +59,9 @@ def hello():
         else:
             #throw error
              return 'ERR!'
-             
+
         return fname
 
     return "Hello World!"
-
-    res = 
-    return res
 
 app.run(debug=True, host= '0.0.0.0', port=4996)
