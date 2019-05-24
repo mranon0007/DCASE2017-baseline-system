@@ -489,7 +489,7 @@ class SceneClassifierCNNLSTM(SceneClassifier):
         # X_training = numpy.reshape(numpy.swapaxes(X_training,1,2), (X_training.shape[0], X_training.shape[2], X_training.shape[1], 1))
 
         self.create_model()
-        self['model'].fit(x = X_training, y = Y_training, validation_data=validation, 
+        self['model'].fit(x = X_training[:1000], y = Y_training[:1000], validation_data=validation, 
             batch_size = self.learner_params.get_path('batch_size', 128),
             epochs     = self.learner_params.get_path('epochs', 100),
             shuffle    = True )
