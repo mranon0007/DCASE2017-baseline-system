@@ -590,7 +590,8 @@ defaults:
 
     challenge_train:
       name: TUTAcousticScenes_2017_DevelopmentSet
-      evaluation_mode: full
+      fold_list: [1]
+      evaluation_mode: folds
 
     challenge_test:
       name: TUTAcousticScenes_2017_EvaluationSet
